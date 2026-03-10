@@ -32,3 +32,11 @@ HTML(Front end),
 CSS(Front end),
 Node JS(Backend),
 Mongo DB(Database)
+
+Work items:
+Login UI,Index UI,Register UI-Manohar
+Dashboard Ui,History UI,Transfer UI-Pravallika
+Precautions UI-Adithya,Bhagya Sri
+MongoDB-Manohar,Adithya
+Backend-Asreetha,Jagadeeswari
+

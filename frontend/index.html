@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Manohar Banking</title>
+
+<link rel="stylesheet" href="css/index.css">
+
+</head>
+
+<body>
+
+<!-- 
+##NAVBAR
+
+<nav class="navbar">
+
+<div class="logo">
+🏦 Manohar Banking
+</div>
+
+<div class="nav-buttons">
+
+<a herf="about.html">About Us </a>
+
+<button class="dark-btn" onclick="toggleDarkMode()">🌙</button>
+
+<button class="login-btn" onclick="openLogin()">Login</button>
+
+</div>
+
+</nav> -->
+<nav class="bank-navbar">
+
+<div class="bank-logo">
+👻 Manohar Bank
+</div>
+
+<ul class="bank-nav-links">
+
+<li><a href="#">Resources</a></li>
+<li><a href="#">About us </a></li>
+<li><a href="#">Contact us </a></li>
+<li><a href="#">🌏location</a></li>
+
+<li><a href="#">Support</a></li>
+
+<li>
+<button class="login-btn" onclick="openLogin()">Login</button>
+</li>
+<li>
+<img style="width:25px;background:navy"  src="css/menu1.gif">
+</li>
+<li>
+<div class="menu-toggle" onclick="toggleMenu()">
+☰abc
+</div>
+</li>
+</ul>
+
+
+
+</nav>
+<marquee behavior="scroll" direction="left" scrollamount="6"
+style="background:white; width:100%; padding:3px; font-weight:bold;">
+Welcome to Manohar Bank – Your Trusted NetBanking Platform
+</marquee>
+
+<!--add vedio here -->
+
+<div class="hero">
+
+<video autoplay muted loop class="hero-video">
+
+<source src="indexvedio1.mp4" type="video/mp4">
+
+</video>
+
+<div class="hero-text">
+
+<h1>Experience Secure Banking</h1>
+
+<p>
+India's trusted digital banking platform for secure and seamless transactions.
+</p>
+
+</div>
+
+</div>
+<div>
+    <section class="digital-showcase">
+    <div class="showcase-header">
+        <h1>The best of digital banking is now <span>open</span></h1>
+        <p>Get the <strong>open</strong> app by Manohar Bank for a superior experience – <a href="#">Explore More</a></p>
+    </div>
+
+    <div class="showcase-content">
+        <div class="side-features left">
+            <div class="feature-item">
+                <div class="icon-circle">💸</div>
+                <p>Easy overseas money transfer</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon-circle">🧾</div>
+                <p>One-stop bill pay</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon-circle">📈</div>
+                <p>Accounts, Investments & more</p>
+            </div>
+        </div>
+
+        <div class="phone-display">
+            
+            <!--<video src="aivedio1.mp4" alt="Banking App" class="main-phone">-->
+            <img src="mobileimage.png" alt="Banking App" class="main-phone"></img>
+            
+        </div>
+        
+
+        <div class="side-features right">
+            <div class="feature-item">
+                <div class="icon-circle">🎯</div>
+                <p>Track all card payments</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon-circle">💰</div>
+                <p>Personal Loans on-the-go</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon-circle">⚡</div>
+                <p>Instant FD opening & more</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+</div>
+
+<!-- FEATURES -->
+
+<div class="features">
+
+<div class="feature-card">
+
+<h3>🛡 Bank-Grade Security</h3>
+
+<p>256-bit encryption protecting your transactions</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<h3>⚡ Instant Transfers</h3>
+
+<p>Transfer funds anytime with zero downtime</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<h3>👥 10L+ Customers</h3>
+
+<p>Millions trust our secure banking services</p>
+
+</div>
+
+</div>
+
+
+
+<section class="impact-banner">
+    <div class="content-wrapper">
+        <div class="text-section">
+            <h1 class="main-title">Open to the progress of all</h1>
+            <p class="subtitle">Committed to our responsibility towards the society.</p>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h2>2.05M+</h2>
+                    <p>Households Across India</p>
+                </div>
+
+                <div class="stat-card">
+                    <h2>100Cr+</h2>
+                    <p>National Cancer Grid (NCG)</p>
+                </div>
+
+                <!-- <div class="stat-card">
+                    <h2>3.27M+</h2>
+                    <p>Trees Planted</p>
+                </div> -->
+            </div>
+
+            <button class="know-more-btn">Know More</button>
+        </div>
+    </div>
+</section>
+
+<!-- INFO -->
+
+<div class="info">
+
+<p>➤ IFSC Code: MNHR0001234 | Branch: Main Branch</p>
+
+<p>➤ Customer Support: 1800-123-4567 (Toll Free)</p>
+
+</div>
+
+<!-- LOGIN POPUP  -->
+ <!-- <div class="login-modal" id="loginModal"> 
+    <div class="login-box">
+         <span class="close" onclick="closeLogin()">✖</span> 
+         <h2>NetBanking Login</h2>
+          <p class="sub">Secure access to your account</p>
+         
+           <form> 
+            <label>Username</label>
+             <input type="text" placeholder="Enter username">
+              <label>PIN</label> 
+             <input type="password" placeholder="Enter PIN">
+              <button class="login-submit">Secure Login</button> 
+            </form> 
+        </div>
+     </div> -->
+
+     <!-- LOGIN POPUP -->
+<div class="login-modal" id="loginModal">
+
+<div class="login-box">
+
+<span class="close" onclick="closeLogin()">✖</span>
+
+<h2 class="h">NetBanking Login</h2>
+<p class="sub">Secure access to your account</p>
+
+<!-- LOGIN TYPE -->
+<div class="login-type">
+<button onclick="showCustomer()">User</button>
+<button onclick="showAdmin()">Admin</button>
+</div>
+
+<!-- CUSTOMER LOGIN -->
+<form id="customerLogin">
+
+<label>Username</label>
+<input type="text" placeholder="Enter username">
+
+<label>PIN</label>
+<input type="password" placeholder="Enter PIN">
+<a href="registation.html" class="forgetpin">Forgot Pin</a>
+<br>
+<br>
+
+<label>Captcha</label>
+
+<div class="captcha-box">
+
+<span id="captchaText">abcs</span>
+
+<button type="button"  onclick="generateCaptcha()">🔄</button> 
+
+<input type="text" placeholder="Enter Captcha">
+
+</div>
+
+<button class="login-submit">Secure Login</button>
+
+</form>
+
+
+<!-- ADMIN LOGIN -->
+<form id="adminLogin" style="display:none;">
+
+<label>Admin ID</label>
+<input type="text" placeholder="Enter Admin ID">
+
+<label>Password</label>
+<input type="password" placeholder="Enter Password">
+
+<label>Bank ID </label>
+<input type="text" placeholder="Enter OTP">
+
+<label>Captcha</label>
+<div class="captcha-box">
+<span id="captchaText2">X4P8</span>
+<input type="text" placeholder="Enter Captcha">
+</div> 
+
+
+<button class="login-submit">Admin Login</button>
+
+</form>
+
+</div>
+</div>
+
+
+
+</div>
+<script src="js/index.js"></script>
+
+
+</body>
+</html>

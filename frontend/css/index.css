@@ -1,0 +1,835 @@
+body{
+
+margin:0;
+font-family:Segoe UI;
+
+background:#12396b;
+color:white;
+
+transition:0.3s;
+
+}
+
+/* 
+
+/* NAVBAR
+
+.navbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:18px 60px;
+
+background:linear-gradient(90deg,#0b1f3a,#12396b,#d4af37);
+
+box-shadow:0 6px 20px rgba(0,0,0,0.4);
+
+}
+
+.logo{
+
+font-size:26px;
+font-weight:600;
+
+}
+
+.nav-buttons{
+
+display:flex;
+gap:12px;
+
+}
+
+ */
+
+/* DARK MODE BUTTON */
+/*
+.dark-btn{
+
+background:transparent;
+
+border:1px solid white;
+
+color:white;
+
+padding:7px 12px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+*/
+/* NAVBAR */
+
+.bank-navbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 60px;
+
+ background:navy;
+
+color:white;
+/* 
+background: rgba(255,255,255,0.08);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+
+border-bottom:1px solid rgba(255,255,255,0.2); */
+position:sticky;
+top:0;
+
+z-index:200;
+
+box-shadow:0 4px 20px rgba(0,0,0,0.4);
+
+
+}
+
+
+/* LOGO */
+
+.bank-logo{
+
+font-size:32px;
+font-weight:bold;
+letter-spacing:1px;
+
+}
+
+
+/* NAV LINKS */
+
+.bank-nav-links{
+
+display:flex;
+list-style:none;
+gap:35px;
+align-items:center;
+
+}
+
+
+/* NAV LINK STYLE */
+
+.bank-nav-links a{
+
+text-decoration:none;
+color:white;
+font-size:15px;
+position:relative;
+transition:0.3s;
+
+}
+
+
+/* HOVER UNDERLINE ANIMATION */
+
+.bank-nav-links a::after{
+
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+
+width:0%;
+height:2px;
+
+background:gold;
+transition:0.3s;
+
+}
+
+.bank-nav-links a:hover::after{
+
+width:100%;
+
+}
+
+.bank-nav-links a:hover{
+
+color:#00c3ff;
+
+}
+
+
+/* LOGIN Inside  BUTTON */
+
+.login-btn{
+
+padding:8px 18px;
+
+border:none;
+border-radius:30px;
+
+background:linear-gradient(45deg,#00c3ff,#0077ff);
+
+color:white;
+
+cursor:pointer;
+
+transition:0.3s;
+
+font-weight:bold;
+
+}
+
+.login-btn:hover{
+
+transform:scale(1.1);
+box-shadow:0 0 10px #00c3ff;
+
+}
+
+
+/* MOBILE MENU */
+
+.menu-toggle{
+
+display:none;
+font-size:26px;
+cursor:pointer;
+
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.bank-nav-links{
+
+position:absolute;
+top:70px;
+right:0;
+
+background:#00264d;
+
+flex-direction:column;
+width:200px;
+
+padding:20px;
+
+display:none;
+
+}
+
+.bank-nav-links.active{
+
+display:flex;
+
+}
+
+.menu-toggle{
+
+display:block;
+
+}
+
+}
+
+/* LOGIN BUTTON */
+
+.login-btn{
+
+background:#d4af37;
+
+border:none;
+
+padding:8px 20px;
+
+border-radius:6px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+/* 
+/* HERO VIDEO 
+.hero {
+    position: relative;
+    width:100%;
+    height: 80vh;
+    overflow: hidden;
+}
+
+.hero video {
+    position:relative;
+    margin:auto;
+    top:40%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    
+} */
+
+/* HERO SECTION */
+
+.hero{
+    
+    position: relative;
+    width:100%;
+    height:80vh; /* full screen like runway */
+    overflow:hidden;
+    margin:0;
+    padding:0;
+    margin-top:0px;
+    box-shadow: none;
+
+}
+
+
+/* HERO VIDEO */
+
+.hero video{
+
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+    
+    object-fit:cover;
+    box-sizing: content-box;
+
+}
+
+/* HERO TEXT */
+
+.hero-text{
+
+position:absolute;
+
+top:30%;
+left:0%;
+
+transform:translateY(-40%);
+
+}
+
+.hero-text h1{
+
+font-size:62px;
+
+}
+
+.hero-text p{
+
+width:420px;
+text-align: left;
+color:#e2e8f0;
+
+}
+
+
+
+/* FEATURES */
+
+.features{
+
+display:flex;
+
+justify-content:center;
+
+gap:50px;
+
+
+margin-top:40px;
+
+}
+
+.feature-card{
+
+background:lightskyblue;
+
+padding:30px;
+
+width:250px;
+
+border-radius:12px;
+
+text-align:center;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+
+transition:0.3s;
+
+}
+
+.feature-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.feature-card h3{
+
+color:black;
+
+}
+
+
+
+/* INFO */
+
+.info{
+
+text-align:left;
+
+margin-top:30px;
+
+color:#ffd04d;
+
+}
+
+
+
+/* LOGIN MODAL */
+/*
+.login-modal{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.6);
+
+justify-content:center;
+align-items:center;
+
+}
+
+.login-box{
+
+background:white;
+
+color:#1e293b;
+
+padding:40px;
+
+width:360px;
+
+border-radius:12px;
+
+position:relative;
+
+}
+
+.close{
+
+position:absolute;
+
+top:10px;
+right:15px;
+
+cursor:pointer;
+
+}
+
+input{
+
+width:100%;
+
+padding:10px;
+
+margin:10px 0;
+
+border:1px solid #cbd5e1;
+
+border-radius:6px;
+
+}
+
+.login-submit{
+
+width:100%;
+
+padding:10px;
+
+background:gold;
+
+border:none;
+
+border-radius:6px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+*/
+
+
+/* DARK MODE */
+
+.dark{
+
+background:black;
+color:white;
+
+}
+
+.dark .navbar{
+
+background:red;
+
+}
+
+.dark .feature-card{
+
+background:#1e1e1e;
+
+}
+
+.dark .hero-text p{
+
+color:#ccc;
+
+}
+
+.digital-showcase {
+    padding: 60px 5%;
+    background-color:white;
+    text-align: center;
+    ;
+}
+
+.showcase-header h1 {
+    font-size: 36px;
+    color:red;
+}
+
+.showcase-header h1 span {
+    color:lime;
+}
+
+.showcase-header p {
+    color: #666;
+    margin-top: 10px;
+}
+
+.showcase-header a {
+    color: #ae285d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.showcase-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 50px;
+    gap: 20px;
+}
+
+.side-features {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+    color:black;
+}
+
+.left .feature-item { flex-direction: row; text-align: left; }
+.right .feature-item { flex-direction: row-reverse; text-align: right; }
+
+.icon-circle {
+    width: 45px;
+    height: 45px;
+    background:gold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:gold;
+    font-size: 20px;
+}
+
+/* Phone and Floating Cards */
+.phone-display {
+    position: relative;
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
+}
+
+.main-phone {
+    width:460px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+
+
+.impact-banner {
+    background:url("index1.png");
+
+    background-size: cover;
+    background-position: center;
+
+    color:gold;
+    padding:80px 40px;
+    border-radius:70px;
+    margin: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin: auto;
+    
+}
+
+.text-section {
+    max-width:500px;
+    color:gold;
+
+}
+
+.main-title {
+    font-size:10px;
+    font-style:italic;
+    font-weight:200;
+    margin-bottom:1px;
+    margin-top: auto;
+    color:navy;
+    font-size:50px;
+
+}
+
+.subtitle {
+    font-size:20px ;
+    margin-bottom: 30px;
+    color:
+}
+
+/* Stats */
+.stats-container {
+    display: flex;
+    gap:7px;
+    margin-bottom: 40px;
+    margin-left:10px ;
+    width: fit-content;
+}
+
+.stat-card {
+    background:#0b1f3a;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px;
+    border-radius:40px;
+    flex: 1;
+}
+
+.stat-card h2 {
+    font-size: 1.8rem;
+}
+
+.stat-card p {
+    font-size: 0.9rem;
+}
+
+/* Button */
+.know-more-btn {
+    background:#0b1f3a;
+    color:gold;
+    border:none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width:768px){
+    .stats-container{
+        flex-direction: column;
+    }
+}
+
+/* LOGIN MODAL BACKGROUND */
+
+
+.login-modal{
+    display:flex;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+
+/* LOGIN BOX */
+
+.login-box{
+    background:#ffffff;
+    width:320px;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:100 100 20px red;
+    text-align:center;
+    position:relative;
+}
+
+
+/* CLOSE BUTTON */
+
+.close{
+    
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:20px;
+    cursor:pointer;
+    color:darkgray;
+}
+
+.h{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-weight: bolder;
+    font-size:35px;
+    color: black;
+    margin-bottom: auto;
+
+}
+
+/* SUB TEXT */
+
+.sub{
+    font-size:14px;
+    color:darkslategray;
+    margin-top: auto;
+    margin-bottom:20px;
+}
+
+
+/* CUSTOMER ADMIN BUTTONS */
+
+.login-type{
+    display:flex;
+    justify-content:center;
+    gap:1px;
+    margin-bottom:20px;
+}
+
+.login-type button{
+    padding:8px 20px;
+    border:none;
+    background:goldenrod;
+    color:black;
+    border-radius:40px;
+    font-weight: bold;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.login-type button:hover{
+    background:gold;
+}
+
+
+
+
+/* FORM */
+
+form{
+    text-align:left;
+}
+
+form label{
+    font-size:16px;
+    font-weight:bold;
+    color:black;
+}
+
+
+form input{
+    width:94%;
+    padding:10px;
+    margin:8px 0 15px;
+    border:1px solid gray;
+    border-radius:5px;
+}
+
+
+/* CAPTCHA */
+
+.captcha-box{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.captcha-box span{
+    background:#ae285d;
+    padding:8px 8px;
+    font-weight:bold;
+    letter-spacing:4px;
+    margin-right: 0%;
+}
+.captcha-box button{
+box-sizing: border-box;
+padding:0;
+justify-items: left;
+border:none;
+background:white;
+color:gold;
+cursor:pointer;
+border-radius:4px;
+margin-trim:left;
+
+}
+
+/* LOGIN BUTTON */
+
+.login-submit{
+    width:100%;
+    padding:13px;
+    background:goldenrod;
+    color:black;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+.forgotpin{
+    color:#12396b;
+    font-style: italic;
+    font-size: small;
+    margin-top:0px;
+    margin-bottom:2px ;
+}
+
+.login-submit:hover{
+    background:gold;
+    color:#1e1e1e;
+}

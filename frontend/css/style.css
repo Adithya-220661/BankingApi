@@ -1,0 +1,124 @@
+body{
+font-family:Segoe UI;
+margin:0;
+background:#0f172a;
+color:white;
+}
+
+/* Glass Login */
+
+.login-bg{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:linear-gradient(120deg,#1e3a8a,#0f172a);
+}
+
+.glass-card{
+background:rgba(255,255,255,0.1);
+padding:40px;
+border-radius:15px;
+backdrop-filter:blur(15px);
+width:350px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:6px;
+}
+
+button{
+padding:10px;
+width:100%;
+background:#2563eb;
+border:none;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+/* Sidebar */
+
+.sidebar{
+width:220px;
+height:100vh;
+background:#020617;
+position:fixed;
+padding:20px;
+}
+
+.sidebar a{
+display:block;
+color:white;
+margin:15px 0;
+text-decoration:none;
+}
+
+/* Main */
+
+.main{
+margin-left:240px;
+padding:30px;
+}
+
+.cards{
+display:flex;
+gap:20px;
+}
+
+.account-card{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+width:220px;
+transition:0.3s;
+}
+
+.account-card:hover{
+transform:translateY(-5px);
+}
+
+/* Buttons */
+
+.action-btn{
+display:inline-block;
+margin-top:20px;
+padding:12px 25px;
+background:#2563eb;
+color:white;
+text-decoration:none;
+border-radius:8px;
+}
+
+.form-container{
+width:400px;
+margin:100px auto;
+background:#1e293b;
+padding:30px;
+border-radius:10px;
+}
+
+table{
+width:80%;
+margin:40px auto;
+border-collapse:collapse;
+}
+
+table,th,td{
+border:1px solid #334155;
+padding:10px;
+text-align:center;
+}
+
+.center{
+text-align:center;
+}

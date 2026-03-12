@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Open Digital Account</title>
+<link rel="stylesheet" href="css/account.css">
+</head>
+<body>
+    <div class="registration-container">
+    <div class="roadmap">
+        <div class="step active" id="track-1">1</div>
+        <div class="line"></div>
+        <div class="step" id="track-2">2</div>
+        <div class="line"></div>
+        <div class="step" id="track-3">3</div>
+        <div class="line"></div>
+        <div class="step" id="track-4">4</div>
+         <div class="line"></div>
+         <div class="step" id="track-5">5</div>
+    </div>
+
+    <form id="regForm">
+        <section class="form-step active" id="step-1">
+    <div class="icon-header">
+        <i class="fas fa-mobile-alt"></i> </div>
+    <h2>OTP Verification</h2>
+    <p class="subtitle">Enter your phone number to receive a 6-digit code</p>
+
+    <div class="input-container">
+        <div class="phone-input-group">
+            <span class="country-code">+91</span>
+            <input type="tel" id="phone" placeholder="1234 5678 91" maxlength="10">
+        </div>
+        <button type="button" onclick="handleSendOTP()" class="btn-grad send-btn">Send Code</button>
+    </div>
+
+    <div id="otpWrapper" class="otp-container hidden">
+        <p>Enter Verify Code Below</p>
+        <div class="otp-inputs">
+            <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 0)">
+            <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 1)">
+            <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 2)">
+            <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 3)">
+            <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 4)">
+            <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 5)">
+        </div>
+        <div class="otp-actions">
+            <button type="button" onclick="pasteFromClipboard()" class="btn-link">Paste from Clipboard</button>
+            <button type="button" class="btn-link">Resend Code</button>
+        </div>
+        <button type="button" class="next-btn btn-grad full-width" onclick="nextStep(2)">Verify & Continue</button>
+    </div>
+</section>
+
+      
+<section class="form-step " id="step-2">
+    <h2>Personal Details</h2>
+    <form id="detailsForm">
+        <div class="input-grid">
+            <div class="input-wrap">
+                <input type="text" id="accName" required placeholder="Account Holder Name">
+                <small class="err" id="nameErr"></small>
+            </div> 
+           
+            
+            
+            <div class="input-wrap">
+                <input type="email" id="accEmail" required placeholder="Email Address">
+                <small class="err" id="emailErr"></small>
+            </div>
+
+            <div class="input-wrap">
+                <input type="text" id="panNum" maxlength="10" required placeholder="PAN (ABCDE1234F)">
+                <small class="err" id="panErr"></small>
+            </div>
+            <div class="input-wrap">
+                <input type="text" id="aadharNum" maxlength="12" required placeholder="Aadhaar Number">
+                <small class="err" id="aadharErr"></small>
+            </div>
+
+            <div class="input-wrap full-line">
+                <label>Gender:</label>
+                    <div class="radio-group">
+                    <label><input type="radio" name="gender" value="Male" checked> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                     <label><input type="radio" name="gender" value="Other"> Other</label>
+                </div>
+            </div>
+
+            <div class="input-wrap">
+                <input type="text" id="doorNo" placeholder="Door No / Building">
+            </div>
+            <div class="input-wrap">
+                <input type="text" id="village" placeholder="Village / Area">
+            </div>
+            <div class="input-wrap">
+                <input type="text" id="city" placeholder="City">
+            </div>
+            <div class="input-wrap">
+                <select id="state">
+                    <option value="">Select State</option>
+                    <option value="Andhra">Andhra Pradesh</option>
+                    <option value="Telangana">Telangana</option>
+                    </select>
+            </div>
+
+            <div class="input-wrap">
+                <input type="text" id="branchCode" placeholder="Branch Code">
+            </div>
+            <div class="input-wrap">
+                <input type="text" id="nominee" placeholder="Nominee Name">
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn-nav" onclick="nextStep(1)">Previous</button>
+            <button type="button" class="btn-nav btn-grad" onclick="handleStep2()">Save & Continue</button>
+        </div>
+    </form>
+</section>
+
+<!-- 
+<section class="form-step" id="step-3">
+    <div class="kyc-wrapper">
+        <div class="kyc-header">
+            <h2>E-KYC Face Verification</h2>
+            <p>Align your face inside the frame</p>
+        </div>
+
+        <div class="camera-container-v2">
+            <div class="video-canvas">
+                <video id="video" autoplay playsinline></video>
+                <div id="scanCircle" class="scan-circle"></div>
+            </div>
+        </div>
+
+        <div id="kycStatus" class="status-msg">Initializing Scanner...</div>
+
+        <div class="navigation-footer">
+            <button type="button" class="btn-prev" onclick="nextStep(2)">Previous</button>
+            <button type="button" id="proceedBtn" class="btn-save-continue" onclick="nextStep(4)" disabled>Save & Continue</button>
+        </div>
+    </div>
+</section>
+
+   -->
+<section class="form-step" id="step-3">
+    <div class="kyc-wrapper">
+        <div class="kyc-header">
+            <h2>E-KYC Face Verification</h2>
+            <p>Align your face inside the frame</p>
+        </div>
+
+        <div class="camera-container-v2">
+            <div class="video-canvas">
+                <video id="video" autoplay playsinline></video>
+                <div id="scanCircle" class="scan-circle"></div>
+            </div>
+        </div>
+
+        <div id="kycStatus" class="status-msg">Initializing Scanner...</div>
+
+        <div class="navigation-footer">
+            <button type="button" class="btn-prev" onclick="nextStep(2)">Previous</button>
+            <button type="button" id="proceedBtn" class="btn-save-continue" onclick="nextStep(4)" disabled>Save & Continue</button>
+        </div>
+    </div>
+</section>
+<section class="form-step" id="step-4">
+    <h2>Security Setup</h2>
+    <div class="input-grid">
+        <div class="input-wrap full-line">
+            <input type="text" id="username" placeholder="Create Username" required>
+        </div>
+        <div class="input-wrap">
+            <input type="password" id="userPin" maxlength="4" placeholder="Create 4-Digit PIN" required>
+        </div>
+        <div class="input-wrap">
+            <input type="password" id="confirmPin" maxlength="4" placeholder="Confirm PIN" required>
+        </div>
+        
+        <div class="input-wrap full-line captcha-container">
+            <div id="captchaCode" class="captcha-box">8A2f9</div>
+            <input type="text" id="captchaInput" placeholder="Enter Captcha">
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="btn-nav" onclick="nextStep(3)">Previous</button>
+        <button type="button" class="btn-nav btn-grad" onclick="validateSecurity()">Save & Continue</button>
+    </div>
+</section>
+
+<section class="form-step" id="step-5">
+    <h2>Final Review</h2>
+    <p class="subtitle">Please verify your details before creating account</p>
+    
+    <div id="pdf-viewer" class="document-preview">
+        </div>
+
+    <div class="terms-container">
+        <label>
+            <input type="checkbox" id="termsCheck"> I accept all Terms & Conditions of the Bank.
+        </label>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="btn-nav" onclick="nextStep(4)">Previous</button>
+        <button type="button" class="btn-nav btn-grad" onclick="finalSubmit()">Create Account</button>
+    </div>
+</section>
+<!-- 
+        <section class="form-step" id="step-4">
+            <h2>Final Review</h2>
+            <div id="review-doc" class="document-view">
+                </div>
+            <input type="password" maxlength="4" placeholder="Generate 4-Digit Login PIN" id="userPin" required>
+            <label class="terms">
+                <input type="checkbox" required> I accept all Terms & Conditions
+            </label>
+            <div class="btn-row">
+                <button type="button" class="prev-btn" onclick="nextStep(3)">Previous</button>
+                <button type="submit" class="btn-grad">Create Account</button>
+            </div>
+        </section>
+    </form>
+</div> -->
+    <script src="js/account.js"></script>
+</body>
+</html>

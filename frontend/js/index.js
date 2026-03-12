@@ -1,51 +1,34 @@
-// // Function to handle the login click
-// document.addEventListener('DOMContentLoaded', () => {
-//     const loginBtn = document.querySelector('.login-submit');
-    
-//     if(loginBtn) {
-//         loginBtn.addEventListener('click', function(e) {
-//             e.preventDefault(); // Stops the form from reloading the page
-//             window.location.href = "dashboard.html"; // Redirects to your existing page
-//         });
-//     }
-// });
-
-// function openLogin(){
-//     document.getElementById("loginModal").style.display="flex";
-// }
-
-// function closeLogin(){
-//     document.getElementById("loginModal").style.display="none";
-// }
-
-// function toggleDarkMode(){
-//     document.body.classList.toggle("dark");
-// }
-
-// // Add this to your existing js/index.js
-// document.addEventListener('DOMContentLoaded', () => {
-//     const cards = document.querySelectorAll('.floating-card');
-    
-//     // Simple hover effect for cards
-//     cards.forEach(card => {
-//         card.addEventListener('mouseover', () => {
-//             card.style.transform = 'scale(1.1)';
-//             card.style.zIndex = '100';
-//         });
-//         card.addEventListener('mouseout', () => {
-//             card.style.transform = 'scale(1)';
-//             card.style.zIndex = '1';
-//         });
-//     });
-// });
-
-//NAVBAR
-
-function toggleMenu(){
-
-document.querySelector(".bank-nav-links").classList.toggle("active");
-
+// Toggle Accessibility Drawer
+function toggleAccessibilityMenu() {
+    document.getElementById("accMenu").classList.toggle("active");
 }
+
+// Text Resizing
+let baseFontSize = 100; // percent
+function changeFontSize(action) {
+    if (action === 'plus') baseFontSize += 10;
+    else baseFontSize -= 10;
+    document.body.style.fontSize = baseFontSize + "%";
+}
+
+// Dark Mode Toggle
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode-active");
+    // Simple dark mode coloring
+    if(document.body.classList.contains("dark-mode-active")) {
+        document.body.style.background = "#121212";
+        document.body.style.color = "#ffffff";
+        document.querySelector(".bank-navbar").style.background = "#1e1e1e";
+    } else {
+        document.body.style.background = "#f4f7fa";
+        document.body.style.color = "#1e293b";
+        document.querySelector(".bank-navbar").style.background = "#ffffff";
+    }
+}
+
+//login js code
+
+
 
 // OPEN LOGIN POPUP
 function openLogin(){
@@ -57,10 +40,7 @@ function closeLogin(){
     document.getElementById("loginModal").style.display="none";
 }
 
-// DARK MODE
-function toggleDarkMode(){
-    document.body.classList.toggle("dark");
-}
+
 
 // SWITCH TO CUSTOMER LOGIN
 function showCustomer(){
@@ -123,27 +103,6 @@ window.location.href = "admin.html";
 });
 
 
-// FLOATING CARD EFFECT
-document.addEventListener('DOMContentLoaded', () => {
-
-const cards = document.querySelectorAll('.floating-card');
-
-cards.forEach(card => {
-
-card.addEventListener('mouseover', () => {
-card.style.transform = 'scale(1.1)';
-card.style.zIndex = '100';
-});
-
-card.addEventListener('mouseout', () => {
-card.style.transform = 'scale(1)';
-card.style.zIndex = '1';
-});
-
-});
-
-});
-
 // =======================
 // RANDOM CAPTCHA GENERATOR
 // =======================
@@ -187,4 +146,68 @@ document.addEventListener("DOMContentLoaded", function(){
 generateCaptcha();
 generateCaptchaAdmin();
 
+});
+
+// Card hover glow
+
+document.querySelectorAll(".service-card").forEach(card => {
+
+card.addEventListener("mouseenter", () => {
+card.style.transform="translateY(-12px)";
+});
+
+card.addEventListener("mouseleave", () => {
+card.style.transform="translateY(0)";
+});
+
+});
+
+//fAQ section 
+
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach(item => {
+
+const question = item.querySelector(".faq-question");
+
+question.addEventListener("click", () => {
+
+faqItems.forEach(el=>{
+if(el !== item){
+el.classList.remove("active");
+el.querySelector(".faq-answer").style.maxHeight = null;
+el.querySelector(".icon").textContent = "+";
+}
+});
+
+item.classList.toggle("active");
+
+const answer = item.querySelector(".faq-answer");
+const icon = item.querySelector(".icon");
+
+if(item.classList.contains("active")){
+answer.style.maxHeight = answer.scrollHeight + "px";
+icon.textContent = "−";
+}else{
+answer.style.maxHeight = null;
+icon.textContent = "+";
+}
+
+});
+
+});
+
+//product box 
+
+window.addEventListener('scroll', () => {
+    const cards = document.querySelectorAll('.product-card');
+    const triggerBottom = window.innerHeight / 5 * 4;
+
+    cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        if(cardTop < triggerBottom) {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }
+    });
 });

@@ -16,12 +16,12 @@ function toggleDarkMode() {
     document.body.classList.toggle("dark-mode-active");
     // Simple dark mode coloring
     if(document.body.classList.contains("dark-mode-active")) {
-        document.body.style.background = "#121212";
+        document.body.style.background = "#000000";
         document.body.style.color = "#ffffff";
-        document.querySelector(".bank-navbar").style.background = "#1e1e1e";
+        document.querySelector(".bank-navbar").style.background = "#ffffff";
     } else {
-        document.body.style.background = "#f4f7fa";
-        document.body.style.color = "#1e293b";
+        document.body.style.background = "";
+        document.body.style.color = "";
         document.querySelector(".bank-navbar").style.background = "#ffffff";
     }
 }
@@ -54,22 +54,6 @@ function showAdmin(){
     document.getElementById("adminLogin").style.display="block";
 }
 
-
-// // REDIRECT AFTER LOGIN
-// document.addEventListener("DOMContentLoaded", function(){
-
-//     const buttons = document.querySelectorAll(".login-submit");
-
-//     buttons.forEach(btn => {
-//         btn.addEventListener("click", function(e){
-//             e.preventDefault();
-
-//             // redirect
-//             window.location.href="dashboard.html";
-//         });
-//     });
-
-// });
 // REDIRECT AFTER LOGIN
 document.addEventListener("DOMContentLoaded", function(){
 

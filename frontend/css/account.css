@@ -1,0 +1,344 @@
+
+body {
+    background:url("accountbg.png");
+    background-size:78%;
+    
+    font-family: 'Poppins', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    height: 100vh;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.registration-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    width:500px;
+  
+    transition: all 0.5s ease-in-out;
+}
+
+/* Roadmap UI */
+.roadmap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.step {
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: 0.4s;
+}
+
+.step.active {
+    background:gold;
+    color:white;
+    box-shadow: 0 0 15px yellow;
+}
+
+.line {
+    flex-grow: 1;
+    height: 4px;
+    background:#ccc;
+    margin: 0 10px;
+}
+
+/* Animations for Steps */
+.form-step {
+    display: none;
+    animation: slideIn 0.6s forwards;
+    margin-top:30px;
+    
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.btn-grad {
+    background-image: red;
+    padding: 12px 24px;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.otp-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.otp-box {
+    width:40px;
+    height:50px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 12px;
+    background:white
+    transition: all 0.3s ease;
+}
+
+.otp-box:focus {
+    border-color: #23a6d5;
+    box-shadow: 0 0 10px rgba(35, 166, 213, 0.3);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.phone-input-group {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.country-code {
+    padding: 0 10px;
+    border-right: 1px solid #ccc;
+    font-weight: bold;
+    color:black;
+}
+
+.hidden { 
+    display: none; }
+
+.full-width { 
+    background: gold;
+    width:100%;
+    margin-top: 20px; 
+    color:#333;
+    }
+
+.btn-link {
+    background: none;
+    border: none;
+    color:lightskyblue;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+
+/* Personal Details */
+
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.full-line { grid-column: span 2; }
+
+/* Underline Input Style */
+.input-wrap {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+}
+
+.input-wrap input, .input-wrap select {
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5); /* Semi-transparent line */
+    background: transparent;
+    padding: 10px 5px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+/* Remove blue glow/box effect on click */
+.input-wrap input:focus {
+    border-bottom: 2px solid white;
+}
+
+.input-wrap input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Error Message Styling */
+.err {
+    color:tomato;
+    font-size: 13px;
+    height: 14px;
+    margin-top: 5px;
+}
+
+/* Buttons: Side by Side */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn-nav {
+    width: 45%;
+    padding: 12px;
+    border-radius: 25px;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-grad {
+    background: linear-gradient(to right, #12D8FA, #1FA2FF);
+    border: none;
+}
+
+.btn-nav:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Container for the gender label and the buttons */
+.input-wrap.full-line {
+    display: flex;
+    flex-direction: column; /* Label on top, buttons below */
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* This makes the buttons go side-by-side */
+.radio-group {
+    display: flex; 
+    flex-direction: row; /* Horizontal alignment */
+    gap: 20px; /* Space between each radio option */
+    padding: 10px 0;
+}
+
+/* Style for the individual labels inside the group */
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between the circle and the word 'Male/Female' */
+    cursor: pointer;
+    font-size: 14px;
+    color: #333; /* Matches your white-box theme */
+}
+
+/* Optional: Make the radio circle a bit bigger for better UI */
+.radio-group input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+/* Container Spacing & Padding */
+.kyc-wrapper {
+    margin: 20px auto; /* Margin above and below */
+    padding: 10px;    /* Reduced padding */
+    max-width: 480px; /* Smaller box size */
+}
+
+.camera-container-v2 {
+    margin: 25px 15px; /* Margin right and left */
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.video-canvas {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Smaller height */
+    background: #eee; /* Light background instead of black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
+}
+
+/* The Scanning Circle */
+.scan-circle {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border: 4px solid #00D2FF; /* Initial Blue */
+    border-radius: 50%;
+    transition: all 0.5s ease; /* Smooth color change */
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+    pointer-events: none;
+}
+
+/* Class added via JS when face is "detected" */
+.scan-circle.detected {
+    border-color: #2ecc71; /* Changes to Green */
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+}
+
+.status-msg {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 15px;
+}
+.document-preview {
+    background: #fff;
+    color: #333;
+    padding: 30px;
+    border-radius: 5px;
+    text-align: left;
+    margin: 20px 0;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+    font-family: 'Courier New', Courier, monospace; /* Document feel */
+    border: 1px solid #ccc;
+}
+
+.captcha-box {
+    background: #444;
+    color: #fff;
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: 5px;
+    padding: 10px;
+    text-align: center;
+    user-select: none;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.terms-container {
+    margin: 15px 0;
+    color: #fff;
+    font-size: 13px;
+}

@@ -80,7 +80,7 @@ body {
 
 /* THE LIGHT BEAM UNDERLINE */
 .nav-item:after {
-    content: "center";
+    content: "";
     position: absolute;
     left: 50%; /* Start from center */
     bottom: -5px;

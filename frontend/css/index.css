@@ -24,7 +24,7 @@ body {
     background:#0A1F44;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
     position: sticky;
-    border-radius: 0px 0px 70px 70px ;
+    border-radius: 0px;
     top: 0;
     z-index:200;
     height:60px;
@@ -53,7 +53,7 @@ body {
 }
 .bank-nav-links {
     display:flex;
-    align-items:left;
+    align-items:right;
     list-style:none;
     gap:5px;
     margin-left:0px;
@@ -87,11 +87,11 @@ body {
     width: 0%;
     height: 3px;
     /* Gradient gives it the 'light' look */
-    background: linear-gradient(90deg, transparent, #00c3ff, gold, #00c3ff, transparent);
+    background:lightskyblue;
     background-size: 200% 100%;
     transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform: translateX(-50%);
-    border-radius: 10px;
+    border-radius: 5px;
     /* The Glow Effect */
     box-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
     opacity: 0;
@@ -100,6 +100,7 @@ body {
 .nav-item:hover::after {
     width:85%; /* Slightly wider than text for effect */
     opacity: 1;
+    height: 1px;
     /* Animate the light beam internally */
     animation: lightMove 1.5s linear infinite;
 }
@@ -181,8 +182,8 @@ cursor:pointer;
     height:80vh;
     position:relative;
     margin-top:20px;
-    margin-right: 20px;
-    margin-left:20px;
+    margin-right:10px;
+    margin-left:10px;
     margin-bottom:5px;
     border-radius: 20px ;
     overflow: hidden;
@@ -370,55 +371,6 @@ cursor:pointer;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 /* 
-/*3 boxes*/
-
-
-
-/* FEATURES 
-
-.features{
-
-display:flex;
-
-justify-content:center;
-
-gap:50px;
-margin-top:40px;
-
-margin-top: 20px;
-margin-bottom:20px;
-
-}
-
-.feature-card{
-
-background:lightskyblue;
-
-padding:30px;
-
-width:250px;
-
-border-radius:12px;
-
-text-align:center;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.4);
-
-transition:0.3s;
-
-}
-
-.feature-card:hover{
-
-transform:translateY(-8px);
-
-}
-
-.feature-card h3{
-
-color:black;
-
-} */
 /*box */
 
 .impact-banner {

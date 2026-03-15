@@ -195,3 +195,14 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+window.addEventListener("load",function(){
+
+setTimeout(function(){
+document.getElementById("logoSplash").classList.add("fadeOut");
+},2500);
+
+setTimeout(function(){
+document.getElementById("logoSplash").style.display="none";
+},4000);
+
+});

@@ -1,15 +1,13 @@
-// sidebar toggle functionality
+// ── SIDEBAR TOGGLE ────────────────────────────────────────────
 function initSidebarToggle() {
-  const toggle = document.getElementById('sidebarToggle');
+  const toggle  = document.getElementById('sidebarToggle');
   const sidebar = document.getElementById('sidebar');
-  const main = document.getElementById('main');
-  
-  if (toggle) {
+
+  if(toggle) {
     toggle.addEventListener('click', () => {
       document.body.classList.toggle('sidebar-open');
     });
-    
-    // close sidebar when clicking on a link
+
     sidebar.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         document.body.classList.remove('sidebar-open');
@@ -18,26 +16,39 @@ function initSidebarToggle() {
   }
 }
 
-// toggles dark/light mode and remembers preference in localStorage
+// ── DARK MODE ─────────────────────────────────────────────────
 function toggleMode() {
   document.body.classList.toggle('dark-mode');
   const enabled = document.body.classList.contains('dark-mode');
   localStorage.setItem('darkMode', enabled);
-  document.getElementById('modeToggle').textContent = enabled ? '☀︎ Light Mode' : '🌙 Dark Mode';
+  document.getElementById('modeToggle').textContent = 
+    enabled ? '☀︎ Light Mode' : '🌙 Dark Mode';
 }
 
-// populate dashboard with dummy/user data
-function populateUserData(user) {
-  document.getElementById('welcomeHeader').textContent = `Welcome, ${user.name}`;
+function restoreMode() {
+  const dark = localStorage.getItem('darkMode') === 'true';
+  if(dark) document.body.classList.add('dark-mode');
+  document.getElementById('modeToggle').textContent = 
+    dark ? '☀︎ Light Mode' : '🌙 Dark Mode';
+}
 
+// ── POPULATE DASHBOARD WITH REAL DATA ────────────────────────
+function populateUserData(user, transactions) {
+
+  // Welcome header
+  document.getElementById('welcomeHeader').textContent = 
+    `Welcome, ${user.fullName}`;
+
+  // Stats cards
   const stats = [
-    {label: 'Account Balance', value: `₹${user.balance.toLocaleString()}`, icon: '💰'},
-    {label: 'Account Number', value: user.account, icon: '🏦'},
-    {label: 'Status', value: user.status, icon: '✅'}
+    { label: 'Account Balance',  value: `₹${user.balance.toLocaleString()}`, icon: '💰' },
+    { label: 'Account Number',   value: user.accountNumber,                   icon: '🏦' },
+    { label: 'Status',           value: user.isActive ? 'Active' : 'Locked',  icon: '✅' },
   ];
 
   const container = document.getElementById('statsContainer');
   container.innerHTML = '';
+
   stats.forEach(s => {
     const card = document.createElement('div');
     card.className = 'account-card';
@@ -45,11 +56,26 @@ function populateUserData(user) {
     container.appendChild(card);
   });
 
-  // Add additional stat cards
+  // Additional stat cards
   const additionalStats = [
-    {label: 'Monthly Income', value: `₹${user.monthlyIncome.toLocaleString()}`, icon: '📈', color: '#10b981'},
-    {label: 'Monthly Expenses', value: `₹${user.monthlyExpenses.toLocaleString()}`, icon: '📉', color: '#ef4444'},
-    {label: 'Savings Goal', value: `${user.savingsProgress}%`, icon: '🎯', color: '#f59e0b', progress: user.savingsProgress}
+    {
+      label: 'Total Deposits',
+      value: `₹${calculateTotal(transactions, 'deposit').toLocaleString()}`,
+      icon:  '📈',
+      color: '#10b981'
+    },
+    {
+      label: 'Total Withdrawals',
+      value: `₹${calculateTotal(transactions, 'withdrawal').toLocaleString()}`,
+      icon:  '📉',
+      color: '#ef4444'
+    },
+    {
+      label: 'Total Transfers',
+      value: `₹${calculateTotal(transactions, 'transfer_sent').toLocaleString()}`,
+      icon:  '💸',
+      color: '#f59e0b'
+    },
   ];
 
   additionalStats.forEach(s => {
@@ -58,49 +84,117 @@ function populateUserData(user) {
     card.innerHTML = `
       <h3>${s.icon} ${s.label}</h3>
       <h1 style="color: ${s.color}">${s.value}</h1>
-      ${s.progress ? `<div class="progress-bar"><div class="progress-fill" style="width: ${s.progress}%"></div></div>` : ''}
     `;
     container.appendChild(card);
   });
 
+  // Recent transactions table
   const txnBody = document.getElementById('txnTable').querySelector('tbody');
   txnBody.innerHTML = '';
-  user.transactions.forEach(txn => {
-    const tr = document.createElement('tr');
-    tr.className = txn.type || 'neutral';
-    tr.innerHTML = `<td>${txn.date}</td><td>${txn.desc}</td><td class="amount ${txn.type}">${txn.amount}</td>`;
+
+  if(transactions.length === 0){
+    txnBody.innerHTML = `
+      <tr>
+        <td colspan="3" style="text-align:center; color:#64748b;">
+          No transactions yet
+        </td>
+      </tr>`;
+    return;
+  }
+
+  transactions.slice(0, 5).forEach(txn => {
+    const tr  = document.createElement('tr');
+    const isCredit = txn.type === 'deposit' || txn.type === 'transfer_received';
+    const sign     = isCredit ? '+' : '-';
+    const cssClass = isCredit ? 'income' : 'expense';
+    const date     = new Date(txn.createdAt).toLocaleDateString('en-IN');
+
+    tr.className = cssClass;
+    tr.innerHTML = `
+      <td>${date}</td>
+      <td>${txn.description || txn.type}</td>
+      <td class="amount ${cssClass}">${sign}₹${txn.amount.toLocaleString()}</td>
+    `;
     txnBody.appendChild(tr);
   });
 }
 
-// restore mode from storage
-function restoreMode() {
-  const dark = localStorage.getItem('darkMode') === 'true';
-  if (dark) document.body.classList.add('dark-mode');
-  document.getElementById('modeToggle').textContent = dark ? '☀︎ Light Mode' : '🌙 Dark Mode';
+// ── HELPER: Calculate total for transaction type ──────────────
+function calculateTotal(transactions, type) {
+  return transactions
+    .filter(t => t.type === type)
+    .reduce((sum, t) => sum + t.amount, 0);
 }
 
-// example/fake data
-const exampleUser = {
-  name: 'John Doe',
-  balance: 52340,
-  account: 'XXXX 5678',
-  status: 'Active',
-  monthlyIncome: 55000,
-  monthlyExpenses: 32000,
-  savingsProgress: 75,
-  transactions: [
-    {date: '2026-03-01', desc: 'Grocery Store', amount: '-₹1,234', type: 'expense'},
-    {date: '2026-02-28', desc: 'Salary Credit', amount: '+₹50,000', type: 'income'},
-    {date: '2026-02-25', desc: 'Electricity Bill', amount: '-₹2,100', type: 'expense'},
-    {date: '2026-02-20', desc: 'Freelance Payment', amount: '+₹5,000', type: 'income'},
-    {date: '2026-02-15', desc: 'Restaurant', amount: '-₹850', type: 'expense'}
-  ]
-};
+// ── LOGOUT ────────────────────────────────────────────────────
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = 'index.html';
+}
 
+// ── FETCH REAL DATA FROM BACKEND ─────────────────────────────
+async function loadDashboard() {
+  const token = localStorage.getItem('token');
+
+  // If no token — redirect to login
+  if(!token){
+    alert('Please login first.');
+    window.location.href = 'index.html';
+    return;
+  }
+
+  try {
+    // Fetch user profile and balance
+    const profileRes = await fetch('http://localhost:5000/api/auth/me', {
+      method:  'GET',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const profileData = await profileRes.json();
+
+    if(!profileData.success){
+      alert('Session expired. Please login again.');
+      logout();
+      return;
+    }
+
+    // Fetch recent transactions
+    const txnRes = await fetch('http://localhost:5000/api/transactions?limit=5', {
+      method:  'GET',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const txnData = await txnRes.json();
+
+    const transactions = txnData.success ? txnData.transactions : [];
+
+    // Populate dashboard with real data
+    populateUserData(profileData.user, transactions);
+
+  } catch(err) {
+    console.log('Dashboard error:', err);
+    alert('Cannot connect to server. Make sure backend is running.');
+  }
+}
+
+// ── ON PAGE LOAD ──────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   restoreMode();
-  populateUserData(exampleUser);
+  loadDashboard();
   document.getElementById('modeToggle').addEventListener('click', toggleMode);
   initSidebarToggle();
+
+  // Fix logout link
+  const logoutLink = document.querySelector('a[href="index.html"]');
+  if(logoutLink){
+    logoutLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      logout();
+    });
+  }
 });

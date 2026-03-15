@@ -76,29 +76,91 @@ document.addEventListener("DOMContentLoaded", function(){
 const customerForm = document.getElementById("customerLogin");
 const adminForm = document.getElementById("adminLogin");
 
-
 // CUSTOMER REDIRECT
 if(customerForm){
-customerForm.addEventListener("submit", function(e){
-
+customerForm.addEventListener("submit", async function(e){
 e.preventDefault();
 
-window.location.href = "dashboard.html";
+const username = document.querySelector('#customerLogin input[type="text"]').value;
+const pin      = document.querySelector('#customerLogin input[type="password"]').value;
+
+// Basic validation
+if(!username || !pin){
+  alert('Please enter username and PIN.');
+  return;
+}
+
+try {
+  const res  = await fetch('http://localhost:5000/api/auth/login', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ username, pin })
+  });
+  const data = await res.json();
+
+  if(data.success){
+    // ✅ Found in database → go to dashboard
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    alert(`Welcome back, ${data.user.fullName}!`);
+    window.location.href = 'dashboard.html';
+
+  } else {
+    // ❌ Not found → show message
+    const goRegister = window.confirm(
+      '❌ ' + data.message + '\n\nDo you want to create a new account?'
+    );
+    if(goRegister){
+      window.location.href = 'registration.html';
+    }
+  }
+
+} catch(err) {
+  alert('❌ Cannot connect to server. Make sure backend is running on port 5000.');
+}
 
 });
 }
-
 
 // ADMIN REDIRECT
 if(adminForm){
-adminForm.addEventListener("submit", function(e){
-
+adminForm.addEventListener("submit", async function(e){
 e.preventDefault();
 
-window.location.href = "admin.html";
+const adminId  = document.querySelector('#adminLogin input[placeholder="Enter Admin ID"]').value;
+const password = document.querySelector('#adminLogin input[type="password"]').value;
+const bankId   = document.querySelector('#adminLogin input[placeholder="Enter OTP"]').value;
+
+try {
+  const res  = await fetch('http://localhost:5000/api/auth/admin-login', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ adminId, password, bankId })
+  });
+  const data = await res.json();
+
+  if(data.success){
+    localStorage.setItem('token', data.token);
+    window.location.href = 'admin.html';
+  } else {
+  if(data.message === 'Invalid username or PIN.'){
+    const confirm = window.confirm(
+      'Account not found! Do you want to create a new account?'
+    );
+    if(confirm){
+      window.location.href = 'registration.html';
+    }
+  } else {
+    alert(data.message);
+  }
+}
+} catch(err) {
+  alert('Backend not running! Start server first.');
+}
 
 });
 }
+
 
 });
 

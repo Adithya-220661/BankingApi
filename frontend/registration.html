@@ -46,11 +46,11 @@
             <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 4)">
             <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 5)">
         </div>
-        <div class="otp-actions">
+       <div class="otp-actions">
             <button type="button" onclick="pasteFromClipboard()" class="btn-link">Paste from Clipboard</button>
-            <button type="button" class="btn-link">Resend Code</button>
+            <button type="button" id="resendBtn" onclick="resendOTP()" class="btn-link">Resend Code</button>
         </div>
-        <button type="button" class="next-btn btn-grad full-width" onclick="nextStep(2)">Verify & Continue</button>
+        <button type="button" class="next-btn btn-grad full-width" onclick="verifyOTP()">Verify & Continue</button>
     </div>
 </section>
 

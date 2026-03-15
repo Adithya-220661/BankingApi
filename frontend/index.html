@@ -202,9 +202,6 @@
     </div>
 </section>
 
-<!-- ========================= -->
-<!-- NET BANKING SERVICES -->
-<!-- ========================= -->
 
 <section class="netbanking-services">
 
@@ -438,73 +435,76 @@ You can create or open account through the bank website or visit the nearest bra
         <p>&copy; 2026 Manohar Payments Bank Ltd. All Rights Reserved. Registered with DICGC.</p>
     </div>
 </footer>
-<!-- LOGIN POPUP -->
-<div class="login-modal" id="loginModal">
 
-<div class="login-box">
+<!-- Login Box opening  -->
 
-<span class="close" onclick="closeLogin()">✖</span>
 
-<h2 class="h">NetBanking Login</h2>
-<p class="sub">Secure access to your account</p>
+        <div class="login-modal" id="loginModal">
 
-<!-- LOGIN TYPE -->
-<div class="login-type">
-<button onclick="showCustomer()">User</button>
-<button onclick="showAdmin()">Admin</button>
-</div>
+            <div class="login-box">
+            <span class="close" onclick="closeLogin()">✖</span>
+            <h2 class="h"> Horizon NetBanking Login</h2>
+            <p class="sub">Secure access to your account</p>
 
-<!-- CUSTOMER LOGIN -->
-<form id="customerLogin">
+            <!-- Login /Admin -->
 
-<label>Username</label>
-<input type="text" placeholder="Enter username">
+            <div class="login-type">
+                <button onclick="showCustomer()">User</button>
+                <button onclick="showAdmin()">Admin</button>
+            </div>
 
-<label>PIN</label>
-<input type="password" placeholder="Enter PIN">
+            <!-- User Login settings -->
 
-<a href="registation.html" class="forgetpin">Forgot Pin</a>
+            <form id="customerLogin">
 
-<label>Captcha</label>
+                <label>Enter Username:</label>
+                <input type="text" placeholder="Enter username">
 
-<div class="captcha-box">
-<span id="captchaText">AB12</span>
-<button type="button" onclick="generateCaptcha()">🔄</button>
-<input type="text" placeholder="Enter Captcha">
-</div>
+                <label>Enter PIN:</label>
+                <input type="password" placeholder="Enter PIN">
 
-<button class="login-submit">Secure Login</button>
-<div class="signup-link">
-        Don't have an account? <a href="registration.html">Create New  account</a>
-</div>
+                <a href="forgetpassword.html" class="forgetpin">Forgot Pin/Reset Password</a>
+                <br>
 
-</form>
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText">AB12</span>
+                    <button type="button" onclick="generateCaptcha()">🔄</button>
+                    <input type="text" placeholder="Enter Captcha">
+                </div>
 
-<!-- ADMIN LOGIN -->
-<form id="adminLogin" style="display:none;">
+                <button class="login-submit">Secure Login</button>
+                    <div class="signup-link">
+                        Don't have an account? <a href="registration.html">Create New Account</a>
+                    </div>
 
-<label>Admin ID</label>
-<input type="text" placeholder="Enter Admin ID">
+            </form>
 
-<label>Password</label>
-<input type="password" placeholder="Enter Password">
+            <!-- Admin login Page -->
 
-<label>Bank ID</label>
-<input type="text" placeholder="Enter OTP">
+            <form id="adminLogin" style="display:none;">
 
-<label>Captcha</label>
+                <label>Admin Bank ID</label>
+                <input type="text" placeholder="Enter Admin ID">
 
-<div class="captcha-box">
-<span id="captchaText2">X4P8</span>
-<input type="text" placeholder="Enter Captcha">
-</div>
+                <label>Enter Admin Password</label>
+                <input type="password" placeholder="Enter Password">
 
-<button class="login-submit">Admin Login</button>
+                <label> Enter Branch Code</label>
+                <input type="text" placeholder="Enter OTP">
 
-</form>
+                <label>Captcha</label>
+                    <div class="captcha-box">
+                        <span id="captchaText2">X4P8</span>
+                        <input type="text" placeholder="Enter Captcha">
+                    </div>
 
-</div>
-</div>
+                <button class="login-submit">Admin Login</button>
+
+            </form>
+
+            </div>
+    </div>
 
 <script src="js/index.js"></script>
 

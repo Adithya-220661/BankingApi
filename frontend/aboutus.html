@@ -169,7 +169,7 @@ margin-top:50px;
 }
 
 </style>
-
+<link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
@@ -181,12 +181,12 @@ margin-top:50px;
 <div><b>Horizon Bank</b></div>
 
 <div class="nav-links">
-<a href="#">Home</a>
+<a href="index.html">Home</a>
 <a href="#">Resources</a>
 <a href="#">About Us</a>
 <a href="#">Contact</a>
 <a href="#">Support</a>
-<a href="#" class="login">Login</a>
+<button class="login-btn" onclick="openLogin()">Login🔒</button>
 </div>
 
 </div>
@@ -196,7 +196,7 @@ margin-top:50px;
 <section class="hero">
 
 <h1>About Horizon Bank</h1>
-
+<br>
 <p>
 Horizon Bank is a modern digital banking platform designed to provide safe, fast, and convenient banking services. Our system allows customers to manage their accounts, transfer money, and check transaction history easily through online banking.
 </p>
@@ -386,6 +386,190 @@ Online Banking: 24/7
 © 2026 Horizon Bank. All Rights Reserved.
 
 </footer>
+     <div class="login-modal" id="loginModal">
 
+            <div class="login-box">
+            <span class="close" onclick="closeLogin()">✖</span>
+            <h2 class="h"> Horizon NetBanking Login</h2>
+            <p class="sub">Secure access to your account</p>
+
+            <!-- Login /Admin -->
+
+            <div class="login-type">
+                <button onclick="showCustomer()">User</button>
+                <button onclick="showAdmin()">Admin</button>
+            </div>
+
+            <!-- User Login settings -->
+
+            <form id="customerLogin">
+
+                <label>Enter Username:</label>
+                <input type="text" placeholder="Enter username">
+
+                <label>Enter PIN:</label>
+                <input type="password" placeholder="Enter PIN">
+
+                <a href="forgetpassword.html" class="forgetpin">Forgot Pin/Reset Password</a>
+                <br>
+
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText">AB12</span>
+                    <button type="button" onclick="generateCaptcha()">🔄</button>
+                    <input type="text" placeholder="Enter Captcha">
+                </div>
+
+                <button class="login-submit">Secure Login</button>
+                    <div class="signup-link">
+                        Don't have an account? <a href="registration.html">Create New Account</a>
+                    </div>
+
+            </form>
+
+            <!-- Admin login Page -->
+
+            <form id="adminLogin" style="display:none;">
+
+                <label>Admin Bank ID</label>
+                <input type="text" placeholder="Enter Admin ID">
+
+                <label>Enter Admin Password</label>
+                <input type="password" placeholder="Enter Password">
+
+                <label> Enter Branch Code</label>
+                <input type="text" placeholder="Enter OTP">
+
+                <label>Captcha</label>
+                    <div class="captcha-box">
+                        <span id="captchaText2">X4P8</span>
+                        <input type="text" placeholder="Enter Captcha">
+                    </div>
+
+                <button class="login-submit">Admin Login</button>
+
+            </form>
+
+            </div>
+    </div>
+<script>
+   
+// OPEN LOGIN POPUP
+function openLogin(){
+    document.getElementById("loginModal").style.display="flex";
+}
+
+// CLOSE LOGIN POPUP
+function closeLogin(){
+    document.getElementById("loginModal").style.display="none";
+}
+
+
+
+// SWITCH TO CUSTOMER LOGIN
+function showCustomer(){
+    document.getElementById("customerLogin").style.display="block";
+    document.getElementById("adminLogin").style.display="none";
+}
+
+// SWITCH TO ADMIN LOGIN
+function showAdmin(){
+    document.getElementById("customerLogin").style.display="none";
+    document.getElementById("adminLogin").style.display="block";
+}
+
+// REDIRECT AFTER LOGIN
+document.addEventListener("DOMContentLoaded", function(){
+
+const customerForm = document.getElementById("customerLogin");
+const adminForm = document.getElementById("adminLogin");
+
+
+// CUSTOMER REDIRECT
+if(customerForm){
+customerForm.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+window.location.href = "dashboard.html";
+
+});
+}
+
+
+// ADMIN REDIRECT
+if(adminForm){
+adminForm.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+window.location.href = "admin.html";
+
+});
+}
+
+});
+
+
+// =======================
+// RANDOM CAPTCHA GENERATOR
+// =======================
+
+function generateCaptcha(){
+
+let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+let captcha = "";
+
+for(let i=0;i<5;i++){
+
+captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+
+}
+
+document.getElementById("captchaText").innerText = captcha;
+
+}
+
+
+
+function generateCaptchaAdmin(){
+
+let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+let captcha = "";
+
+for(let i=0;i<5;i++){
+
+captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+
+}
+
+document.getElementById("captchaText2").innerText = captcha;
+
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+generateCaptcha();
+generateCaptchaAdmin();
+
+});
+
+// Card hover glow
+
+document.querySelectorAll(".service-card").forEach(card => {
+
+card.addEventListener("mouseenter", () => {
+card.style.transform="translateY(-12px)";
+});
+
+card.addEventListener("mouseleave", () => {
+card.style.transform="translateY(0)";
+});
+
+});
+ 
+</script>
 </body>
 </html>

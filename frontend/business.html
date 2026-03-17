@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Banking</title>
+<link rel="stylesheet" href="css/index.css"> 
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+margin:0;
+font-family:Segoe UI, Arial;
+background:#eef3f8;
+color:#1b2b3a;
+}
+
+/* TOP HEADER */
+
+.header{
+background:#0b3d5c;
+color:white;
+padding:18px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:20px;
+font-weight:bold;
+}
+
+/* NAV */
+
+.nav{
+display:flex;
+gap:25px;
+}
+
+.nav a{
+color:white;
+text-decoration:none;
+font-size:14px;
+}
+
+.nav a:hover{
+text-decoration:underline;
+}
+
+/* HERO */
+
+.hero{
+background:linear-gradient(120deg,#0b3d5c,#1e6a8d);
+color:white;
+padding:70px;
+text-align:center;
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:10px;
+}
+
+/* SERVICES ROW STYLE */
+
+.service-row{
+display:flex;
+gap:30px;
+padding:60px;
+align-items:center;
+}
+
+.service-row:nth-child(even){
+flex-direction:row-reverse;
+background:#f5f8fc;
+}
+
+.service-text{
+flex:1;
+}
+
+.service-text h2{
+margin-top:0;
+color:#0b3d5c;
+}
+
+.service-text p{
+line-height:1.6;
+color:#555;
+}
+
+.service-text button{
+margin-top:15px;
+padding:10px 22px;
+border:none;
+background:#0b3d5c;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* SERVICE IMAGE BOX */
+
+.service-img{
+flex:1;
+height:200px;
+background:linear-gradient(135deg,#dfe8f3,#c8d7ea);
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+color:#0b3d5c;
+}
+
+/* STATS */
+
+.stats{
+display:flex;
+justify-content:space-around;
+background:#0b3d5c;
+color:white;
+padding:40px;
+}
+
+.stat h2{
+margin:0;
+font-size:32px;
+}
+
+/* TOOL */
+
+.tool{
+padding:60px;
+text-align:center;
+}
+
+.tool input{
+padding:10px;
+margin:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.tool button{
+padding:10px 20px;
+background:#0b3d5c;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* CTA */
+
+.cta{
+background:#1e6a8d;
+color:white;
+text-align:center;
+padding:60px;
+}
+
+.cta button{
+padding:14px 30px;
+border:none;
+border-radius:6px;
+background:white;
+color:#1e6a8d;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* FOOTER */
+
+.footer{
+background:#0b3d5c;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="logo">Horizon Bank</div>
+
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="#accounts">Accounts</a>
+ <a href="#loans">Loans</a> 
+ <a href="#payments">Payments</a> 
+ <a href="#finance">Trade Finance</a> <a href="#tool">Calculator</a>
+ <button class="login-btn" onclick="openLogin()">Login🔒</button>
+
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<h1>Welcome to Horizon NetBanking Business Servies</h1>
+
+<p>Powerful financial services designed for growing businesses.</p>
+
+</div>
+
+<!-- ACCOUNTS -->
+
+<div class="service-row" id="accounts">
+
+<div class="service-text">
+
+<h2>Business Current Accounts</h2>
+
+<p>Manage daily transactions easily with unlimited transfers,
+corporate debit cards, and full online banking access.</p>
+
+<button>Open Account</button>
+
+</div>
+
+<div class="service-img">
+
+Business Account
+
+</div>
+
+</div>
+
+<!-- LOANS -->
+
+<div class="service-row" id="loans">
+
+<div class="service-text">
+
+<h2>Business Loans</h2>
+
+<p>Flexible financing options to expand your company, purchase
+equipment, or manage working capital needs.</p>
+
+<button>Apply Now</button>
+
+</div>
+
+<div class="service-img">
+
+Business Loans
+
+</div>
+
+</div>
+
+<!-- PAYMENTS -->
+
+<div class="service-row" id="payments">
+
+<div class="service-text">
+
+<h2>Payment Solutions</h2>
+
+<p>Accept digital payments through payment gateways, POS machines,
+and UPI QR code systems.</p>
+
+<button>Explore</button>
+
+</div>
+
+<div class="service-img">
+
+Payment Systems
+
+</div>
+
+</div>
+
+<!-- TRADE FINANCE -->
+
+<div class="service-row" id="finance">
+
+<div class="service-text">
+
+<h2>Trade Finance</h2>
+
+<p>Support your global trade operations with letters of credit,
+bank guarantees, and export financing.</p>
+
+<button>Learn More</button>
+
+</div>
+
+<div class="service-img">
+
+Trade Finance
+
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+<h2>250K+</h2>
+<p>Business Clients</p>
+</div>
+
+<div class="stat">
+<h2>120+</h2>
+<p>Countries Served</p>
+</div>
+
+<div class="stat">
+<h2>₹500B+</h2>
+<p>Loans Approved</p>
+</div>
+
+</div>
+
+<!-- TOOL -->
+
+<div class="tool" id="tool">
+
+<h2>Business Profit Calculator</h2>
+
+<input type="number" id="revenue" placeholder="Revenue">
+
+<input type="number" id="expenses" placeholder="Expenses">
+
+<button onclick="profit()">Calculate</button>
+
+<h3 id="result"></h3>
+
+</div>
+
+<!-- CTA -->
+
+<div class="cta">
+
+<h2>Open Your Business Account Today</h2>
+
+<button>Open Business Account</button>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+Corporate Banking Portal • Secure Business Banking
+
+</div>
+
+        <div class="login-modal" id="loginModal">
+
+            <div class="login-box">
+            <span class="close" onclick="closeLogin()">✖</span>
+            <h2 class="h"> Horizon NetBanking Login</h2>
+            <p class="sub">Secure access to your account</p>
+
+            <!-- Login /Admin -->
+
+            <div class="login-type">
+                <button onclick="showCustomer()">User</button>
+                <button onclick="showAdmin()">Admin</button>
+            </div>
+
+            <!-- User Login settings -->
+
+            <form id="customerLogin">
+
+                <label>Enter Username:</label>
+                <input type="text" placeholder="Enter username">
+
+                <label>Enter PIN:</label>
+                <input type="password" placeholder="Enter PIN">
+
+                <a href="forgetpassword.html" class="forgetpin">Forgot Pin/Reset Password</a>
+                <br>
+
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText">AB12</span>
+                    <button type="button" onclick="generateCaptcha()">🔄</button>
+                    <input type="text" placeholder="Enter Captcha">
+                </div>
+
+                <button class="login-submit">Secure Login</button>
+                    <div class="signup-link">
+                        Don't have an account? <a href="registration.html">Create New Account</a>
+                    </div>
+
+            </form>
+
+            <!-- Admin login Page -->
+
+            <form id="adminLogin" style="display:none;">
+
+                <label>Admin Bank ID</label>
+                <input type="text" placeholder="Enter Admin ID">
+
+                <label>Enter Admin Password</label>
+                <input type="password" placeholder="Enter Password">
+
+                <label> Enter Branch Code</label>
+                <input type="text" placeholder="Enter OTP">
+
+                <label>Captcha</label>
+                    <div class="captcha-box">
+                        <span id="captchaText2">X4P8</span>
+                        <input type="text" placeholder="Enter Captcha">
+                    </div>
+
+                <button class="login-submit">Admin Login</button>
+
+            </form>
+
+            </div>
+    </div>
+<script>
+
+function profit(){
+
+let revenue=document.getElementById("revenue").value;
+
+let expenses=document.getElementById("expenses").value;
+
+let profit=revenue-expenses;
+
+document.getElementById("result").innerText="Profit : ₹ "+profit;
+
+}
+
+
+// OPEN LOGIN POPUP
+function openLogin(){
+    document.getElementById("loginModal").style.display="flex";
+}
+
+// CLOSE LOGIN POPUP
+function closeLogin(){
+    document.getElementById("loginModal").style.display="none";
+}
+
+
+
+// SWITCH TO CUSTOMER LOGIN
+function showCustomer(){
+    document.getElementById("customerLogin").style.display="block";
+    document.getElementById("adminLogin").style.display="none";
+}
+
+// SWITCH TO ADMIN LOGIN
+function showAdmin(){
+    document.getElementById("customerLogin").style.display="none";
+    document.getElementById("adminLogin").style.display="block";
+}
+
+// REDIRECT AFTER LOGIN
+document.addEventListener("DOMContentLoaded", function(){
+
+const customerForm = document.getElementById("customerLogin");
+const adminForm = document.getElementById("adminLogin");
+
+
+// CUSTOMER REDIRECT
+if(customerForm){
+customerForm.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+window.location.href = "dashboard.html";
+
+});
+}
+
+
+// ADMIN REDIRECT
+if(adminForm){
+adminForm.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+window.location.href = "admin.html";
+
+});
+}
+
+});
+
+
+// =======================
+// RANDOM CAPTCHA GENERATOR
+// =======================
+
+function generateCaptcha(){
+
+let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+let captcha = "";
+
+for(let i=0;i<5;i++){
+
+captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+
+}
+
+document.getElementById("captchaText").innerText = captcha;
+
+}
+
+
+
+function generateCaptchaAdmin(){
+
+let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+let captcha = "";
+
+for(let i=0;i<5;i++){
+
+captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+
+}
+
+document.getElementById("captchaText2").innerText = captcha;
+
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+generateCaptcha();
+generateCaptchaAdmin();
+
+});
+
+// Card hover glow
+
+document.querySelectorAll(".service-card").forEach(card => {
+
+card.addEventListener("mouseenter", () => {
+card.style.transform="translateY(-12px)";
+});
+
+card.addEventListener("mouseleave", () => {
+card.style.transform="translateY(0)";
+});
+
+});
+
+</script>
+
+</body>
+</html>

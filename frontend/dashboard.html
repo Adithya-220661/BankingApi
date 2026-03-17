@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard – Mini NetBank</title>
+  <link rel="stylesheet" href="css/style1.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  
+  <div class="sidebar" id="sidebar">
+    <h2>🏦 Mini NetBank</h2>
+    <a href="dashboard.html" class="sidebar-link active" data-icon="📈">
+      <span class="link-icon">📈</span>
+      <span class="link-text">Dashboard</span>
+    </a>
+    <a href="transfer.html" class="sidebar-link" data-icon="💵">
+      <span class="link-icon">💵</span>
+      <span class="link-text">Transfer</span>
+    </a>
+    <a href="history.html" class="sidebar-link" data-icon="⏳">
+      <span class="link-icon">⏳</span>
+      <span class="link-text">Transactions</span>
+    </a>
+    <a href="admin.html" class="sidebar-link" data-icon="🔐">
+      <span class="link-icon">🔐</span>
+      <span class="link-text">Admin Dashboard</span>
+    </a>
+    <a href="index.html" class="sidebar-link" data-icon="🚪">
+      <span class="link-icon">🚪</span>
+      <span class="link-text">Logout</span>
+    </a>
+  </div>
+
+  <div class="main">
+    <header class="page-header">
+      <h1 id="welcomeHeader">Welcome, User</h1>
+      <button id="modeToggle">🌙 Dark Mode</button>
+    </header>
+
+    <section class="stats-cards" id="statsContainer">
+      <!-- statistic cards inserted by JavaScript -->
+    </section>
+
+    <section class="quick-actions center">
+      <a href="transfer.html" class="action-btn">Send Money</a>
+      <a href="history.html" class="action-btn">View Transactions</a>
+    </section>
+
+    <section class="expense-breakdown">
+      <h2>💰 Expense Breakdown</h2>
+      <div class="chart-container">
+        <div class="pie-chart">
+          <div class="slice groceries" style="--percentage: 35"></div>
+          <div class="slice bills" style="--percentage: 25"></div>
+          <div class="slice entertainment" style="--percentage: 20"></div>
+          <div class="slice other" style="--percentage: 20"></div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-color groceries"></span>
+            <span>Groceries (35%)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color bills"></span>
+            <span>Bills (25%)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color entertainment"></span>
+            <span>Entertainment (20%)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color other"></span>
+            <span>Other (20%)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-transactions">
+      <h2>Recent Transactions</h2>
+      <table id="txnTable">
+        <thead>
+          <tr><th>Date</th><th>Description</th><th>Amount</th></tr>
+        </thead>
+        <tbody>
+          <!-- rows will be populated dynamically -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="js/dasboard.js"></script>
+</body>
+</html>

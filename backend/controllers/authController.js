@@ -1,6 +1,24 @@
 const User       = require('../models/User');
 const OtpSession = require('../models/OtpSession');
 const generateToken = require('../utils/generateToken');
+const axios      = require('axios');
+
+// Fast2SMS sender helper
+const sendSMS = async (phone, otp) => {
+  try {
+    await axios.get('https://www.fast2sms.com/dev/bulkV2', {
+      params: {
+        authorization: process.env.FAST2SMS_API_KEY,
+        variables_values: otp,
+        route: 'otp',
+        numbers: phone,
+      }
+    });
+    console.log(`✅ OTP sent to ${phone}: ${otp}`);
+  } catch(err) {
+    console.log('❌ Fast2SMS Error:', err.message);
+  }
+};
 
 // ════════════════════════════════════════════════════════════
 //  REGISTRATION — matches your 5-step registration.html form
@@ -31,13 +49,13 @@ const sendOtp = async (req, res) => {
       { upsert: true, returnDocument: 'after' }
     );
 
-    // For development — log OTP to console
-    console.log(`📱 OTP for ${phone}: ${otp}`);
+    // Send real OTP via Fast2SMS
+    await sendSMS(phone, otp);
 
     res.status(200).json({
       success: true,
-      message: 'OTP sent successfully.',
-      otp_dev: otp,
+      message: 'OTP sent to your phone number.',
+      otp_dev: otp, // remove this line in production
     });
 
   } catch (err) {
@@ -299,12 +317,13 @@ const forgotPin = async (req, res) => {
       { upsert: true, returnDocument: 'after' }
     );
 
-    console.log(`📱 Reset OTP for ${phone}: ${otp}`);
+    // Send real OTP via Fast2SMS
+    await sendSMS(phone, otp);
 
     res.status(200).json({
       success: true,
-      message: 'OTP sent successfully.',
-      otp_dev: otp,
+      message: 'OTP sent to your phone number.',
+      otp_dev: otp, // remove this line in production
     });
 
   } catch(err) {

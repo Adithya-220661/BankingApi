@@ -536,9 +536,9 @@ cursor:pointer;
     width:100%;
     height:100%;
     background:rgba(0,0,0,0.6);
-    justify-content:center;
+    justify-content:right ;
     align-items:center;
-    z-index:999;
+    z-index:200;
 }
 
 .signup-link {
@@ -572,10 +572,10 @@ cursor:pointer;
 
 .h{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-style: italic;
+    font-style:bold;
     font-weight: bolder;
     font-size:35px;
-    color: black;
+    color:gold;
     margin-bottom: auto;
 
 }
@@ -583,9 +583,10 @@ cursor:pointer;
 /* SUB TEXT */
 
 .sub{
-    font-size:14px;
-    color:darkslategray;
-    margin-top: auto;
+    text-align:left;
+    font-size:16px;
+    color:white;
+    margin-top: 2px;
     margin-bottom:20px;
 }
 
@@ -639,13 +640,23 @@ form label{
     color:black;
 }
 
-
+/*
 form input{
     width:94%;
     padding:10px;
     margin:8px 0 15px;
     border:1px solid gray;
     border-radius:5px;
+}
+    */
+
+form input {
+    width:90%;
+    padding:10px;
+    margin:8px 0 15px;
+    border:1px solid gray;
+    border-radius:5px;
+    box-sizing: border-box;
 }
 
 
@@ -680,8 +691,8 @@ margin-trim:left;
 /* LOGIN BUTTON */
 
 .login-submit{
-    width:100%;
-    padding:13px;
+    width:50%;
+    padding:12px;
     background:goldenrod;
     color:black;
     border:none;
@@ -690,7 +701,8 @@ margin-trim:left;
     cursor:pointer;
 }
 .forgotpin{
-    color:#12396b;
+    
+    color:#00c3ff;
     font-style: italic;
     font-size: small;
     margin-top:0px;
@@ -701,8 +713,56 @@ margin-trim:left;
     background:gold;
     color:#1e1e1e;
 }
- 
 
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* THIS IS THE REAL FIX */
+.password-wrapper input {
+    width: 100%;
+    padding: 10px 40px 10px 10px; /* right padding for eye */
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* EYE INSIDE INPUT */
+.toggle-eye {
+    position: absolute;
+    left:90%;   /* move inside */
+    top: 48%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 2;   /* IMPORTANT */
+}
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.login-submit,
+.reset-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-submit {
+    background: goldenrod;
+    color: black;
+}
+
+.reset-btn {
+    background:goldenrod;
+    color: black;
+}
 /* ============================= */
 /* NET BANKING SERVICES SECTION */
 /* ============================= */

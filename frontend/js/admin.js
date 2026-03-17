@@ -410,22 +410,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   restoreMode();
-<<<<<<< HEAD
-  loadAdminData();
-  document.getElementById('modeToggleAdmin')
-    .addEventListener('click', toggleModeAdmin);
-  initSidebarToggle();
-
-  // Fix logout link
-  const logoutLink = document.querySelector('a[href="index.html"]');
-  if(logoutLink){
-    logoutLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      logout();
-    });
-  }
-});
-=======
   initSidebarToggle();
 
   const modeToggle = document.getElementById('modeToggleAdmin');
@@ -491,4 +475,3 @@ function addNewUser() {
 function systemSettings() {
   alert('Settings screen is not implemented yet.');
 }
->>>>>>> 75f7ec566988882d714dc34eb80fc35e03d45af0

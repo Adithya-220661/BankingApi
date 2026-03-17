@@ -67,11 +67,19 @@ e.preventDefault();
 
 const username = document.querySelector('#customerLogin input[type="text"]').value;
 const pin      = document.querySelector('#customerLogin input[type="password"]').value;
+const captchaInput = document.getElementById('captchaInput').value.trim();
+const captchaText = document.getElementById('captchaText').innerText.trim();
 
 // Basic validation
 if(!username || !pin){
   alert('Please enter username and PIN.');
   return;
+}
+
+if(captchaInput !== captchaText){
+    alert('❌ Invalid Captcha! Please try again.');
+    generateCaptcha('captchaText');
+    return;
 }
 
 try {
@@ -165,10 +173,8 @@ function generateCaptcha(targetId){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-
-generateCaptcha();
-generateCaptchaAdmin();
-
+    generateCaptcha("captchaText");
+    generateCaptcha("captchaText2");
 });
 
 // Card hover glow
@@ -191,6 +197,8 @@ card.style.transform="translateY(0)";
 window.onload = function() {
     document.getElementById("customerLogin").reset();
     document.getElementById("adminLogin").reset();
+    generateCaptcha("captchaText");
+    generateCaptcha("captchaText2");
 };
 
 function togglePassword() {

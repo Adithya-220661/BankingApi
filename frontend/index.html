@@ -2,32 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manohar Bank | Professional Digital Banking</title>
+    <title>Horizon Bank | Professional Digital Banking</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
 </head>
 <body>
 <marquee class="news-ticker">
-    ⚡ IMPORTANT: Horizon Bank never asks for OTP or PIN over phone calls. Stay alert, stay secure. | New FD rates increased to 7.5% p.a.
+    ⚡IMPORTANT: Banks never asks for OTP or PIN over phone calls. Stay alert, stay secure.For queries contact us:1800 2345 1235 
+    |📈New FD rates increased to 7.5% p.a
 </marquee>
-
 <nav class="bank-navbar">
-    <div class="bank-logo">
-        <i class="fas fa-university"></i> Horizon Bank
-    </div>
-
+        <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+<div id="logoSplash">
+<img src="css/newbanklogo3.png">
+</div>
+    
+<div>
     <ul class="bank-nav-links">
-        <li><a href="personal.html" class="nav-item">👥Personal</a></li>
-        <li><a href="corporate.html" class="nav-item">🏦Corporate</a></li>
-        <li><a href="resources.html" class="nav-item">📚Resources</a></li>
-        <li><a href="investment.html" class="nav-item">📈Investments</a></li>
-        <li><a href="contact.html" class="nav-item">📞Contact us </a></li>
+        <li><a href="personal.html" class="nav-item">Personal</a></li>
+        <li><a href="business.html" class="nav-item">Business</a></li>
+        <li><a href="loans.html" class="nav-item">Loans </a></li>
+        <li><a href="aboutus.html" class="nav-item">About us</a></li>
+        <li><a href="contact.html" class="nav-item">Contact</a></li>
+        <li><a href="locate.html" class="nav-item">Locate</a></li>
+
         
         
     </ul>
-
-    <div class="nav-actions">
+</div>
+<div class="nav-actions">
         
         <button class="login-btn" onclick="openLogin()">Login <i class="fas fa-lock"></i></button>
         <div class="menu-icon" onclick="toggleAccessibilityMenu()">
@@ -47,22 +51,28 @@
 </div>
 
 
-<div >
+
 <section class="hero">
     <video autoplay muted loop class="hero-video">
         <source src="indexai.mp4" type="video/mp4">
     </video>
-    <div class="hero-overlay"></div>
     <div class="hero-text">
         <h1 class="reveal-text">Experience Secure <br><span>Digital Banking</span></h1>
-        <p>💰India's trusted platform for seamless transactions.</p
+        <p>💰India's trusted platform for seamless transactions.</p>
         <p>💰Institutional grade security.</p>
-        <button class="cta-main" onclick="window.location.href=register.html">Open Digital A/C Now</button>
+
+        <a href="registration.html">
+            <button class="cta-main">
+                Open Digital A/C Now
+            </button>
+        </a>
+      
+
     </div>
 </section>
-</div>
 
-<div>
+
+
 
 <section class="digital-showcase">
     <div class="showcase-header">
@@ -89,7 +99,7 @@
         <div class="phone-display">
             
             <!--<video src="aivedio1.mp4" alt="Banking App" class="main-phone">-->
-            <img src="mobileimage.png" alt="Banking App" class="main-phone"></img>
+            <img src="indexpageimage2.png" alt="Banking App" class="main-phone"></img>
             
         </div>
         
@@ -110,8 +120,8 @@
         </div>
 
     </div>
-</div>
-<section>
+
+</section>
 
 <section class="products-section">
     <h2 class="section-title">OUR PRODUCTS</h2>
@@ -124,7 +134,7 @@
                 <p class="subtitle">LOWEST INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">11.00% P.A. ONWARDS</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -136,7 +146,7 @@
                 <p class="subtitle">LOWEST INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">7.00% INTEREST</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -148,7 +158,7 @@
                 <p class="subtitle">EXCEPTIONAL INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">9.25% P.A. ONWARDS</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -160,7 +170,7 @@
                 <p class="subtitle">LOWEST INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">9.75% P.A.</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -197,9 +207,6 @@
     </div>
 </section>
 
-<!-- ========================= -->
-<!-- NET BANKING SERVICES -->
-<!-- ========================= -->
 
 <section class="netbanking-services">
 
@@ -430,79 +437,81 @@ You can create or open account through the bank website or visit the nearest bra
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2026 Manohar Payments Bank Ltd. All Rights Reserved. Registered with DICGC.</p>
+        <p>&copy; 2026 Horizon Bank Ltd. All Rights Reserved. Registered with DICGC.</p>
     </div>
 </footer>
-<!-- LOGIN POPUP -->
-<div class="login-modal" id="loginModal">
 
-<div class="login-box">
+<!-- Login Box opening  -->
 
-<span class="close" onclick="closeLogin()">✖</span>
 
-<h2 class="h">NetBanking Login</h2>
-<p class="sub">Secure access to your account</p>
+        <div class="login-modal" id="loginModal">
 
-<!-- LOGIN TYPE -->
-<div class="login-type">
-<button onclick="showCustomer()">User</button>
-<button onclick="showAdmin()">Admin</button>
-</div>
+            <div class="login-box">
+            <span class="close" onclick="closeLogin()">✖</span>
+            <h2 class="h"> Horizon NetBanking Login</h2>
+            <p class="sub">Secure access to your account</p>
 
-<!-- CUSTOMER LOGIN -->
-<form id="customerLogin">
+            <!-- Login /Admin -->
 
-<label>Username</label>
-<input type="text" placeholder="Enter username">
+            <div class="login-type">
+                <button onclick="showCustomer()">User</button>
+                <button onclick="showAdmin()">Admin</button>
+            </div>
 
-<label>PIN</label>
-<input type="password" placeholder="Enter PIN">
+            <!-- User Login settings -->
 
-<a href="forgotPin.html" class="forgetpin">Forgot Pin</a>
+            <form id="customerLogin">
 
-<label>Captcha</label>
+                <label>Enter Username:</label>
+                <input type="text" placeholder="Enter username">
 
-<div class="captcha-box">
-<span id="captchaText">AB12</span>
-<button type="button" onclick="generateCaptcha()">🔄</button>
-<input type="text" placeholder="Enter Captcha">
-</div>
+                <label>Enter PIN:</label>
+                <input type="password" placeholder="Enter PIN">
 
-<button  type="submit" class="login-submit">Secure Login</button>
-<div class="signup-link">
-        Don't have an account? <a href="registration.html">Create New  account</a>
-</div>
+                <a href="forgetpassword.html" class="forgetpin">Forgot Pin/Reset Password</a>
+                <br>
 
-</form>
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText">AB12</span>
+                    <button type="button" onclick="generateCaptcha()">🔄</button>
+                    <input type="text" placeholder="Enter Captcha">
+                </div>
 
-<!-- ADMIN LOGIN -->
-<form id="adminLogin" style="display:none;">
+                <button class="login-submit">Secure Login</button>
+                    <div class="signup-link">
+                        Don't have an account? <a href="registration.html">Create New Account</a>
+                    </div>
 
-<label>Admin ID</label>
-<input type="text" placeholder="Enter Admin ID">
+            </form>
 
-<label>Password</label>
-<input type="password" placeholder="Enter Password">
+            <!-- Admin login Page -->
 
-<label>Bank ID</label>
-<input type="text" placeholder="Enter OTP">
+            <form id="adminLogin" style="display:none;">
 
-<label>Captcha</label>
+                <label>Admin Bank ID</label>
+                <input type="text" placeholder="Enter Admin ID">
 
-<div class="captcha-box">
-<span id="captchaText2">X4P8</span>
-<input type="text" placeholder="Enter Captcha">
-</div>
+                <label>Enter Admin Password</label>
+                <input type="password" placeholder="Enter Password">
 
-<button type="submit" class="login-submit">Admin Login</button>
+                <label> Enter Branch Code</label>
+                <input type="text" placeholder="Enter OTP">
 
-</form>
+                <label>Captcha</label>
+                    <div class="captcha-box">
+                        <span id="captchaText2">X4P8</span>
+                        <input type="text" placeholder="Enter Captcha">
+                    </div>
 
-</div>
-</div>
+                <button class="login-submit">Admin Login</button>
+
+            </form>
+
+            </div>
+    </div>
 
 <script src="js/index.js"></script>
 
 </body>
-
 </html>

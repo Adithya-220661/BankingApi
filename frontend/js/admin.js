@@ -410,6 +410,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   restoreMode();
+<<<<<<< HEAD
   loadAdminData();
   document.getElementById('modeToggleAdmin')
     .addEventListener('click', toggleModeAdmin);
@@ -424,3 +425,70 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+=======
+  initSidebarToggle();
+
+  const modeToggle = document.getElementById('modeToggleAdmin');
+  if (modeToggle) modeToggle.addEventListener('click', toggleModeAdmin);
+
+  try {
+    populateAdminData(dummyUsers);
+  } catch (e) {
+    console.error(e);
+    showChartsUnavailableNote();
+  }
+});
+
+function showChartsUnavailableNote() {
+  if (typeof window.Chart === 'function') return;
+
+  document.querySelectorAll('.chart-card').forEach(card => {
+    if (card.querySelector('.chart-fallback-note')) return;
+    const note = document.createElement('div');
+    note.className = 'chart-fallback-note';
+    note.textContent = 'Charts are unavailable (Chart.js failed to load).';
+    card.appendChild(note);
+  });
+}
+
+function exportData() {
+  const rows = Array.from(document.querySelectorAll('#usersTable tbody tr'));
+  if (!rows.length) return alert('No user data to export.');
+
+  let csv = 'Name,Email,Balance,Status\n';
+  rows.forEach(row => {
+    const cells = Array.from(row.cells).slice(0, 4).map(c => `"${c.textContent.replace(/"/g, '""')}"`);
+    csv += `${cells.join(',')}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `admin_report_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function addNewUser() {
+  const name = prompt('Enter user name:');
+  if (!name) return;
+  const email = prompt('Enter email:');
+  if (!email) return;
+  const balanceRaw = prompt('Enter balance:', '0');
+  const balance = Number(balanceRaw);
+  const status = confirm('Set status as Active?') ? 'Active' : 'Inactive';
+  dummyUsers.push({ name, email, balance: Number.isFinite(balance) ? balance : 0, status });
+
+  try {
+    populateAdminData(dummyUsers);
+  } catch (e) {
+    console.error(e);
+    showChartsUnavailableNote();
+  }
+}
+
+function systemSettings() {
+  alert('Settings screen is not implemented yet.');
+}
+>>>>>>> 75f7ec566988882d714dc34eb80fc35e03d45af0

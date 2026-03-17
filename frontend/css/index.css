@@ -10,8 +10,8 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background:#1F2937 ;  
-    color:white;
+    background:white ;  
+    color:#1e293b;
     overflow-x: hidden;
 }
 
@@ -20,77 +20,102 @@ body {
     display: flex;
     justify-content: space-between;
     align-items:center;
-    padding: 10px 5%;
-    background:darkblue;
+    padding:20px 5%;
+    background:#0A1F44;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
     position: sticky;
+    border-radius: 0px;
     top: 0;
     z-index:200;
-    height:50px;
+    height:60px;
+    
 }
 
-.bank-logo {
-    font-size:30px;
-    font-weight: 8900;
-    color:gold;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+.logo-img{
+    width:260px;
+    height: auto;
+    object-fit:flex;
+    padding:0px;
+    mix-blend-mode: screen;
+    filter: brightness(1.1) contrast(1.8);
+    margin-left:0px;
+    
 }
 
-.bank-nav-links {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-    margin: 0;
-    color:white;
-}
+
 
 .nav-item {
-    text-decoration: none;
+    text-decoration:red;
     color:white;
     font-weight: 500;
     transition: 0.3s;
 }
+.bank-nav-links {
+    display:flex;
+    align-items:right;
+    list-style:none;
+    gap:5px;
+    margin-left:0px;
+}
+.nav-item {
+    position: relative;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 5px 10px;
+    transition: 0.3s;
+}
 
 .nav-item:hover {
-    color:#00c3ff;
+    color: #00c3ff;
+    /* Adds a subtle text glow */
+    text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
 }
 
-/* HOVER UNDERLINE ANIMATION */
-
-.nav-item:after{
-
-content:"";
-position:absolute;
-left:0;
-bottom:-5px;
-
-width:0%;
-height:2px;
-
-background:gold;
-transition:0.5s;
-
-}
-
-.nav-item:hover::after{
-
-width:100%;
-
-
-}
 .nav-actions {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items:left;
+    gap:20px;
+}
+
+/* THE LIGHT BEAM UNDERLINE */
+.nav-item:after {
+    content: "";
+    position: absolute;
+    left: 50%; /* Start from center */
+    bottom: -5px;
+    width: 0%;
+    height: 3px;
+    /* Gradient gives it the 'light' look */
+    background:lightskyblue;
+    background-size: 200% 100%;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateX(-50%);
+    border-radius: 5px;
+    /* The Glow Effect */
+    box-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
+    opacity: 0;
+}
+
+.nav-item:hover::after {
+    width:85%; /* Slightly wider than text for effect */
+    opacity: 1;
+    height: 1px;
+    /* Animate the light beam internally */
+    animation: lightMove 1.5s linear infinite;
+}
+
+/* ANIMATION FOR THE LIGHT INTERNALLY */
+@keyframes lightMove {
+    0% { background-position: 70% 50%; }
+    100% { background-position: 200% 50%; }
 }
 
 .circle-menu {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     background:gold;
-    color:navy;
+    color:#0A1F44;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -99,16 +124,16 @@ width:100%;
     transition: 0.3s;
 }
 
-.circle-menu:hover { transform: rotate(360deg); }
+.circle-menu:hover { transform: rotate(90deg); }
 
 /* Accessibility Drawer */
 
 .acc-drawer {
     position: fixed;
     right: -300px;
-    top:100px;
+    top:200px;
     width: 150px;
-    background:linear-gradient(blue,skyblue,lightblue,darkblue);
+    background:linear-gradient(blue,skyblue,lightblue,navy,darkblue);
     padding: 20px;
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
     transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -123,7 +148,7 @@ width:100%;
     padding: 12px;
     margin-bottom: 10px;
     border: none;
-    background:whitesmoke;
+    background:white;
     border-radius: 28px;
     cursor: pointer;
     text-align: left;
@@ -138,9 +163,9 @@ width:100%;
 background:gold;
 
 border:#0b1f3a;
-
+font-weight: 800;
 padding:8px 20px;
-
+font-style: bold;
 border-radius:6px;
 
 font-weight:bold;
@@ -157,10 +182,10 @@ cursor:pointer;
     height:80vh;
     position:relative;
     margin-top:20px;
-    margin-right: 20px;
-    margin-left:20px;
+    margin-right:10px;
+    margin-left:10px;
     margin-bottom:5px;
-    border-radius: 20px;
+    border-radius: 20px ;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -239,24 +264,23 @@ cursor:pointer;
 }
 
 .hero-text h1 span { color:lightskyblue; }
-
 .cta-main {
-    padding: 15px 40px;
-    background:gold;
+    background: gold;
+    color: #000;
     border: none;
-    border-color: #12396b;
-    border-radius: 50px;
+    padding: 15px 30px;
+    font-size: 18px;
     font-weight: bold;
-    font-size: 1.1rem;
+    border-radius: 50px;
     cursor: pointer;
-    transition: 0.4s;
-    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
 }
 
 .cta-main:hover {
-    background: #b5942e;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transform: scale(1.05);
+    background: #ffcc00;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
 }
 .hero::after{
     content:"flex";
@@ -346,60 +370,11 @@ cursor:pointer;
     border-radius: 30px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
-
-/*3 boxes*/
-
-
-
-/* FEATURES */
-
-.features{
-
-display:flex;
-
-justify-content:center;
-
-gap:50px;
-margin-top:40px;
-
-margin-top: 20px;
-margin-bottom:20px;
-
-}
-
-.feature-card{
-
-background:lightskyblue;
-
-padding:30px;
-
-width:250px;
-
-border-radius:12px;
-
-text-align:center;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.4);
-
-transition:0.3s;
-
-}
-
-.feature-card:hover{
-
-transform:translateY(-8px);
-
-}
-
-.feature-card h3{
-
-color:black;
-
-}
+/* 
 /*box */
 
 .impact-banner {
-    background:url("index1.png");
+    background:url("indexfamily.png");
 
     background-size: cover;
     background-position: center;
@@ -437,8 +412,9 @@ color:black;
 .subtitle {
     font-size:20px ;
     margin-bottom: 30px;
-    color:
+    color:;
 }
+
 
 
 
@@ -1034,4 +1010,38 @@ padding:15px 25px;
     color: #d35400; /* Orange color from screenshot */
     font-size: 20px;
     font-weight: bold;
+}
+#logoSplash{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000428;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+transition:opacity 1.5s ease, transform 1.5s ease;
+}
+
+#logoSplash img{
+width:750px; /* BIGGER LOGO */
+max-width:80%;
+opacity:0;
+transform:scale(0.3);
+animation:logoEnter 1.6s forwards;
+}
+
+@keyframes logoEnter{
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+.fadeOut{
+opacity:0;
+transform:scale(1.2);
+pointer-events:none;
 }

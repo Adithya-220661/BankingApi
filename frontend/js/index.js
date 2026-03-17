@@ -65,14 +65,26 @@ if(customerForm){
 customerForm.addEventListener("submit", async function(e){
 e.preventDefault();
 
-const username = document.querySelector('#customerLogin input[type="text"]').value;
-const pin      = document.querySelector('#customerLogin input[type="password"]').value;
+const username = document.getElementById('username').value.trim();
+const pin      = document.getElementById('password').value.trim();
 const captchaInput = document.getElementById('captchaInput').value.trim();
 const captchaText = document.getElementById('captchaText').innerText.trim();
 
 // Basic validation
-if(!username || !pin){
-  alert('Please enter username and PIN.');
+if(!username && !pin){
+  alert('⚠️ Please enter username and PIN.');
+  return;
+}
+if(!username){
+  alert('⚠️ Please enter your username.');
+  return;
+}
+if(!pin){
+  alert('⚠️ Please enter your PIN.');
+  return;
+}
+if(pin.length < 4){
+  alert('⚠️ PIN must be 4 digits.');
   return;
 }
 

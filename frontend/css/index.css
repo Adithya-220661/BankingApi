@@ -593,24 +593,39 @@ cursor:pointer;
 
 /* CUSTOMER ADMIN BUTTONS */
 
-.login-type{
-    display:flex;
-    justify-content:center;
-    gap:1px;
-    margin-bottom:20px;
+.login-type {
+    display: flex;
+    border: 3px solid #0A1F44;
+    border-radius: 10px;
+    overflow: hidden;
+    width: fit-content;
+    margin: 20px auto;
+    background:grey;
 }
 
-.login-type button{
-    padding:8px 20px;
-    border:none;
-    background:goldenrod;
+/* buttons inside */
+.login-type button {
+    flex: 1;
+    padding: 10px 25px;
+    border: none;
+    font-size:medium;
+    background: transparent;
+    color:white;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* left button (Customer) */
+.login-type button:first-child {
+    border-right: 2px solid white;
+}
+
+/* hover effect */
+.login-type button:hover {
+    background:gold;
     color:black;
-    border-radius:40px;
-    font-weight: bold;
-    cursor:pointer;
-    font-size:20px;
 }
-
 /* GLASS LOGIN BOX */
 
 .login-box{

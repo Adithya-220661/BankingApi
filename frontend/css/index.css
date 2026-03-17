@@ -404,7 +404,7 @@ cursor:pointer;
     font-weight:100px;
     margin-bottom:1px;
     margin-top: auto;
-    color:darkblue;
+    color:rgb(220, 220, 231);
     font-size:50px;
 
 }
@@ -856,7 +856,7 @@ margin:60px auto;
 .faq-heading{
 text-align:center;
 font-size:28px;
-color:#f3ecec;
+color:#262424;
 margin-bottom:30px;
 font-weight:600;
 

@@ -199,16 +199,22 @@
         <!-- Step 3: Set New PIN -->
         <div class="step-box" id="fpStep3">
             <p class="info-text">Create a new 4-digit PIN for your account</p>
-            <div class="input-group">
-                <label>New PIN</label>
-                <input type="password" id="fpNewPin" maxlength="4" 
-                       placeholder="Enter 4-digit PIN">
-            </div>
-            <div class="input-group">
-                <label>Confirm New PIN</label>
-                <input type="password" id="fpConfirmPin" maxlength="4" 
-                       placeholder="Confirm 4-digit PIN">
-            </div>
+           <div class="input-group">
+            <label>New PIN</label>
+            <input type="number" id="fpNewPin" 
+           maxlength="4"
+           min="1000" max="9999"
+           oninput="if(this.value.length > 4) this.value = this.value.slice(0,4)"
+           placeholder="Enter 4-digit PIN">
+        </div>
+        <div class="input-group">
+        <label>Confirm New PIN</label>
+        <input type="number" id="fpConfirmPin"
+           maxlength="4"
+           min="1000" max="9999"
+           oninput="if(this.value.length > 4) this.value = this.value.slice(0,4)"
+           placeholder="Confirm 4-digit PIN">
+        </div>
             <button class="btn" onclick="resetPIN()">
                 Reset PIN
             </button>

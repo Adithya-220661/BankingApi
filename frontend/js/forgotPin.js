@@ -156,19 +156,23 @@ async function resetPIN() {
 
     // Validate PIN
     if(!newPin || newPin.length !== 4){
-        alert('PIN must be exactly 4 digits.');
-        return;
+    alert('⚠️ PIN must be exactly 4 digits.');
+    document.getElementById('fpNewPin').focus();
+    return;
     }
     if(!/^\d{4}$/.test(newPin)){
-        alert('PIN must contain only numbers.');
+        alert('⚠️ PIN must contain numbers only. No letters allowed.');
+        document.getElementById('fpNewPin').value = '';
+        document.getElementById('fpNewPin').focus();
         return;
     }
     if(newPin !== confirmPin){
-        alert('PINs do not match! Please try again.');
+        alert('❌ PINs do not match! Please try again.');
         document.getElementById('fpConfirmPin').value = '';
+        document.getElementById('fpConfirmPin').focus();
         return;
     }
-
+   
     // Disable button
     const btn = document.querySelector('#fpStep3 .btn');
     if(btn){

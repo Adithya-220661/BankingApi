@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Transfer – Mini NetBank</title>
+  <link rel="stylesheet" href="css/style1.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  
+  <div class="sidebar" id="sidebar">
+    <h2>🏦 Mini NetBank</h2>
+    <a href="dashboard.html" class="sidebar-link" data-icon="📈">
+      <span class="link-icon">📈</span>
+      <span class="link-text">Dashboard</span>
+    </a>
+    <a href="transfer.html" class="sidebar-link active" data-icon="💵">
+      <span class="link-icon">💵</span>
+      <span class="link-text">Transfer</span>
+    </a>
+    <a href="history.html" class="sidebar-link" data-icon="⏳">
+      <span class="link-icon">⏳</span>
+      <span class="link-text">Transactions</span>
+    </a>
+    <a href="admin.html" class="sidebar-link" data-icon="🔐">
+      <span class="link-icon">🔐</span>
+      <span class="link-text">Admin Dashboard</span>
+    </a>
+    <a href="index.html" class="sidebar-link" data-icon="🚪">
+      <span class="link-icon">🚪</span>
+      <span class="link-text">Logout</span>
+    </a>
+  </div>
+
+  <div class="main" id="main">
+    <header class="page-header">
+      <h1>💵 Send Money Transfer</h1>
+      <button id="modeToggle">🌙 Dark Mode</button>
+    </header>
+
+    <div class="transfer-container">
+      <div class="transfer-card">
+        <div class="transfer-header">
+          <h2>💳 Transfer Details</h2>
+          <p class="transfer-subtitle">Send money to anyone, anytime</p>
+        </div>
+
+        <form id="transferForm" class="transfer-form">
+          <div class="form-group">
+            <label for="receiverAccount">👤 Receiver Account Number *</label>
+            <input type="text" id="receiverAccount" placeholder="Enter account number" required>
+            <span class="form-help">Must be 12-16 digits</span>
+          </div>
+
+          <div class="form-group">
+            <label for="receiverName">📋 Receiver Name</label>
+            <input type="text" id="receiverName" placeholder="Full name of recipient">
+            <span class="form-help">Optional - helps verify the account</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="amount">💰 Amount *</label>
+              <input type="number" id="amount" placeholder="0.00" min="0" step="0.01" required>
+              <span class="form-help">Maximum: ₹5,00,000</span>
+            </div>
+
+            <div class="form-group">
+              <label for="transferType">📊 Transfer Type</label>
+              <select id="transferType">
+                <option value="instant">Instant (NEFT)</option>
+                <option value="normal">Normal (RTGS)</option>
+                <option value="bulk">Bulk Transfer</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="remark">📝 Remark / Purpose</label>
+            <textarea id="remark" placeholder="Enter purpose or message (optional)" rows="3"></textarea>
+            <span class="form-help">Max 100 characters</span>
+          </div>
+
+          <div class="form-group">
+            <label for="password">🔐 Confirm with Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <span class="form-help">For security verification</span>
+          </div>
+
+          <div class="transfer-summary">
+            <h3>📌 Transfer Summary</h3>
+            <div class="summary-item">
+              <span>Amount to Transfer:</span>
+              <strong id="summaryAmount">₹0.00</strong>
+            </div>
+            <div class="summary-item">
+              <span>Transfer Fee:</span>
+              <strong id="summaryFee">FREE</strong>
+            </div>
+            <div class="summary-item total">
+              <span>Total Debit:</span>
+              <strong id="summaryTotal">₹0.00</strong>
+            </div>
+          </div>
+
+          <button type="submit" class="transfer-btn">Send Money Now</button>
+          <a href="dashboard.html" class="transfer-btn-secondary">← Go Back to Dashboard</a>
+        </form>
+      </div>
+
+      <div class="transfer-quick-access">
+        <h3>⭐ Recent Recipients</h3>
+        <div class="recipient-list">
+          <div class="recipient-item">
+            <div class="recipient-avatar">JD</div>
+            <div class="recipient-info">
+              <strong>John Doe</strong>
+              <small>XXXX 5678</small>
+            </div>
+            <button class="quick-transfer-btn" onclick="transferToRecipient('John Doe', 'XXXX 5678')">Transfer</button>
+          </div>
+          <div class="recipient-item">
+            <div class="recipient-avatar">JS</div>
+            <div class="recipient-info">
+              <strong>Jane Smith</strong>
+              <small>XXXX 4321</small>
+            </div>
+            <button class="quick-transfer-btn" onclick="transferToRecipient('Jane Smith', 'XXXX 4321')">Transfer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/tansfer.js"></script>
+</body>
+</html>

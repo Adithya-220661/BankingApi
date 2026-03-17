@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard – Mini NetBank</title>
+  <link rel="stylesheet" href="css/style1.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  
+  <div class="sidebar" id="sidebar">
+    <h2>🏦 Admin</h2>
+    <a href="dashboard.html" class="sidebar-link" data-icon="📈">
+      <span class="link-icon">📈</span>
+      <span class="link-text">User Dashboard</span>
+    </a>
+    <a href="transfer.html" class="sidebar-link" data-icon="💵">
+      <span class="link-icon">💵</span>
+      <span class="link-text">Transfer</span>
+    </a>
+    <a href="history.html" class="sidebar-link" data-icon="⏳">
+      <span class="link-icon">⏳</span>
+      <span class="link-text">Transactions</span>
+    </a>
+    <a href="admin.html" class="sidebar-link active" data-icon="🔐">
+      <span class="link-icon">🔐</span>
+      <span class="link-text">Admin</span>
+    </a>
+    <a href="index.html" class="sidebar-link" data-icon="🚪">
+      <span class="link-icon">🚪</span>
+      <span class="link-text">Logout</span>
+    </a>
+  </div>
+
+  <div class="main" id="main">
+    <header class="page-header">
+      <h1>Admin Panel</h1>
+      <button id="modeToggleAdmin">🌙 Dark Mode</button>
+    </header>
+
+    <section class="stats-cards">
+      <div class="stat-card">
+        <h3>👥 Total Users</h3>
+        <h1 id="totalUsers">0</h1>
+      </div>
+      <div class="stat-card">
+        <h3>💰 Total Balance</h3>
+        <h1 id="totalBalance">₹0</h1>
+      </div>
+      <div class="stat-card">
+        <h3>🟢 Active Sessions</h3>
+        <h1 id="activeSessions">0</h1>
+      </div>
+      <div class="stat-card">
+        <h3>📊 Today's Transactions</h3>
+        <h1 id="todayTransactions">0</h1>
+      </div>
+    </section>
+
+    <section class="quick-actions center">
+      <a href="#" class="action-btn" onclick="exportData()">📊 Export Report</a>
+      <a href="#" class="action-btn" onclick="addNewUser()">👤 Add User</a>
+      <a href="#" class="action-btn" onclick="systemSettings()">⚙️ Settings</a>
+    </section>
+
+    <section class="system-overview">
+      <h2>🖥️ System Overview</h2>
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="metric">
+            <span class="metric-value" id="systemUptime">99.9%</span>
+            <span class="metric-label">Uptime</span>
+          </div>
+          <div class="status-indicator online"></div>
+        </div>
+        <div class="overview-card">
+          <div class="metric">
+            <span class="metric-value" id="serverLoad">23%</span>
+            <span class="metric-label">Server Load</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 23%; background: linear-gradient(90deg, #10b981, #059669);"></div>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="metric">
+            <span class="metric-value" id="securityAlerts">0</span>
+            <span class="metric-label">Security Alerts</span>
+          </div>
+          <div class="status-indicator safe"></div>
+        </div>
+        <div class="overview-card">
+          <div class="metric">
+            <span class="metric-value" id="pendingApprovals">3</span>
+            <span class="metric-label">Pending Approvals</span>
+          </div>
+          <div class="notification-badge">!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts-grid">
+      <div class="chart-card">
+        <h3>Balance Distribution</h3>
+        <canvas id="balanceChart" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>User Status</h3>
+        <canvas id="statusChart" height="200"></canvas>
+      </div>
+    </section>
+
+    <section class="charts-grid">
+      <div class="chart-card full-width">
+        <h3>Transaction Trends (Last 7 Days)</h3>
+        <canvas id="trendsChart" height="100"></canvas>
+      </div>
+    </section>
+
+    <section class="user-table">
+      <h2>👥 Customer Accounts</h2>
+      <div class="table-container">
+        <table id="usersTable">
+          <thead>
+            <tr>
+              <th>👤 Name</th>
+              <th>📧 Email</th>
+              <th>💰 Balance</th>
+              <th>📊 Status</th>
+              <th>⚡ Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- user rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

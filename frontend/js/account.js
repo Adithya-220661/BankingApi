@@ -4,28 +4,31 @@
 let kycStream = null;
 let resendTimer = null;
 let resendSeconds = 30;
+let currentOTP = '';
 
 /**
- * SHARED HELPER — fills OTP boxes + shows OTP on page + copies to clipboard
+ * SHARED HELPER — stores OTP for clipboard
  */
-function fillOTPBoxes(otp) {
-    const otpString = otp.toString();
+function storeOTPForClipboard(otp) {
+    currentOTP = otp.toString();
+    navigator.clipboard.writeText(currentOTP)
+        .then(() => console.log('✅ OTP copied to clipboard:', currentOTP))
+        .catch(() => console.log('❌ Clipboard copy failed'));
+}
 
-    // Clear and fill OTP boxes
-    const boxes = document.querySelectorAll('.otp-box');
-    boxes.forEach(box => box.value = '');
-    otpString.split('').forEach((char, i) => {
-        if(boxes[i]) boxes[i].value = char;
-    });
-
-    // Show OTP on page
-    const otpDisplay = document.getElementById('otpDisplay');
-    if(otpDisplay){
-        otpDisplay.innerText = `Your OTP is: ${otpString} (testing only)`;
+/**
+ * 8. CAPTCHA GENERATOR — Step 4
+ */
+function generateCaptcha() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let captcha = "";
+    for(let i = 0; i < 5; i++){
+        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-
-    // Auto copy to clipboard
-    navigator.clipboard.writeText(otpString).catch(() => {});
+    const captchaEl = document.getElementById('captchaCode');
+    if(captchaEl){
+        captchaEl.innerText = captcha;
+    }
 }
 
 /**
@@ -57,6 +60,10 @@ function nextStep(stepNumber) {
         stopCamera();
     }
 
+    if (stepNumber === 4) {
+        setTimeout(() => generateCaptcha(), 100);
+    }
+
     if (stepNumber === 5) {
         generatePDFReview();
     }
@@ -82,19 +89,23 @@ async function handleSendOTP() {
         const data = await res.json();
 
         if(data.success){
-            // Show OTP wrapper
             document.getElementById('otpWrapper').classList.remove('hidden');
-            // Fill OTP boxes + show on page + copy to clipboard
-            fillOTPBoxes(data.otp_dev);
-            // Disable send button after OTP sent
+
+            if(data.otp_dev){
+                storeOTPForClipboard(data.otp_dev);
+            }
+
             const sendBtn = document.querySelector('.send-btn');
             if(sendBtn){
                 sendBtn.disabled = true;
                 sendBtn.style.opacity = '0.5';
-                sendBtn.innerText = 'OTP Sent';
+                sendBtn.innerText = 'OTP Sent ✅';
             }
+
+            alert('✅ OTP sent to your registered mobile number!');
+
         } else {
-            alert(data.message);
+            alert('❌ ' + data.message);
         }
     } catch(err) {
         alert('Backend not running! Start server first.');
@@ -131,7 +142,6 @@ async function verifyOTP() {
             nextStep(2);
         } else {
             alert('❌ ' + data.message);
-            // Clear OTP boxes on wrong OTP
             boxes.forEach(box => box.value = '');
             boxes[0].focus();
         }
@@ -166,10 +176,16 @@ async function resendOTP() {
         const data = await res.json();
 
         if(data.success){
-            // Use same shared function — fills boxes + shows on page + copies to clipboard
-            fillOTPBoxes(data.otp_dev);
+            const boxes = document.querySelectorAll('.otp-box');
+            boxes.forEach(box => box.value = '');
+            boxes[0].focus();
 
-            // Start 30 second countdown
+            if(data.otp_dev){
+                storeOTPForClipboard(data.otp_dev);
+            }
+
+            alert('✅ New OTP sent to your mobile number!');
+
             resendSeconds = 30;
             if(resendBtn) resendBtn.innerText = `Resend in ${resendSeconds}s`;
 
@@ -189,7 +205,7 @@ async function resendOTP() {
             }, 1000);
 
         } else {
-            alert(data.message);
+            alert('❌ ' + data.message);
             if(resendBtn){
                 resendBtn.disabled = false;
                 resendBtn.style.opacity = '1';
@@ -213,7 +229,7 @@ async function pasteFromClipboard() {
         const numbers = text.trim().replace(/\D/g, '').slice(0, 6);
 
         if(numbers.length === 0){
-            alert('No OTP found in clipboard. OTP is auto copied — just click paste again.');
+            alert('No OTP found in clipboard. Please enter OTP manually.');
             return;
         }
 
@@ -224,6 +240,7 @@ async function pasteFromClipboard() {
         });
 
         boxes[Math.min(numbers.length - 1, 5)].focus();
+
     } catch (err) {
         alert("Please allow clipboard access in browser settings.");
     }
@@ -317,16 +334,16 @@ function stopCamera() {
  * 5. STEP 4: SECURITY VALIDATION
  */
 function validateSecurity() {
-    const user       = document.getElementById('username').value;
-    const pin        = document.getElementById('userPin').value;
-    const confirm    = document.getElementById('confirmPin').value;
-    const captcha    = document.getElementById('captchaInput').value;
+    const user        = document.getElementById('username').value;
+    const pin         = document.getElementById('userPin').value;
+    const confirm     = document.getElementById('confirmPin').value;
+    const captcha     = document.getElementById('captchaInput').value;
     const realCaptcha = document.getElementById('captchaCode').innerText;
 
-    if(user.length < 4)      { alert("Username too short"); return; }
-    if(pin !== confirm)       { alert("PINs do not match!"); return; }
-    if(pin.length < 4)        { alert("PIN must be 4 digits"); return; }
-    if(captcha !== realCaptcha){ alert("Invalid Captcha!"); return; }
+    if(user.length < 4)        { alert("Username too short"); return; }
+    if(pin !== confirm)         { alert("PINs do not match!"); return; }
+    if(pin.length < 4)          { alert("PIN must be 4 digits"); return; }
+    if(captcha !== realCaptcha) { alert("Invalid Captcha!"); return; }
 
     nextStep(5);
 }

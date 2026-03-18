@@ -130,10 +130,12 @@ try {
 if(adminForm){
 adminForm.addEventListener("submit", async function(e){
 e.preventDefault();
-
-const adminId  = document.querySelector('#adminLogin input[placeholder="Enter Admin ID"]').value;
+const adminId  = document.getElementById('adminId') ? document.getElementById('adminId').value 
+                 : document.querySelector('#adminLogin input[type="text"]').value;
 const password = document.querySelector('#adminLogin input[type="password"]').value;
-const bankId   = document.querySelector('#adminLogin input[placeholder="Enter OTP"]').value;
+const bankId   = document.querySelector('#adminLogin input[placeholder="Enter branch code"]').value;
+
+
 
 try {
   const res  = await fetch('http://localhost:5000/api/auth/admin-login', {
@@ -145,8 +147,12 @@ try {
 
   if(data.success){
     localStorage.setItem('token', data.token);
+    // ✅ Force save role as admin
+    const adminUser = { ...data.user, role: 'admin' };
+    localStorage.setItem('user', JSON.stringify(adminUser));
+    alert(`✅ Welcome, ${data.user.fullName}! Admin access granted.`);
     window.location.href = 'admin.html';
-  } else {
+} else {
   if(data.message === 'Invalid username or PIN.'){
     const confirm = window.confirm(
       'Account not found! Do you want to create a new account?'

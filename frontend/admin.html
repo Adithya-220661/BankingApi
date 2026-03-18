@@ -2,14 +2,205 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard – Mini NetBank</title>
-  <link rel="stylesheet" href="css/style1.css">
+  <title>Admin Dashboard – Horizon Bank</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent:  #3b82f6;
+      --success: #10b981;
+      --danger:  #ef4444;
+      --warning: #f59e0b;
+      --bg:      #f1f5f9;
+      --card:    #ffffff;
+      --text:    #1e293b;
+      --sub:     #64748b;
+      --border:  #e2e8f0;
+    }
+    body.dark-mode {
+      --bg:    #0f172a;
+      --card:  #1e293b;
+      --text:  #e2e8f0;
+      --sub:   #94a3b8;
+      --border:#334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; transition: background 0.3s; }
+
+    .topnav {
+      background: var(--primary);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .topnav-brand { color: #fff; font-size: 20px; font-weight: 700; }
+    .topnav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .topnav-link {
+      color: rgba(255,255,255,0.8); text-decoration: none;
+      padding: 7px 14px; border-radius: 8px; font-size: 13px; transition: 0.2s;
+    }
+    .topnav-link:hover, .topnav-link.active { background: rgba(255,255,255,0.15); color: #fff; }
+    .topnav-link.logout { background: var(--danger); color: #fff; }
+    .topnav-link.logout:hover { background: #dc2626; }
+
+    .main { padding: 24px; min-height: 100vh; width: 100%; }
+
+    .page-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 10px;
+    }
+    .page-header h1 { font-size: 24px; font-weight: 700; }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+
+    .btn {
+      padding: 9px 18px; border: none; border-radius: 8px;
+      cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { background: #059669; }
+    .btn-danger  { background: var(--danger);  color: #fff; }
+    .btn-danger:hover  { background: #dc2626; }
+    .btn-dark { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--card); border-radius: 12px;
+      padding: 20px; border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .stat-card.blue   { border-left: 4px solid #3b82f6; }
+    .stat-card.green  { border-left: 4px solid #10b981; }
+    .stat-card.red    { border-left: 4px solid #ef4444; }
+    .stat-card.yellow { border-left: 4px solid #f59e0b; }
+    .stat-card.purple { border-left: 4px solid #8b5cf6; }
+    .stat-card.teal   { border-left: 4px solid #06b6d4; }
+    .stat-card .icon  { font-size: 28px; margin-bottom: 8px; }
+    .stat-card .label { font-size: 11px; color: var(--sub); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card .value { font-size: 18px; font-weight: 700; color: var(--text); word-break: break-word; }
+
+    .charts-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px; margin-bottom: 24px;
+    }
+    .chart-card {
+      background: var(--card); border-radius: 12px;
+      padding: 20px; border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .chart-card.full { grid-column: 1 / -1; }
+    .chart-card h3 { font-size: 13px; color: var(--sub); margin-bottom: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 9px 20px; border: 1px solid var(--border);
+      background: var(--card); color: var(--sub);
+      border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;
+    }
+    .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .search-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .search-bar input, .search-bar select {
+      flex: 1; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: 13px; background: var(--card); color: var(--text); outline: none;
+      min-width: 200px;
+    }
+    .search-bar input:focus, .search-bar select:focus { border-color: var(--accent); }
+
+    .table-card {
+      background: var(--card); border-radius: 12px;
+      padding: 20px; border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 24px; overflow-x: auto;
+    }
+    .table-card h2 { font-size: 16px; margin-bottom: 16px; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    th {
+      text-align: left; padding: 12px;
+      font-size: 11px; color: var(--sub);
+      border-bottom: 2px solid var(--border);
+      text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+    }
+    td { padding: 12px; font-size: 13px; border-bottom: 1px solid var(--border); color: var(--text); }
+    tr:hover td { background: rgba(59,130,246,0.04); }
+    tr:last-child td { border-bottom: none; }
+
+    .badge {
+      display: inline-block; padding: 3px 10px;
+      border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap;
+    }
+    .badge-active            { background: #d1fae5; color: #065f46; }
+    .badge-locked            { background: #fee2e2; color: #991b1b; }
+    .badge-deposit           { background: #d1fae5; color: #065f46; }
+    .badge-withdrawal        { background: #fee2e2; color: #991b1b; }
+    .badge-transfer_sent     { background: #fef3c7; color: #92400e; }
+    .badge-transfer_received { background: #dbeafe; color: #1e40af; }
+    .badge-success           { background: #d1fae5; color: #065f46; }
+    .badge-failed            { background: #fee2e2; color: #991b1b; }
+
+    .modal-overlay {
+      display: none; position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 500;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--card); border-radius: 16px;
+      padding: 28px; width: 90%; max-width: 640px;
+      max-height: 85vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 20px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .modal-header h2 { font-size: 18px; }
+    .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--sub); }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .modal-item label { font-size: 11px; color: var(--sub); text-transform: uppercase; letter-spacing: 0.5px; }
+    .modal-item p { font-size: 14px; font-weight: 600; margin-top: 4px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+    .loading-div { text-align: center; padding: 80px; color: var(--sub); }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 4px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+
+    @media (max-width: 768px) {
+      .topnav-links { display: none; }
+      .main { padding: 16px; }
+      .modal-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-  
-  <div class="sidebar" id="sidebar">
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+
+<div class="sidebar" id="sidebar">
     <h2>🏦 Admin</h2>
     <a href="dashboard.html" class="sidebar-link" data-icon="📈">
       <span class="link-icon">📈</span>
@@ -31,115 +222,650 @@
       <span class="link-icon">🚪</span>
       <span class="link-text">Logout</span>
     </a>
+</div>
+
+<div class="main">
+
+  <div class="page-header">
+    <h1>🔐 Admin Dashboard</h1>
+    <div class="header-actions">
+      <button class="btn btn-primary" onclick="exportCSV()">📊 Export CSV</button>
+      <button class="btn btn-dark" id="modeToggle" onclick="toggleMode()">🌙 Dark</button>
+    </div>
   </div>
 
-  <div class="main" id="main">
-    <header class="page-header">
-      <h1>Admin Panel</h1>
-      <button id="modeToggleAdmin">🌙 Dark Mode</button>
-    </header>
+  <div id="loadingDiv" class="loading-div">
+    <div class="spinner"></div>
+    <p>Loading dashboard data...</p>
+  </div>
 
-    <section class="stats-cards">
-      <div class="stat-card">
-        <h3>👥 Total Users</h3>
-        <h1 id="totalUsers">0</h1>
-      </div>
-      <div class="stat-card">
-        <h3>💰 Total Balance</h3>
-        <h1 id="totalBalance">₹0</h1>
-      </div>
-      <div class="stat-card">
-        <h3>🟢 Active Sessions</h3>
-        <h1 id="activeSessions">0</h1>
-      </div>
-      <div class="stat-card">
-        <h3>📊 Today's Transactions</h3>
-        <h1 id="todayTransactions">0</h1>
-      </div>
-    </section>
+  <div id="dashboardContent" style="display:none;">
 
-    <section class="quick-actions center">
-      <a href="#" class="action-btn" onclick="exportData()">📊 Export Report</a>
-      <a href="#" class="action-btn" onclick="addNewUser()">👤 Add User</a>
-      <a href="#" class="action-btn" onclick="systemSettings()">⚙️ Settings</a>
-    </section>
-
-    <section class="system-overview">
-      <h2>🖥️ System Overview</h2>
-      <div class="overview-grid">
-        <div class="overview-card">
-          <div class="metric">
-            <span class="metric-value" id="systemUptime">99.9%</span>
-            <span class="metric-label">Uptime</span>
-          </div>
-          <div class="status-indicator online"></div>
-        </div>
-        <div class="overview-card">
-          <div class="metric">
-            <span class="metric-value" id="serverLoad">23%</span>
-            <span class="metric-label">Server Load</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 23%; background: linear-gradient(90deg, #10b981, #059669);"></div>
-          </div>
-        </div>
-        <div class="overview-card">
-          <div class="metric">
-            <span class="metric-value" id="securityAlerts">0</span>
-            <span class="metric-label">Security Alerts</span>
-          </div>
-          <div class="status-indicator safe"></div>
-        </div>
-        <div class="overview-card">
-          <div class="metric">
-            <span class="metric-value" id="pendingApprovals">3</span>
-            <span class="metric-label">Pending Approvals</span>
-          </div>
-          <div class="notification-badge">!</div>
-        </div>
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="icon">👥</div>
+        <div class="label">Total Users</div>
+        <div class="value" id="statTotalUsers">0</div>
       </div>
-    </section>
+      <div class="stat-card green">
+        <div class="icon">🏦</div>
+        <div class="label">Total Bank Balance</div>
+        <div class="value" id="statTotalBalance">₹0</div>
+      </div>
+      <div class="stat-card green">
+        <div class="icon">📥</div>
+        <div class="label">Total Deposits</div>
+        <div class="value" id="statDeposits">₹0</div>
+      </div>
+      <div class="stat-card red">
+        <div class="icon">📤</div>
+        <div class="label">Total Withdrawals</div>
+        <div class="value" id="statWithdrawals">₹0</div>
+      </div>
+      <div class="stat-card yellow">
+        <div class="icon">🔄</div>
+        <div class="label">Total Transfers</div>
+        <div class="value" id="statTransfers">₹0</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="icon">📊</div>
+        <div class="label">Today's Transactions</div>
+        <div class="value" id="statTodayTx">0</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="icon">🟢</div>
+        <div class="label">Active Users</div>
+        <div class="value" id="statActiveUsers">0</div>
+      </div>
+      <div class="stat-card red">
+        <div class="icon">🔒</div>
+        <div class="label">Locked Users</div>
+        <div class="value" id="statLockedUsers">0</div>
+      </div>
+    </div>
 
-    <!-- Charts Section -->
-    <section class="charts-grid">
+    <div class="charts-row">
       <div class="chart-card">
-        <h3>Balance Distribution</h3>
-        <canvas id="balanceChart" height="200"></canvas>
+        <h3>💰 Balance Distribution</h3>
+        <canvas id="balanceChart"></canvas>
       </div>
       <div class="chart-card">
-        <h3>User Status</h3>
-        <canvas id="statusChart" height="200"></canvas>
+        <h3>👥 User Status</h3>
+        <canvas id="statusChart"></canvas>
       </div>
-    </section>
-
-    <section class="charts-grid">
-      <div class="chart-card full-width">
-        <h3>Transaction Trends (Last 7 Days)</h3>
-        <canvas id="trendsChart" height="100"></canvas>
+      <div class="chart-card">
+        <h3>💳 Transaction Types</h3>
+        <canvas id="txTypeChart"></canvas>
       </div>
-    </section>
+    </div>
 
-    <section class="user-table">
+    <div class="charts-row">
+      <div class="chart-card full">
+        <h3>📈 Deposits vs Withdrawals vs Transfers — Last 7 Days</h3>
+        <canvas id="trendsChart" height="80"></canvas>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card full">
+        <h3>📅 Monthly User Registrations — Last 6 Months</h3>
+        <canvas id="regChart" height="80"></canvas>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button class="btn btn-primary" onclick="switchTab('users')">👥 Manage Users</button>
+      <button class="btn btn-success" onclick="switchTab('transactions')">💳 All Transactions</button>
+      <button class="btn btn-dark" onclick="exportCSV()">📊 Export CSV</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-users" onclick="switchTab('users')">👥 Users</button>
+      <button class="tab-btn" id="tab-transactions" onclick="switchTab('transactions')">💳 Transactions</button>
+    </div>
+
+    <div id="usersSection" class="table-card">
       <h2>👥 Customer Accounts</h2>
-      <div class="table-container">
-        <table id="usersTable">
-          <thead>
-            <tr>
-              <th>👤 Name</th>
-              <th>📧 Email</th>
-              <th>💰 Balance</th>
-              <th>📊 Status</th>
-              <th>⚡ Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- user rows will be inserted here -->
-          </tbody>
-        </table>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="🔍 Search by name, email, phone, account number..." oninput="searchUsers()">
+        <button class="btn btn-dark" onclick="clearSearch()">✖ Clear</button>
       </div>
-    </section>
-  </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Account No</th>
+            <th>Balance</th>
+            <th>KYC</th>
+            <th>Joined</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <tr><td colspan="9" style="text-align:center;padding:20px;color:#64748b;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-  <script src="js/admin.js"></script>
+    <div id="transactionsSection" class="table-card" style="display:none;">
+      <h2>💳 All Transactions</h2>
+      <div class="search-bar">
+        <select id="txTypeFilter" onchange="filterTransactions()">
+          <option value="">All Types</option>
+          <option value="deposit">📥 Deposits</option>
+          <option value="withdrawal">📤 Withdrawals</option>
+          <option value="transfer_sent">➡️ Transfer Sent</option>
+          <option value="transfer_received">⬅️ Transfer Received</option>
+        </select>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>User</th>
+            <th>Account No</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Balance Before</th>
+            <th>Balance After</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="txTableBody">
+          <tr><td colspan="9" style="text-align:center;padding:20px;color:#64748b;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">👤 User Details</h2>
+      <button class="modal-close" onclick="closeModal()">✖</button>
+    </div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const API    = 'http://localhost:5000/api';
+let allUsers = [];
+let allTx    = [];
+let charts   = {};
+
+function getToken() { return localStorage.getItem('token'); }
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = 'index.html';
+}
+
+function toggleMode() {
+  document.body.classList.toggle('dark-mode');
+  const dark = document.body.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', dark);
+  document.getElementById('modeToggle').textContent = dark ? '☀️ Light' : '🌙 Dark';
+  updateChartThemes();
+}
+
+function restoreMode() {
+  if(localStorage.getItem('darkMode') === 'true'){
+    document.body.classList.add('dark-mode');
+    document.getElementById('modeToggle').textContent = '☀️ Light';
+  }
+}
+
+function fmt(n) {
+  const num = Number(n);
+  if(num >= 10000000) return '₹' + (num/10000000).toFixed(2) + ' Cr';
+  if(num >= 100000)   return '₹' + (num/100000).toFixed(2) + ' L';
+  if(num >= 1000)     return '₹' + (num/1000).toFixed(1) + ' K';
+  return '₹' + num.toLocaleString('en-IN');
+}
+
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('en-IN', {
+    day:'2-digit', month:'short', year:'numeric',
+    hour:'2-digit', minute:'2-digit'
+  });
+}
+
+function fmtType(t) {
+  const map = {
+    deposit:           '📥 Deposit',
+    withdrawal:        '📤 Withdrawal',
+    transfer_sent:     '➡️ Transfer Sent',
+    transfer_received: '⬅️ Transfer Received',
+  };
+  return map[t] || t;
+}
+
+function getColors() {
+  const dark = document.body.classList.contains('dark-mode');
+  return {
+    text: dark ? '#e2e8f0' : '#1e293b',
+    grid: dark ? '#334155' : '#e2e8f0',
+    bg:   dark ? '#1e293b' : '#ffffff',
+  };
+}
+
+async function loadAdminData() {
+  const token = getToken();
+  if(!token){ window.location.href = 'index.html'; return; }
+
+  try {
+    const [statsRes, usersRes, txRes] = await Promise.all([
+      fetch(`${API}/admin/stats`,        { headers: { Authorization: `Bearer ${token}` } }),
+      fetch(`${API}/admin/users`,        { headers: { Authorization: `Bearer ${token}` } }),
+      fetch(`${API}/admin/transactions`, { headers: { Authorization: `Bearer ${token}` } }),
+    ]);
+
+    const [statsData, usersData, txData] = await Promise.all([
+      statsRes.json(), usersRes.json(), txRes.json()
+    ]);
+
+    if(!statsData.success){
+      alert('❌ Admin access required!');
+      window.location.href = 'index.html';
+      return;
+    }
+
+    allUsers = usersData.success ? usersData.users : [];
+    allTx    = txData.success    ? txData.transactions : [];
+
+    populateStats(statsData.stats);
+    buildCharts(statsData.stats, allUsers, allTx);
+    renderUsersTable(allUsers);
+    renderTxTable(allTx);
+
+    document.getElementById('loadingDiv').style.display       = 'none';
+    document.getElementById('dashboardContent').style.display = 'block';
+
+  } catch(err) {
+    document.getElementById('loadingDiv').innerHTML =
+      '<p style="color:red;font-size:16px;">❌ Cannot connect to server.<br>Make sure backend is running on port 5000!</p>';
+  }
+}
+
+function populateStats(s) {
+  document.getElementById('statTotalUsers').textContent   = s.totalUsers;
+  document.getElementById('statTotalBalance').textContent = fmt(s.totalBalance);
+  document.getElementById('statDeposits').textContent     = fmt(s.totalDeposits);
+  document.getElementById('statWithdrawals').textContent  = fmt(s.totalWithdrawals);
+  document.getElementById('statTransfers').textContent    = fmt(s.totalTransfers);
+  document.getElementById('statTodayTx').textContent      = s.todayTransactions;
+  document.getElementById('statActiveUsers').textContent  = s.activeUsers;
+  document.getElementById('statLockedUsers').textContent  = s.lockedUsers;
+}
+
+function buildCharts(stats, users, tx) {
+  const c = getColors();
+
+  if(charts.balance) charts.balance.destroy();
+  const topUsers = [...users].sort((a,b) => b.balance - a.balance).slice(0, 8);
+  charts.balance = new Chart(document.getElementById('balanceChart'), {
+    type: 'doughnut',
+    data: {
+      labels: topUsers.map(u => u.fullName),
+      datasets: [{
+        data: topUsers.map(u => u.balance),
+        backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#84cc16'],
+        borderColor: c.bg, borderWidth: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: c.text, font: { size: 11 } } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${fmt(ctx.raw)}` } }
+      }
+    }
+  });
+
+  if(charts.status) charts.status.destroy();
+  charts.status = new Chart(document.getElementById('statusChart'), {
+    type: 'pie',
+    data: {
+      labels: ['Active', 'Locked'],
+      datasets: [{
+        data: [stats.activeUsers, stats.lockedUsers],
+        backgroundColor: ['#10b981', '#ef4444'],
+        borderColor: c.bg, borderWidth: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: c.text } } }
+    }
+  });
+
+  const txCounts = { deposit: 0, withdrawal: 0, transfer_sent: 0, transfer_received: 0 };
+  tx.forEach(t => { if(txCounts[t.type] !== undefined) txCounts[t.type]++; });
+
+  if(charts.txType) charts.txType.destroy();
+  charts.txType = new Chart(document.getElementById('txTypeChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Deposits', 'Withdrawals', 'Transfer Sent', 'Transfer Recv'],
+      datasets: [{
+        label: 'Count',
+        data: Object.values(txCounts),
+        backgroundColor: ['#10b981', '#ef4444', '#f59e0b', '#3b82f6'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: c.text } } },
+      scales: {
+        x: { ticks: { color: c.text }, grid: { color: c.grid } },
+        y: { ticks: { color: c.text }, grid: { color: c.grid }, beginAtZero: true }
+      }
+    }
+  });
+
+  if(charts.trends) charts.trends.destroy();
+  charts.trends = new Chart(document.getElementById('trendsChart'), {
+    type: 'line',
+    data: {
+      labels: stats.trends.map(t => t.day),
+      datasets: [
+        {
+          label: 'Deposits (₹)',
+          data: stats.trends.map(t => t.deposits),
+          borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)',
+          borderWidth: 3, fill: true, tension: 0.4,
+          pointRadius: 5, pointBackgroundColor: '#10b981',
+        },
+        {
+          label: 'Withdrawals (₹)',
+          data: stats.trends.map(t => t.withdrawals),
+          borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)',
+          borderWidth: 3, fill: true, tension: 0.4,
+          pointRadius: 5, pointBackgroundColor: '#ef4444',
+        },
+        {
+          label: 'Transfers (₹)',
+          data: stats.trends.map(t => t.transfers),
+          borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)',
+          borderWidth: 3, fill: true, tension: 0.4,
+          pointRadius: 5, pointBackgroundColor: '#f59e0b',
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { labels: { color: c.text } } },
+      scales: {
+        x: { ticks: { color: c.text }, grid: { color: c.grid } },
+        y: {
+          ticks: {
+            color: c.text,
+            callback: v => v >= 100000 ? '₹'+(v/100000).toFixed(1)+'L' : '₹'+v.toLocaleString()
+          },
+          grid: { color: c.grid }, beginAtZero: true
+        }
+      }
+    }
+  });
+
+  if(charts.reg) charts.reg.destroy();
+  charts.reg = new Chart(document.getElementById('regChart'), {
+    type: 'bar',
+    data: {
+      labels: stats.monthlyReg.map(m => m.month),
+      datasets: [{
+        label: 'New Users Registered',
+        data: stats.monthlyReg.map(m => m.count),
+        backgroundColor: '#3b82f6',
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: c.text } } },
+      scales: {
+        x: { ticks: { color: c.text }, grid: { color: c.grid } },
+        y: { ticks: { color: c.text }, grid: { color: c.grid }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function updateChartThemes() {
+  const c = getColors();
+  Object.values(charts).forEach(chart => {
+    if(!chart) return;
+    if(chart.options.plugins?.legend?.labels) chart.options.plugins.legend.labels.color = c.text;
+    if(chart.options.scales) {
+      Object.values(chart.options.scales).forEach(scale => {
+        if(scale.ticks) scale.ticks.color = c.text;
+        if(scale.grid)  scale.grid.color  = c.grid;
+      });
+    }
+    chart.update();
+  });
+}
+
+function renderUsersTable(users) {
+  const tbody = document.getElementById('usersTableBody');
+  if(!users.length){
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:20px;color:#64748b;">No users found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = users.map(u => `
+    <tr>
+      <td><strong>${u.fullName}</strong><br><small style="color:#64748b">@${u.username}</small></td>
+      <td>${u.email}</td>
+      <td>${u.phone}</td>
+      <td><code>${u.accountNumber}</code></td>
+      <td><strong style="color:#10b981">${fmt(u.balance)}</strong></td>
+      <td>${u.kycVerified ? '✅ Yes' : '❌ No'}</td>
+      <td style="white-space:nowrap">${new Date(u.createdAt).toLocaleDateString('en-IN')}</td>
+      <td><span class="badge ${u.isActive ? 'badge-active' : 'badge-locked'}">${u.isActive ? 'Active' : 'Locked'}</span></td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-primary btn-sm" onclick="viewUser('${u._id}')">👁 View</button>
+        <button class="btn ${u.isActive ? 'btn-danger' : 'btn-success'} btn-sm" onclick="toggleLock('${u._id}', ${u.isActive})">
+          ${u.isActive ? '🔒 Lock' : '🔓 Unlock'}
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderTxTable(txList) {
+  const tbody = document.getElementById('txTableBody');
+  if(!txList.length){
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:20px;color:#64748b;">No transactions found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = txList.map(t => `
+    <tr>
+      <td style="white-space:nowrap">${fmtDate(t.createdAt)}</td>
+      <td><strong>${t.userId?.fullName || 'N/A'}</strong></td>
+      <td><code>${t.userId?.accountNumber || 'N/A'}</code></td>
+      <td><span class="badge badge-${t.type}">${fmtType(t.type)}</span></td>
+      <td><strong style="color:${['deposit','transfer_received'].includes(t.type) ? '#10b981' : '#ef4444'}">${fmt(t.amount)}</strong></td>
+      <td>${fmt(t.balanceBefore)}</td>
+      <td>${fmt(t.balanceAfter)}</td>
+      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.description || '-'}</td>
+      <td><span class="badge badge-${t.status}">${t.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function searchUsers() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = allUsers.filter(u =>
+    u.fullName.toLowerCase().includes(q) ||
+    u.email.toLowerCase().includes(q) ||
+    u.phone.includes(q) ||
+    u.accountNumber.toLowerCase().includes(q) ||
+    u.username.toLowerCase().includes(q)
+  );
+  renderUsersTable(filtered);
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  renderUsersTable(allUsers);
+}
+
+function filterTransactions() {
+  const type     = document.getElementById('txTypeFilter').value;
+  const filtered = type ? allTx.filter(t => t.type === type) : allTx;
+  renderTxTable(filtered);
+}
+
+async function viewUser(userId) {
+  const token = getToken();
+  try {
+    const [userRes, txRes] = await Promise.all([
+      fetch(`${API}/admin/users/${userId}`,              { headers: { Authorization: `Bearer ${token}` } }),
+      fetch(`${API}/admin/users/${userId}/transactions`, { headers: { Authorization: `Bearer ${token}` } }),
+    ]);
+    const [userData, txData] = await Promise.all([userRes.json(), txRes.json()]);
+    if(!userData.success){ alert('Failed to load user.'); return; }
+
+    const u  = userData.user;
+    const tx = txData.success ? txData.transactions : [];
+
+    document.getElementById('modalTitle').textContent = `👤 ${u.fullName}`;
+    document.getElementById('modalContent').innerHTML = `
+      <div class="modal-grid">
+        <div class="modal-item"><label>Full Name</label><p>${u.fullName}</p></div>
+        <div class="modal-item"><label>Username</label><p>@${u.username}</p></div>
+        <div class="modal-item"><label>Email</label><p>${u.email}</p></div>
+        <div class="modal-item"><label>Phone</label><p>${u.phone}</p></div>
+        <div class="modal-item"><label>Account Number</label><p>${u.accountNumber}</p></div>
+        <div class="modal-item"><label>Balance</label><p style="color:#10b981;font-size:18px">${fmt(u.balance)}</p></div>
+        <div class="modal-item"><label>PAN</label><p>${u.pan}</p></div>
+        <div class="modal-item"><label>Aadhaar</label><p>XXXX-XXXX-${u.aadhaar?.slice(-4)}</p></div>
+        <div class="modal-item"><label>Gender</label><p>${u.gender}</p></div>
+        <div class="modal-item"><label>KYC</label><p>${u.kycVerified ? '✅ Verified' : '❌ Not Verified'}</p></div>
+        <div class="modal-item"><label>Status</label><p><span class="badge ${u.isActive ? 'badge-active' : 'badge-locked'}">${u.isActive ? 'Active' : 'Locked'}</span></p></div>
+        <div class="modal-item"><label>Joined</label><p>${new Date(u.createdAt).toLocaleDateString('en-IN')}</p></div>
+        <div class="modal-item"><label>City</label><p>${u.address?.city || '-'}</p></div>
+        <div class="modal-item"><label>State</label><p>${u.address?.state || '-'}</p></div>
+        <div class="modal-item"><label>Branch Code</label><p>${u.branchCode || '-'}</p></div>
+        <div class="modal-item"><label>Nominee</label><p>${u.nominee || '-'}</p></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn ${u.isActive ? 'btn-danger' : 'btn-success'}" onclick="toggleLock('${u._id}', ${u.isActive}); closeModal();">
+          ${u.isActive ? '🔒 Lock Account' : '🔓 Unlock Account'}
+        </button>
+      </div>
+      <h3 style="margin:20px 0 12px;font-size:14px;color:var(--sub);">RECENT TRANSACTIONS</h3>
+      ${tx.length === 0
+        ? '<p style="color:#64748b;text-align:center;padding:20px;">No transactions yet</p>'
+        : `<table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:8px;font-size:11px;color:#64748b;border-bottom:1px solid var(--border)">Date</th>
+                <th style="text-align:left;padding:8px;font-size:11px;color:#64748b;border-bottom:1px solid var(--border)">Type</th>
+                <th style="text-align:left;padding:8px;font-size:11px;color:#64748b;border-bottom:1px solid var(--border)">Amount</th>
+                <th style="text-align:left;padding:8px;font-size:11px;color:#64748b;border-bottom:1px solid var(--border)">Balance After</th>
+                <th style="text-align:left;padding:8px;font-size:11px;color:#64748b;border-bottom:1px solid var(--border)">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tx.map(t => `
+                <tr>
+                  <td style="padding:8px;font-size:12px;border-bottom:1px solid var(--border)">${new Date(t.createdAt).toLocaleDateString('en-IN')}</td>
+                  <td style="padding:8px;font-size:12px;border-bottom:1px solid var(--border)"><span class="badge badge-${t.type}">${fmtType(t.type)}</span></td>
+                  <td style="padding:8px;font-size:12px;border-bottom:1px solid var(--border);font-weight:700;color:${['deposit','transfer_received'].includes(t.type)?'#10b981':'#ef4444'}">${fmt(t.amount)}</td>
+                  <td style="padding:8px;font-size:12px;border-bottom:1px solid var(--border)">${fmt(t.balanceAfter)}</td>
+                  <td style="padding:8px;font-size:12px;border-bottom:1px solid var(--border)"><span class="badge badge-${t.status}">${t.status}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>`
+      }
+    `;
+    document.getElementById('userModal').classList.add('open');
+  } catch(err) {
+    alert('Cannot connect to server.');
+  }
+}
+
+function closeModal() {
+  document.getElementById('userModal').classList.remove('open');
+}
+
+async function toggleLock(userId, isActive) {
+  const token  = getToken();
+  const action = isActive ? 'lock' : 'unlock';
+  if(!confirm(`Are you sure you want to ${action} this account?`)) return;
+  try {
+    const res  = await fetch(`${API}/admin/users/${userId}/lock`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if(data.success){
+      alert(`✅ Account ${action}ed successfully!`);
+      loadAdminData();
+    } else {
+      alert('❌ Failed: ' + data.message);
+    }
+  } catch(err) {
+    alert('Cannot connect to server.');
+  }
+}
+
+function switchTab(tab) {
+  document.getElementById('usersSection').style.display        = tab === 'users'        ? 'block' : 'none';
+  document.getElementById('transactionsSection').style.display = tab === 'transactions' ? 'block' : 'none';
+  document.getElementById('tab-users').classList.toggle('active',        tab === 'users');
+  document.getElementById('tab-transactions').classList.toggle('active', tab === 'transactions');
+}
+
+function exportCSV() {
+  if(!allUsers.length){ alert('No data to export.'); return; }
+  let csv = 'Name,Email,Phone,Account Number,Balance,KYC,Status,Joined\n';
+  allUsers.forEach(u => {
+    csv += `"${u.fullName}","${u.email}","${u.phone}","${u.accountNumber}","${u.balance}","${u.kycVerified?'Yes':'No'}","${u.isActive?'Active':'Locked'}","${new Date(u.createdAt).toLocaleDateString()}"\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href  = URL.createObjectURL(blob);
+  link.download = `horizon_bank_users_${new Date().toISOString().split('T')[0]}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  alert('✅ CSV exported!');
+}
+
+document.getElementById('userModal').addEventListener('click', function(e) {
+  if(e.target === this) closeModal();
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const token = getToken();
+  const user  = JSON.parse(localStorage.getItem('user') || '{}');
+  if(!token){ window.location.href = 'index.html'; return; }
+ if(!token){
+    window.location.href = 'index.html';
+    return;
+}
+// Check role — skip if role not set yet
+if(user.role && user.role !== 'admin'){
+    alert('❌ Access Denied! Admin only area.');
+    window.location.href = 'dashboard.html';
+    return;
+}
+  restoreMode();
+  loadAdminData();
+});
+</script>
 </body>
 </html>

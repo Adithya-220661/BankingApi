@@ -3,20 +3,23 @@ const OtpSession = require('../models/OtpSession');
 const generateToken = require('../utils/generateToken');
 const axios      = require('axios');
 
-// Fast2SMS sender helper
+// ════════════════════════════════════════════════════════════
+//  TWILIO SMS SENDER — generates OUR OTP, sends via Twilio SMS
+// ════════════════════════════════════════════════════════════
 const sendSMS = async (phone, otp) => {
   try {
-    await axios.get('https://www.fast2sms.com/dev/bulkV2', {
-      params: {
-        authorization: process.env.FAST2SMS_API_KEY,
-        variables_values: otp,
-        route: 'otp',
-        numbers: phone,
-      }
+    const client = require('twilio')(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    );
+    await client.messages.create({
+      body: `Your Horizon Bank OTP is: ${otp}. Valid for 5 minutes. Do not share with anyone.`,
+      from: process.env.TWILIO_PHONE,
+      to: `+91${phone}`
     });
-    console.log(`✅ OTP sent to ${phone}: ${otp}`);
+    console.log(`✅ OTP SMS sent to ${phone}: ${otp}`);
   } catch(err) {
-    console.log('❌ Fast2SMS Error:', err.message);
+    console.log('❌ Twilio SMS Error:', err.message);
   }
 };
 
@@ -42,20 +45,20 @@ const sendOtp = async (req, res) => {
     // Generate 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Save OTP session
+    // Save OTP session in database
     await OtpSession.findOneAndUpdate(
       { phone },
       { otp, createdAt: new Date() },
       { upsert: true, returnDocument: 'after' }
     );
 
-    // Send real OTP via Fast2SMS
+    // Send OTP via Twilio SMS
     await sendSMS(phone, otp);
 
     res.status(200).json({
       success: true,
       message: 'OTP sent to your phone number.',
-      otp_dev: otp, // remove this line in production
+      otp_dev: otp, // remove in production
     });
 
   } catch (err) {
@@ -63,7 +66,7 @@ const sendOtp = async (req, res) => {
   }
 };
 
-// STEP 1 — Verify OTP
+// STEP 1 — Verify OTP (checks against database)
 // POST /api/auth/verify-otp
 // Body: { phone, otp }
 const verifyOtp = async (req, res) => {
@@ -73,6 +76,7 @@ const verifyOtp = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Phone and OTP are required.' });
     }
 
+    // Verify against database
     const session = await OtpSession.findOne({ phone });
     if (!session) {
       return res.status(400).json({ success: false, message: 'OTP expired or not sent. Please resend.' });
@@ -90,9 +94,8 @@ const verifyOtp = async (req, res) => {
   }
 };
 
-// STEPS 2–5 — Complete Registration (final submit)
+// STEPS 2-5 — Complete Registration
 // POST /api/auth/register
-// Body: all form fields from steps 2-4
 const register = async (req, res) => {
   try {
     const {
@@ -102,7 +105,6 @@ const register = async (req, res) => {
       username, pin,
     } = req.body;
 
-    // Validate required fields
     if (!phone || !fullName || !email || !pan || !aadhaar || !gender || !username || !pin) {
       return res.status(400).json({ success: false, message: 'All required fields must be filled.' });
     }
@@ -116,7 +118,6 @@ const register = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Aadhaar must be 12 digits.' });
     }
 
-    // Check for duplicates
     const emailExists    = await User.findOne({ email });
     const usernameExists = await User.findOne({ username });
     const panExists      = await User.findOne({ pan: pan.toUpperCase() });
@@ -127,15 +128,14 @@ const register = async (req, res) => {
     if (panExists)      return res.status(409).json({ success: false, message: 'PAN already registered.' });
     if (phoneExists)    return res.status(409).json({ success: false, message: 'Phone already registered.' });
 
-    // Create user
     const user = new User({
-    phone, fullName, email,
-    pan: pan.toUpperCase(),
-    aadhaar, gender,
-    address: { doorNo, village, city, state },
-    branchCode, nominee,
-    kycVerified: kycVerified || false,
-    username, pin,
+      phone, fullName, email,
+      pan: pan.toUpperCase(),
+      aadhaar, gender,
+      address: { doorNo, village, city, state },
+      branchCode, nominee,
+      kycVerified: kycVerified || false,
+      username, pin,
     });
     await user.save();
 
@@ -158,15 +158,12 @@ const register = async (req, res) => {
   } catch (err) {
     console.log('REGISTER ERROR:', err.message);
     res.status(500).json({ success: false, message: err.message });
-}
+  }
 };
 
 // ════════════════════════════════════════════════════════════
-//  USER LOGIN — matches your loginModal "User" tab
+//  USER LOGIN
 // ════════════════════════════════════════════════════════════
-
-// POST /api/auth/login
-// Body: { username, pin }
 const userLogin = async (req, res) => {
   try {
     const { username, pin } = req.body;
@@ -174,7 +171,6 @@ const userLogin = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Username and PIN are required.' });
     }
 
-    // Find user and include pin field
     const user = await User.findOne({ username }).select('+pin');
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid username or PIN.' });
@@ -212,11 +208,8 @@ const userLogin = async (req, res) => {
 };
 
 // ════════════════════════════════════════════════════════════
-//  ADMIN LOGIN — matches your loginModal "Admin" tab
+//  ADMIN LOGIN
 // ════════════════════════════════════════════════════════════
-
-// POST /api/auth/admin-login
-// Body: { adminId, password, bankId }
 const adminLogin = async (req, res) => {
   try {
     const { adminId, password, bankId } = req.body;
@@ -224,12 +217,10 @@ const adminLogin = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Admin ID, Password, and Bank ID are required.' });
     }
 
-    // Validate the bank-level secret key (your "Bank ID" field in admin form)
     if (bankId !== process.env.ADMIN_SECRET_KEY) {
       return res.status(403).json({ success: false, message: 'Invalid Bank ID.' });
     }
 
-    // Find admin user by username (adminId field)
     const admin = await User.findOne({ username: adminId, role: 'admin' }).select('+pin');
     if (!admin) {
       return res.status(401).json({ success: false, message: 'Invalid Admin credentials.' });
@@ -259,7 +250,7 @@ const adminLogin = async (req, res) => {
   }
 };
 
-// GET /api/auth/me — get current logged-in user profile
+// GET /api/auth/me
 const getMe = async (req, res) => {
   try {
     const user = req.user;
@@ -286,7 +277,10 @@ const getMe = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error.', error: err.message });
   }
 };
-// ── FORGOT PIN ────────────────────────────────────────────────
+
+// ════════════════════════════════════════════════════════════
+//  FORGOT PIN
+// ════════════════════════════════════════════════════════════
 const forgotPin = async (req, res) => {
   try {
     const { phone } = req.body;
@@ -298,7 +292,6 @@ const forgotPin = async (req, res) => {
       });
     }
 
-    // Check if phone exists in database
     const user = await User.findOne({ phone });
     if(!user){
       return res.status(404).json({
@@ -310,20 +303,20 @@ const forgotPin = async (req, res) => {
     // Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Save OTP session
+    // Save OTP session in database
     await OtpSession.findOneAndUpdate(
       { phone },
       { otp, createdAt: new Date() },
       { upsert: true, returnDocument: 'after' }
     );
 
-    // Send real OTP via Fast2SMS
+    // Send OTP via Twilio SMS
     await sendSMS(phone, otp);
 
     res.status(200).json({
       success: true,
       message: 'OTP sent to your phone number.',
-      otp_dev: otp, // remove this line in production
+      otp_dev: otp, // remove in production
     });
 
   } catch(err) {
@@ -336,7 +329,9 @@ const forgotPin = async (req, res) => {
   }
 };
 
-// ── RESET PIN ─────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════
+//  RESET PIN — verifies against database
+// ════════════════════════════════════════════════════════════
 const resetPin = async (req, res) => {
   try {
     const { phone, otp, newPin } = req.body;
@@ -355,7 +350,7 @@ const resetPin = async (req, res) => {
       });
     }
 
-    // Verify OTP
+    // Verify OTP against database
     const session = await OtpSession.findOne({ phone });
     if(!session){
       return res.status(400).json({
@@ -382,7 +377,6 @@ const resetPin = async (req, res) => {
       });
     }
 
-    // Hash new PIN and save
     user.pin = newPin;
     await user.save();
 
@@ -401,4 +395,4 @@ const resetPin = async (req, res) => {
   }
 };
 
-module.exports = { sendOtp, verifyOtp, register, userLogin, adminLogin, getMe,forgotPin,resetPin  };
+module.exports = { sendOtp, verifyOtp, register, userLogin, adminLogin, getMe, forgotPin, resetPin };

@@ -60,29 +60,117 @@ document.addEventListener("DOMContentLoaded", function(){
 const customerForm = document.getElementById("customerLogin");
 const adminForm = document.getElementById("adminLogin");
 
-
 // CUSTOMER REDIRECT
 if(customerForm){
-customerForm.addEventListener("submit", function(e){
-
+customerForm.addEventListener("submit", async function(e){
 e.preventDefault();
 
-window.location.href = "dashboard.html";
+const username = document.getElementById('username').value.trim();
+const pin      = document.getElementById('password').value.trim();
+const captchaInput = document.getElementById('captchaInput').value.trim();
+const captchaText = document.getElementById('captchaText').innerText.trim();
+
+// Basic validation
+if(!username && !pin){
+  alert('⚠️ Please enter username and PIN.');
+  return;
+}
+if(!username){
+  alert('⚠️ Please enter your username.');
+  return;
+}
+if(!pin){
+  alert('⚠️ Please enter your PIN.');
+  return;
+}
+if(pin.length < 4){
+  alert('⚠️ PIN must be 4 digits.');
+  return;
+}
+
+if(captchaInput !== captchaText){
+    alert('❌ Invalid Captcha! Please try again.');
+    generateCaptcha('captchaText');
+    return;
+}
+
+try {
+  const res  = await fetch('http://localhost:5000/api/auth/login', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ username, pin })
+  });
+  const data = await res.json();
+
+  if(data.success){
+    // ✅ Found in database → go to dashboard
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    alert(`Welcome back, ${data.user.fullName}!`);
+    window.location.href = 'dashboard.html';
+
+  } else {
+    // ❌ Not found → show message
+    const goRegister = window.confirm(
+      '❌ ' + data.message + '\n\nDo you want to create a new account?'
+    );
+    if(goRegister){
+      window.location.href = 'registration.html';
+    }
+  }
+
+} catch(err) {
+  alert('❌ Cannot connect to server. Make sure backend is running on port 5000.');
+}
 
 });
 }
-
 
 // ADMIN REDIRECT
 if(adminForm){
-adminForm.addEventListener("submit", function(e){
-
+adminForm.addEventListener("submit", async function(e){
 e.preventDefault();
+const adminId  = document.getElementById('adminId') ? document.getElementById('adminId').value 
+                 : document.querySelector('#adminLogin input[type="text"]').value;
+const password = document.querySelector('#adminLogin input[type="password"]').value;
+const bankId   = document.querySelector('#adminLogin input[placeholder="Enter branch code"]').value;
 
-window.location.href = "admin.html";
+
+
+try {
+  const res  = await fetch('http://localhost:5000/api/auth/admin-login', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ adminId, password, bankId })
+  });
+  const data = await res.json();
+
+  if(data.success){
+    localStorage.setItem('token', data.token);
+    // ✅ Force save role as admin
+    const adminUser = { ...data.user, role: 'admin' };
+    localStorage.setItem('user', JSON.stringify(adminUser));
+    alert(`✅ Welcome, ${data.user.fullName}! Admin access granted.`);
+    window.location.href = 'admin.html';
+} else {
+  if(data.message === 'Invalid username or PIN.'){
+    const confirm = window.confirm(
+      'Account not found! Do you want to create a new account?'
+    );
+    if(confirm){
+      window.location.href = 'registration.html';
+    }
+  } else {
+    alert(data.message);
+  }
+}
+} catch(err) {
+  alert('Backend not running! Start server first.');
+}
 
 });
 }
+
 
 });
 
@@ -103,10 +191,8 @@ function generateCaptcha(targetId){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-
-generateCaptcha();
-generateCaptchaAdmin();
-
+    generateCaptcha("captchaText");
+    generateCaptcha("captchaText2");
 });
 
 // Card hover glow
@@ -129,6 +215,8 @@ card.style.transform="translateY(0)";
 window.onload = function() {
     document.getElementById("customerLogin").reset();
     document.getElementById("adminLogin").reset();
+    generateCaptcha("captchaText");
+    generateCaptcha("captchaText2");
 };
 
 function togglePassword() {

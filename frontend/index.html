@@ -395,17 +395,17 @@
     <label>Enter Username:</label>
     <div class="password-wrapper">
     
-    <input type="text" placeholder="Enter username" id="username">
+    <input type="text" placeholder="Enter username" id="username" required>
     </div>
     
 
     <label>Enter PIN:</label>
 
 <div class="password-wrapper">
-    <input type="password" id="password" placeholder="Enter PIN">
+    <input type="password" id="password" placeholder="Enter PIN" maxlength="4" required>
     <span class="toggle-eye" onclick="togglePassword()">🙈</span>
 </div>
-    <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin/Reset Password</a>
+    <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin</a>
     <br>
     <br>
 
@@ -432,7 +432,7 @@
             <form id="adminLogin" style="display:none;">
                 <div class="password-wrapper">
                 <label>Admin Bank ID:</label>
-                <input type="text" placeholder="Enter Admin ID">
+                <input type="text" placeholder="Enter Admin ID" id="adminId">
 </div>
    <label>Enter Admin Password:</label>
 

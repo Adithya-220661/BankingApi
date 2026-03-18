@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,11 +44,11 @@
             <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 4)">
             <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this, 5)">
         </div>
-        <div class="otp-actions">
+       <div class="otp-actions">
             <button type="button" onclick="pasteFromClipboard()" class="btn-link">Paste from Clipboard</button>
-            /<button type="button" class="btn-link">Resend Code</button>
+            <button type="button" class="btn-link" onclick="resendOTP()">Resend Code</button>
         </div>
-        <button type="button" class="next-btn btn-grad full-width" onclick="nextStep(2)">Verify & Continue</button>
+        <button type="button" class="next-btn btn-grad full-width" onclick="verifyOTP()">Verify & Continue</button>
     </div>
 </section>
 
@@ -167,7 +165,7 @@
             <button type="button" class="btn-prev" onclick="nextStep(2)">Previous</button>
             <button type="button" id="proceedBtn" class="btn-save-continue" onclick="nextStep(4)" disabled>Save & Continue</button>
         </div>
-    </div>
+    </div> 
 </section>
 <section class="form-step" id="step-4">
     <h2>Security Setup</h2>
@@ -182,6 +180,12 @@
             <input type="password" id="confirmPin" maxlength="4" placeholder="Confirm PIN" required>
         </div>
         
+
+        <div class="input-wrap full-line captcha-container">
+            <div id="captchaCode" class="captcha-box"></div>
+        <button type="button" onclick="generateCaptcha()">🔄</button>
+        <input type="text" id="captchaInput" placeholder="Enter Captcha">
+        </div>
        
 <label>Captcha</label>
 
@@ -190,12 +194,7 @@
 <button type="button" onclick="generateCaptcha()">🔄</button>
 <input type="text" id="captchaInput" placeholder="Enter Captcha">
 </div>
-    </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn-nav" onclick="nextStep(3)">Previous</button>
-        <button type="button" class="btn-nav btn-grad" onclick="validateSecurity()">Save & Continue</button>
-    </div>
 </section>
 
 <section class="form-step" id="step-5">

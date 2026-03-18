@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Complaints | Horizon Bank</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f5f7fb;
+}
+
+/* NAVBAR */
+.navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:15px 60px;
+align-items:center;
+}
+
+.logo img{
+height:50px;
+}
+
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+
+/* HERO */
+.hero{
+background:#002970;
+color:white;
+padding:30px 60px;
+text-align:center;
+}
+
+/* CONTAINER */
+.container{
+width:85%;
+margin:auto;
+padding:50px 0;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+/* CARD */
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.1);
+cursor:pointer;
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-10px) scale(1.03);
+}
+
+.card h3{
+color:#002970;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:white;
+padding:30px;
+border-radius:10px;
+width:400px;
+animation:popup 0.4s ease;
+}
+
+@keyframes popup{
+from{transform:scale(0.7);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 20px;
+background:#002970;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:5px;
+}
+
+.close{
+float:right;
+cursor:pointer;
+font-size:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<div class="logo">
+<img src="css/newbanklogo3.png">
+</div>
+
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="#">About</a>
+<a href="#">Support</a>
+<a href="#" class="login">Login</a>
+</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+<h1>Raise a Complaint</h1>
+<p>Select your issue type and submit your request</p>
+</section>
+
+<!-- CARDS -->
+<div class="container">
+<div class="grid">
+
+<div class="card" onclick="openForm('Transaction Issue')">
+<h3>💸 Transaction Issue</h3>
+<p>Failed or delayed transactions</p>
+</div>
+
+<div class="card" onclick="openForm('Login Problem')">
+<h3>🔐 Login Problem</h3>
+<p>Unable to access account</p>
+</div>
+
+<div class="card" onclick="openForm('Fraud Report')">
+<h3>⚠️ Fraud Complaint</h3>
+<p>Report suspicious activity</p>
+</div>
+
+<div class="card" onclick="openForm('Card Issue')">
+<h3>💳 Card Issue</h3>
+<p>Lost, blocked or damaged card</p>
+</div>
+
+<div class="card" onclick="openForm('KYC Issue')">
+<h3>📹 KYC Problem</h3>
+<p>Verification related issues</p>
+</div>
+
+<div class="card" onclick="openForm('Other')">
+<h3>📩 Other Complaint</h3>
+<p>General queries or complaints</p>
+</div>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="complaintModal">
+<div class="modal-content">
+
+<span class="close" onclick="closeForm()">✖</span>
+<h2 id="formTitle">Complaint</h2>
+
+<form onsubmit="submitForm(event)">
+
+<input type="text" placeholder="Full Name" required>
+<input type="text" placeholder="Account Number" required>
+<input type="email" placeholder="Email" required>
+<input type="tel" placeholder="Mobile Number" required>
+<textarea placeholder="Describe your issue" required></textarea>
+<p style="font-size:14px;color:gray;">Upload proof (PDF/Image)</p>
+<input type="file" required>
+
+<button type="submit">Submit Complaint</button>
+<button type="button" onclick="printForm()">Print</button>
+<button type="button" onclick="downloadForm()">Download</button>
+
+</form>
+
+</div>
+</div>
+
+<script>
+
+/* OPEN MODAL */
+function openForm(type){
+document.getElementById("complaintModal").style.display = "flex";
+document.getElementById("formTitle").innerText = type;
+}
+
+/* CLOSE MODAL */
+function closeForm(){
+document.getElementById("complaintModal").style.display = "none";
+}
+
+/* SUBMIT */
+function submitForm(event){
+
+event.preventDefault();
+
+alert("Complaint Submitted Successfully ✅");
+
+/* CLEAR FORM */
+event.target.reset();
+
+/* CLOSE MODAL */
+closeForm();
+
+}
+
+/* PRINT */
+function printForm(){
+
+let content = generateContent();
+
+let win = window.open('', '', 'width=800,height=600');
+win.document.write('<html><head><title>Complaint</title></head><body>');
+win.document.write(content);
+win.document.write('</body></html>');
+win.document.close();
+win.print();
+
+}
+
+/* DOWNLOAD */
+function downloadForm(){
+
+let content = generateContent();
+
+let blob = new Blob([content], {type: "text/html"});
+let link = document.createElement("a");
+
+link.href = URL.createObjectURL(blob);
+link.download = "Complaint.html";
+link.click();
+
+}
+
+/* GENERATE CONTENT */
+function generateContent(){
+
+let name = document.querySelector('input[placeholder="Full Name"]').value;
+let acc = document.querySelector('input[placeholder="Account Number"]').value;
+let email = document.querySelector('input[placeholder="Email"]').value;
+let mobile = document.querySelector('input[placeholder="Mobile Number"]').value;
+let issue = document.querySelector('textarea').value;
+
+let id = "HB" + Math.floor(Math.random()*100000);
+let date = new Date().toLocaleString();
+
+return `
+<h2>Horizon Bank Complaint Receipt</h2>
+<hr>
+<p><b>Complaint ID:</b> ${id}</p>
+<p><b>Date:</b> ${date}</p>
+<p><b>Name:</b> ${name}</p>
+<p><b>Account No:</b> ${acc}</p>
+<p><b>Email:</b> ${email}</p>
+<p><b>Mobile:</b> ${mobile}</p>
+<p><b>Issue:</b> ${issue}</p>
+<hr>
+<p>Thank you for contacting Horizon Bank</p>
+`;
+
+}
+
+</script>
+
+</body>
+</html>

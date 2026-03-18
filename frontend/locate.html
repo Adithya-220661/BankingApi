@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locate Us | Horizon Bank</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
+    <style>
+        :root {
+            --bg-color: #0c2f4f;
+            --text-color: white;
+            --card-bg: white;
+            --card-text: black;
+            --accent: #ffd700;
+            --button-bg: #0c5da5;
+        }
+
+        .light-mode {
+            --bg-color: #f4f7f9;
+            --text-color: #071f36;
+            --card-bg: #ffffff;
+            --card-text: #071f36;
+            --button-bg: #004a99;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; }
+        
+        nav { display:flex; justify:space-between; align-items:center; padding:15px 50px; background:#071f36; justify-content: space-between;}
+        .logo { font-size:24px; color:var(--accent); font-weight:bold; text-decoration: none; }
+        .nav-links { list-style:none; display:flex; gap:30px; }
+        .nav-links a { text-decoration:none; color:white; transition:0.3s; }
+        .nav-links a:hover { color:var(--accent); }
+
+        .hero { text-align:center; padding:40px; background:linear-gradient(120deg,#0c2f4f,#1b6fa8); color: white; }
+        #mapTitle { text-align:center; margin-top:20px; color:var(--accent); }
+
+        .search { background:var(--card-bg); padding:15px; text-align:center; border-bottom: 1px solid #ddd; }
+        .search input { padding:10px; width:240px; border-radius:6px; border:1px solid #ccc; }
+        .search button { padding:10px; border:none; background:var(--button-bg); color:white; border-radius:6px; cursor:pointer; margin: 2px; }
+
+        .toggle { text-align:center; margin:15px; }
+        .toggle button { padding:8px 14px; margin:4px; border:none; border-radius:6px; background:var(--accent); cursor:pointer; font-weight: bold; }
+
+        #map { height:450px; margin:20px 40px; border-radius:12px; border: 3px solid var(--accent); z-index: 1; }
+
+        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; padding:40px; }
+        .card { background:var(--card-bg); color:var(--card-text); padding:20px; border-radius:10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition:.3s; }
+        .card:hover { transform:translateY(-5px); }
+        .card button { margin-top:8px; padding:8px 10px; border:none; background:var(--button-bg); color:white; border-radius:6px; cursor:pointer; }
+        .status { font-weight:bold; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" class="logo">🌅 Horizon Bank</a>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#map">Locate</a></li>
+        <li><a href="#branchGrid">Branches</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <h1>Branch & ATM Locator</h1>
+    <p>Premium banking services at your fingertips</p>
+</section>
+
+<div class="search">
+    <input id="searchInput" placeholder="Search by name or city...">
+    <button onclick="searchBranch()">Search</button>
+    <button onclick="getLocation()">📍 Use My Location</button>
+</div>
+
+<div class="toggle">
+    <button onclick="filterType('Branch')">Branches</button>
+    <button onclick="filterType('ATM')">ATMs</button>
+    <button onclick="filterType('all')">Show All</button>
+    <button onclick="findNearest()">Nearest To Me</button>
+    <button onclick="toggleTheme()" style="background:#555; color:white;">🌓 Toggle Theme</button>
+</div>
+
+<h2 id="mapTitle">Explore Our Network</h2>
+<div id="map"></div>
+
+<section class="grid" id="branchGrid"></section>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+<script>
+    // 1. Initialize Map
+    var map = L.map('map').setView([17.6868, 83.2185], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    let userLat = null;
+    let userLon = null;
+    let routeControl = null;
+    let markers = [];
+
+    // 2. Data
+    const branches = [
+        {name:"Guntur Branch", lat:16.3067, lng:80.4365, time:"09:30-16:00", type:"Branch", services:["Loan", "Deposit"]},
+        {name:"Vijayawada Branch", lat:16.5062, lng:80.6480, time:"09:30-16:00", type:"Branch", services:["Loan"]},
+        {name:"Hyderabad Branch", lat:17.4435, lng:78.3772, time:"09:30-16:00", type:"Branch", services:["Deposit"]},
+        {name:"Visakhapatnam Branch", lat:17.6868, lng:83.2185, time:"09:30-16:00", type:"Branch", services:["Loan", "Gold Loan"]},
+        {name:"Tirupati Branch", lat:13.6288, lng:79.4192, time:"09:30-16:00", type:"Branch", services:["Deposit"]},
+        {name:"ATM Guntur", lat:16.3120, lng:80.4400, time:"00:00-23:59", type:"ATM", services:["Withdrawal"]},
+        {name:"ATM Vijayawada", lat:16.5200, lng:80.6400, time:"00:00-23:59", type:"ATM", services:["Withdrawal"]},
+        {name:"ATM Vizag", lat:17.7000, lng:83.2200, time:"00:00-23:59", type:"ATM", services:["Withdrawal"]}
+    ];
+
+    // 3. Load Markers
+    function loadMarkers(filteredData) {
+        markers.forEach(m => map.removeLayer(m));
+        markers = [];
+        filteredData.forEach(b => {
+            let marker = L.marker([b.lat, b.lng]).addTo(map).bindPopup(`<b>${b.name}</b><br>${b.type}`);
+            markers.push(marker);
+        });
+    }
+
+    // 4. Load Cards
+    function loadCards(list) {
+        let grid = document.getElementById("branchGrid");
+        grid.innerHTML = "";
+        list.forEach((b, i) => {
+            let open = isOpen(b.time);
+            let statusHTML = open ? 
+                `<span class='status' style='color:green'>● OPEN</span>` : 
+                `<span class='status' style='color:red'>● CLOSED</span>`;
+            
+            grid.innerHTML += `
+                <div class="card">
+                    <h3>${b.name}</h3>
+                    <p>${statusHTML} (${b.time})</p>
+                    <p><small>${b.services.join(", ")}</small></p>
+                    <p id="dist${i}" style="font-weight:bold; color:#0c5da5; margin-top:5px;"></p>
+                    <button onclick="focusOnMap(${b.lat}, ${b.lng}, '${b.name}')">View</button>
+                    <button onclick="routeTo(${b.lat}, ${b.lng})">Get Directions</button>
+                </div>
+            `;
+        });
+        if(userLat) calculateDistances(list);
+    }
+
+    // Helpers
+    function isOpen(timeRange) {
+        let now = new Date();
+        let [open, close] = timeRange.split("-");
+        let o = open.split(":"), c = close.split(":");
+        let dOpen = new Date(), dClose = new Date();
+        dOpen.setHours(o[0], o[1]); dClose.setHours(c[0], c[1]);
+        return now >= dOpen && now <= dClose;
+    }
+
+    function focusOnMap(lat, lng, name) {
+        map.flyTo([lat, lng], 14);
+        document.getElementById("mapTitle").innerText = name;
+        window.scrollTo(0, document.getElementById('map').offsetTop - 50);
+    }
+
+    // Logic for Buttons
+    function filterType(type) {
+        let filtered = (type === 'all') ? branches : branches.filter(b => b.type === type);
+        loadMarkers(filtered);
+        loadCards(filtered);
+    }
+
+    function searchBranch() {
+        let term = document.getElementById("searchInput").value.toLowerCase();
+        let filtered = branches.filter(b => b.name.toLowerCase().includes(term));
+        loadMarkers(filtered);
+        loadCards(filtered);
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                userLat = pos.coords.latitude;
+                userLon = pos.coords.longitude;
+                L.circle([userLat, userLon], {radius: 500}).addTo(map).bindPopup("Your Location").openPopup();
+                map.setView([userLat, userLon], 10);
+                calculateDistances(branches);
+            }, () => alert("Location denied."));
+        }
+    }
+
+    function calculateDistances(list) {
+        list.forEach((b, i) => {
+            let d = getDistance(userLat, userLon, b.lat, b.lng);
+            let el = document.getElementById("dist" + i);
+            if (el) el.innerText = d.toFixed(2) + " KM away";
+        });
+    }
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; 
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+    }
+
+    function findNearest() {
+        if (!userLat) { alert("Please click 'My Location' first."); return; }
+        let nearest = branches.reduce((prev, curr) => {
+            return getDistance(userLat, userLon, prev.lat, prev.lng) < getDistance(userLat, userLon, curr.lat, curr.lng) ? prev : curr;
+        });
+        focusOnMap(nearest.lat, nearest.lng, "Nearest: " + nearest.name);
+    }
+
+    function routeTo(lat, lng) {
+        if (!userLat) { alert("Please enable location first."); return; }
+        if (routeControl) map.removeControl(routeControl);
+        routeControl = L.Routing.control({
+            waypoints: [L.latLng(userLat, userLon), L.latLng(lat, lng)],
+            lineOptions: { styles: [{ color: '#0c5da5', weight: 6 }] }
+        }).addTo(map);
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle("light-mode");
+    }
+
+    // Initial Load
+    loadMarkers(branches);
+    loadCards(branches);
+</script>
+
+</body>
+</html>

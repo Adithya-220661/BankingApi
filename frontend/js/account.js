@@ -169,6 +169,34 @@ function validateSecurity() {
     nextStep(5);
 }
 
+
+// =======================
+// RANDOM CAPTCHA GENERATOR
+// =======================
+function generateCaptcha(targetId){
+
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let captcha = "";
+
+    for(let i=0;i<5;i++){
+        captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+    }
+
+    document.getElementById(targetId).innerText = captcha;
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+generateCaptcha();
+generateCaptchaAdmin();
+
+});
+
+
+
+
+
+
 /**
  * 6. STEP 5: PDF GENERATOR
  */

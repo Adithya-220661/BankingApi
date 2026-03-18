@@ -20,11 +20,13 @@
     
 <div>
     <ul class="bank-nav-links">
-       
-        <li><a href="corporate.html" class="nav-item">💼Corporate</a></li>
-        <li><a href="resources.html" class="nav-item">📚Resources</a></li>
-        <li><a href="resources.html" class="nav-item">ℹ️About Us</a></li>
-        <li><a href="contact.html" class="nav-item">📞Help </a></li>
+        <li><a href="personal.html" class="nav-item">Personal</a></li>
+        <li><a href="business.html" class="nav-item">Business</a></li>
+        <li><a href="loans.html" class="nav-item">Loans </a></li>
+        <li><a href="aboutus.html" class="nav-item">About us</a></li>
+        <li><a href="contact.html" class="nav-item">Contact</a></li>
+        <li><a href="locate.html" class="nav-item">Locate</a></li>
+
         
         
     </ul>
@@ -132,7 +134,7 @@
                 <p class="subtitle">LOWEST INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">11.00% P.A. ONWARDS</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -144,7 +146,7 @@
                 <p class="subtitle">LOWEST INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">7.00% INTEREST</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -156,7 +158,7 @@
                 <p class="subtitle">EXCEPTIONAL INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">9.25% P.A. ONWARDS</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -168,7 +170,7 @@
                 <p class="subtitle">LOWEST INTEREST</p>
                 <div class="card-footer">
                     <span class="rate">9.75% P.A.</span>
-                    <a href="#" class="arrow-btn">→</a>
+                    <a href="products.html" class="arrow-btn">→</a>
                 </div>
             </div>
         </div>
@@ -205,9 +207,6 @@
     </div>
 </section>
 
-<!-- ========================= -->
-<!-- NET BANKING SERVICES -->
-<!-- ========================= -->
 
 <section class="netbanking-services">
 
@@ -441,76 +440,99 @@ You can create or open account through the bank website or visit the nearest bra
         <p>&copy; 2026 Horizon Bank Ltd. All Rights Reserved. Registered with DICGC.</p>
     </div>
 </footer>
-<!-- LOGIN POPUP -->
-<div class="login-modal" id="loginModal">
 
-<div class="login-box">
+<!-- Login Box opening  -->
 
-<span class="close" onclick="closeLogin()">✖</span>
 
-<h2 class="h">NetBanking Login</h2>
-<p class="sub">Secure access to your account</p>
+        <div class="login-modal" id="loginModal">
 
-<!-- LOGIN TYPE -->
-<div class="login-type">
-<button onclick="showCustomer()">User</button>
-<button onclick="showAdmin()">Admin</button>
+            <div class="login-box">
+            <span class="close" onclick="closeLogin()">✖</span>
+            <h2 class="h">Welcome to Horizon</h2>
+            <p class="sub" >Your Money-Our Security </p>
+
+            <!-- Login /Admin -->
+
+            <div class="login-type">
+                <button onclick="showCustomer()">Customer</button>
+                <button onclick="showAdmin()">Admin</button>
+            </div>
+
+      
+<!-- User Login settings -->
+
+<form id="customerLogin" autocomplete="off">
+    <label>Enter Username:</label>
+    <div class="password-wrapper">
+    
+    <input type="text" placeholder="Enter username" id="username">
+    </div>
+    
+
+    <label>Enter PIN:</label>
+
+<div class="password-wrapper">
+    <input type="password" id="password" placeholder="Enter PIN">
+    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+</div>
+    <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin/Reset Password</a>
+    <br>
+    <br>
+
+    <label>Captcha</label>
+    <div class="captcha-box">
+       <span id="captchaText">AE2E4</span>
+<button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
+
+        <input type="text" placeholder="Enter Captcha" id="captchaInput">
+    </div>
+
+    <div class="btn-group">
+    <button type="submit" class="login-submit">Secure Login</button>
+    <button type="reset" class="reset-btn">Reset</button>
 </div>
 
-<!-- CUSTOMER LOGIN -->
-<form id="customerLogin">
-
-<label>Username</label>
-<input type="text" placeholder="Enter username">
-
-<label>PIN</label>
-<input type="password" placeholder="Enter PIN">
-
-<a href="registation.html" class="forgetpin">Forgot Pin</a>
-
-<label>Captcha</label>
-
-<div class="captcha-box">
-<span id="captchaText">AB12</span>
-<button type="button" onclick="generateCaptcha()">🔄</button>
-<input type="text" placeholder="Enter Captcha">
-</div>
-
-<button class="login-submit">Secure Login</button>
-<div class="signup-link">
-        Don't have an account? <a href="registration.html">Create New  account</a>
-</div>
+    <div class="signup-link">
+        Don't have an account? <a href="registration.html">Create New Account</a>
+    </div>
 
 </form>
+            <!-- Admin login Page -->
 
-<!-- ADMIN LOGIN -->
-<form id="adminLogin" style="display:none;">
-
-<label>Admin ID</label>
-<input type="text" placeholder="Enter Admin ID">
-
-<label>Password</label>
-<input type="password" placeholder="Enter Password">
-
-<label>Bank ID</label>
-<input type="text" placeholder="Enter OTP">
-
-<label>Captcha</label>
-
-<div class="captcha-box">
-<span id="captchaText2">X4P8</span>
-<input type="text" placeholder="Enter Captcha">
+            <form id="adminLogin" style="display:none;">
+                <div class="password-wrapper">
+                <label>Admin Bank ID:</label>
+                <input type="text" placeholder="Enter Admin ID">
 </div>
+   <label>Enter Admin Password:</label>
 
-<button class="login-submit">Admin Login</button>
-
-</form>
-
+<div class="password-wrapper">
+    <input type="password" id="password" placeholder="Enter Password">
+    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
 </div>
+                <div class="password-wrapper">
+                <label> Enter Branch Code:</label>
+                <input type="text" placeholder="Enter branch code">
+                </div>
+                
+                <label>Captcha</label>
+    <div class="captcha-box">
+        <span id="captchaText2">AG125</span>
+<button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
+        <input type="text" placeholder="Enter Captcha" id="captchaInput">
+    </div>
+ <div class="btn-group">
+    <button type="submit" class="login-submit">Secure Access</button>
+    <button type="reset" class="reset-btn">Reset</button>
 </div>
+                
+
+            </form>
+
+            </div>
+    </div>
 
 <script src="js/index.js"></script>
 
 </body>
-
 </html>

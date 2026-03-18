@@ -90,39 +90,16 @@ window.location.href = "admin.html";
 // =======================
 // RANDOM CAPTCHA GENERATOR
 // =======================
+function generateCaptcha(targetId){
 
-function generateCaptcha(){
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let captcha = "";
 
-let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for(let i=0;i<5;i++){
+        captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+    }
 
-let captcha = "";
-
-for(let i=0;i<5;i++){
-
-captcha += chars.charAt(Math.floor(Math.random()*chars.length));
-
-}
-
-document.getElementById("captchaText").innerText = captcha;
-
-}
-
-
-
-function generateCaptchaAdmin(){
-
-let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-let captcha = "";
-
-for(let i=0;i<5;i++){
-
-captcha += chars.charAt(Math.floor(Math.random()*chars.length));
-
-}
-
-document.getElementById("captchaText2").innerText = captcha;
-
+    document.getElementById(targetId).innerText = captcha;
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -145,6 +122,29 @@ card.style.transform="translateY(0)";
 });
 
 });
+
+
+
+// Clear form on page load (after refresh)
+window.onload = function() {
+    document.getElementById("customerLogin").reset();
+    document.getElementById("adminLogin").reset();
+};
+
+function togglePassword() {
+
+    let pass = event.target.previousElementSibling; // input before icon
+    let eye = event.target;
+
+    if (pass.type === "password") {
+        pass.type = "text";
+        eye.innerText = "🙉";   // open eyes
+    } else {
+        pass.type = "password";
+        eye.innerText = "🙈";   // closed eyes
+    }
+}
+
 
 //fAQ section 
 

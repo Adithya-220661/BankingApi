@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Loans | Horizon Bank</title>
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:linear-gradient(135deg,#5fa4c7,#86b8d6);
+}
+
+/* NAVBAR */
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:#0a2342;
+padding:15px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:200;
+}
+
+nav h2{
+color:#ffd700;
+font-size:24px;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:25px;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+font-size:15px;
+transition:.3s;
+}
+
+nav ul li a:hover{
+color:#ffd700;
+}
+
+/* HERO */
+
+.hero{
+height:80vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+
+background:
+linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
+url("https://images.unsplash.com/photo-1554224155-8d04cb21cd6c");
+
+background-size:cover;
+background-position:center;
+color:white;
+}
+
+.hero h1{
+font-size:50px;
+}
+
+.hero p{
+margin-top:10px;
+font-size:18px;
+}
+
+/* SECTIONS */
+
+section{
+padding:90px 8%;
+}
+
+.section-title{
+text-align:center;
+font-size:30px;
+margin-bottom:40px;
+letter-spacing:2px;
+color:#333;
+}
+
+/* LOAN CARDS */
+
+.loan-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.loan-card{
+background:white;
+border-radius:6px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+transition:0.4s;
+}
+
+.loan-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+
+.loan-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.loan-info{
+padding:20px;
+}
+
+.loan-info h3{
+margin-bottom:5px;
+color:#333;
+}
+
+.sub{
+font-size:12px;
+color:#777;
+letter-spacing:1px;
+margin-bottom:15px;
+}
+
+.bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:500;
+color:#333;
+}
+
+.arrow{
+color:orange;
+font-size:20px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+/* CARD */
+
+.card{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card h3{
+margin-bottom:10px;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+table th,table td{
+padding:15px;
+text-align:center;
+border:1px solid #ddd;
+}
+
+table th{
+background:#0a2342;
+color:white;
+}
+
+/* FOOTER */
+
+footer{
+background:#0a2342;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+</style>
+<link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+<h1 style="color: #ffd700;"> Horizon Bank</h1>
+
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="#loans">Loans</a></li>
+<li><a href="#steps">Process</a></li>
+<li><a href="#documents">Documents</a></li>
+<li><a href="#rates">Rates</a></li>
+<li><a href="#contact">Contact</a></li>
+<button class="login-btn" onclick="openLogin()">Login🔒</button>
+</ul>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+<div>
+<h1>Loans Made Easy</h1>
+<p>Apply for fast and secure bank loans with lowest interest rates</p>
+</div>
+
+</section>
+
+
+<!-- LOAN PRODUCTS -->
+
+<section id="loans">
+
+<h2 class="section-title">OUR PRODUCTS</h2>
+
+<div class="loan-container">
+
+<div class="loan-card">
+
+<img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa">
+
+<div class="loan-info">
+<h3>Property Loans</h3>
+<p class="sub">LOWEST INTEREST</p>
+
+<div class="bottom">
+<span>11.00% P.A. ONWARDS</span>
+<span class="arrow">→</span>
+</div>
+
+</div>
+</div>
+
+
+<div class="loan-card">
+
+<img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6">
+
+<div class="loan-info">
+<h3>Crop Loan</h3>
+<p class="sub">LOWEST INTEREST</p>
+
+<div class="bottom">
+<span>7.00% INTEREST</span>
+<span class="arrow">→</span>
+</div>
+
+</div>
+</div>
+
+
+<div class="loan-card">
+
+<img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b">
+
+<div class="loan-info">
+<h3>Education Loans</h3>
+<p class="sub">EXCEPTIONAL INTEREST</p>
+
+<div class="bottom">
+<span>9.25% P.A. ONWARDS</span>
+<span class="arrow">→</span>
+</div>
+
+</div>
+</div>
+
+
+<div class="loan-card">
+
+<img src="https://images.unsplash.com/photo-1610375461246-83df859d849d">
+
+<div class="loan-info">
+<h3>Gold Loan</h3>
+<p class="sub">LOWEST INTEREST</p>
+
+<div class="bottom">
+<span>9.75% P.A.</span>
+<span class="arrow">→</span>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- STEPS -->
+
+<section id="steps">
+
+<h2 class="section-title">Steps to Apply for Loan</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>1️⃣ Choose Loan</h3>
+<p>Select the loan product suitable for your needs.</p>
+</div>
+
+<div class="card">
+<h3>2️⃣ Submit Application</h3>
+<p>Fill the online loan application form.</p>
+</div>
+
+<div class="card">
+<h3>3️⃣ Document Verification</h3>
+<p>Upload documents for verification.</p>
+</div>
+
+<div class="card">
+<h3>4️⃣ Approval</h3>
+<p>Our banking team reviews and approves the loan.</p>
+</div>
+
+<div class="card">
+<h3>5️⃣ Disbursement</h3>
+<p>Loan amount will be credited to your bank account.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DOCUMENTS -->
+
+<section id="documents">
+
+<h2 class="section-title">Documents Required</h2>
+
+<ul style="line-height:2;font-size:18px">
+
+<li>✔ Aadhar Card / PAN Card</li>
+<li>✔ Address proof</li>
+<li>✔ Salary slips or income proof</li>
+<li>✔ Bank statements (6 months)</li>
+<li>✔ Employment or business proof</li>
+
+</ul>
+
+</section>
+
+
+<!-- INTEREST RATES -->
+
+<section id="rates">
+
+<h2 class="section-title">Loan Interest Rates</h2>
+
+<table>
+
+<tr>
+<th>Loan Type</th>
+<th>Interest Rate</th>
+<th>Tenure</th>
+</tr>
+
+<tr>
+<td>Property Loan</td>
+<td>11.00%</td>
+<td>20 Years</td>
+</tr>
+
+<tr>
+<td>Crop Loan</td>
+<td>7.00%</td>
+<td>5 Years</td>
+</tr>
+
+<tr>
+<td>Education Loan</td>
+<td>9.25%</td>
+<td>15 Years</td>
+</tr>
+
+<tr>
+<td>Gold Loan</td>
+<td>9.75%</td>
+<td>3 Years</td>
+</tr>
+
+</table>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section id="contact">
+
+<h2 class="section-title">Loan Support</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>📞 Helpline</h3>
+<p>1800-123-456</p>
+</div>
+
+<div class="card">
+<h3>📧 Email</h3>
+<p>loans@horizonbank.com</p>
+</div>
+
+<div class="card">
+<h3>🏢 Branch Support</h3>
+<p>Visit your nearest Horizon Bank branch</p>
+</div>
+
+</div>
+
+</section>
+
+
+<footer>
+
+© 2026 Horizon Bank | Digital Banking Services
+
+</footer>
+
+
+        <div class="login-modal" id="loginModal">
+
+            <div class="login-box">
+            <span class="close" onclick="closeLogin()">✖</span>
+            <h2 class="h">Welcome to Horizon</h2>
+            <p class="sub" >Your Money-Our Security </p>
+
+            <!-- Login /Admin -->
+
+            <div class="login-type">
+                <button onclick="showCustomer()">Customer</button>
+                <button onclick="showAdmin()">Admin</button>
+            </div>
+
+      
+<!-- User Login settings -->
+
+<form id="customerLogin" autocomplete="off">
+    <label>Enter Username:</label>
+    <div class="password-wrapper">
+    
+    <input type="text" placeholder="Enter username" id="username">
+    </div>
+    
+
+    <label>Enter PIN:</label>
+
+<div class="password-wrapper">
+    <input type="password" id="password" placeholder="Enter PIN">
+    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+</div>
+    <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin/Reset Password</a>
+    <br>
+    <br>
+
+    <label>Captcha</label>
+    <div class="captcha-box">
+       <span id="captchaText">AE2E4</span>
+<button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
+
+        <input type="text" placeholder="Enter Captcha" id="captchaInput">
+    </div>
+
+    <div class="btn-group">
+    <button type="submit" class="login-submit">Secure Login</button>
+    <button type="reset" class="reset-btn">Reset</button>
+</div>
+
+    <div class="signup-link">
+        Don't have an account? <a href="registration.html">Create New Account</a>
+    </div>
+
+</form>
+            <!-- Admin login Page -->
+
+            <form id="adminLogin" style="display:none;">
+                <div class="password-wrapper">
+                <label>Admin Bank ID:</label>
+                <input type="text" placeholder="Enter Admin ID">
+</div>
+   <label>Enter Admin Password:</label>
+
+<div class="password-wrapper">
+    <input type="password" id="password" placeholder="Enter Password">
+    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+</div>
+                <div class="password-wrapper">
+                <label> Enter Branch Code:</label>
+                <input type="text" placeholder="Enter branch code">
+                </div>
+                
+                <label>Captcha</label>
+    <div class="captcha-box">
+        <span id="captchaText2">AG125</span>
+<button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
+        <input type="text" placeholder="Enter Captcha" id="captchaInput">
+    </div>
+ <div class="btn-group">
+    <button type="submit" class="login-submit">Secure Access</button>
+    <button type="reset" class="reset-btn">Reset</button>
+</div>
+                
+
+            </form>
+
+            </div>
+    </div>
+
+     
+<script>
+    //login js code
+
+
+
+// OPEN LOGIN POPUP
+function openLogin(){
+    document.getElementById("loginModal").style.display="flex";
+}
+
+// CLOSE LOGIN POPUP
+function closeLogin(){
+    document.getElementById("loginModal").style.display="none";
+}
+
+
+
+// SWITCH TO CUSTOMER LOGIN
+function showCustomer(){
+    document.getElementById("customerLogin").style.display="block";
+    document.getElementById("adminLogin").style.display="none";
+}
+
+// SWITCH TO ADMIN LOGIN
+function showAdmin(){
+    document.getElementById("customerLogin").style.display="none";
+    document.getElementById("adminLogin").style.display="block";
+}
+
+// REDIRECT AFTER LOGIN
+document.addEventListener("DOMContentLoaded", function(){
+
+const customerForm = document.getElementById("customerLogin");
+const adminForm = document.getElementById("adminLogin");
+
+
+// CUSTOMER REDIRECT
+if(customerForm){
+customerForm.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+window.location.href = "dashboard.html";
+
+});
+}
+
+
+// ADMIN REDIRECT
+if(adminForm){
+adminForm.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+window.location.href = "admin.html";
+
+});
+}
+
+});
+
+
+
+// RANDOM CAPTCHA GENERATOR
+// =======================
+function generateCaptcha(targetId){
+
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let captcha = "";
+
+    for(let i=0;i<5;i++){
+        captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+    }
+
+    document.getElementById(targetId).innerText = captcha;
+}
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function(){
+
+generateCaptcha();
+generateCaptchaAdmin();
+
+});
+
+// Clear form on page load (after refresh)
+window.onload = function() {
+    document.getElementById("customerLogin").reset();
+    document.getElementById("adminLogin").reset();
+};
+
+function togglePassword() {
+
+    let pass = event.target.previousElementSibling; // input before icon
+    let eye = event.target;
+
+    if (pass.type === "password") {
+        pass.type = "text";
+        eye.innerText = "🙉";   // open eyes
+    } else {
+        pass.type = "password";
+        eye.innerText = "🙈";   // closed eyes
+    }
+}
+
+// Card hover glow
+
+document.querySelectorAll(".service-card").forEach(card => {
+
+card.addEventListener("mouseenter", () => {
+card.style.transform="translateY(-12px)";
+});
+
+card.addEventListener("mouseleave", () => {
+card.style.transform="translateY(0)";
+});
+
+});
+
+</script>
+
+</body>
+</html>
+

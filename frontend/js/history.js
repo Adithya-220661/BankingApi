@@ -2,15 +2,10 @@
 function initSidebarToggle() {
   const toggle  = document.getElementById('sidebarToggle');
   const sidebar = document.getElementById('sidebar');
-
   if(toggle) {
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('sidebar-open');
-    });
+    toggle.addEventListener('click', () => document.body.classList.toggle('sidebar-open'));
     sidebar.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        document.body.classList.remove('sidebar-open');
-      });
+      link.addEventListener('click', () => document.body.classList.remove('sidebar-open'));
     });
   }
 }
@@ -39,13 +34,14 @@ function logout() {
 }
 
 // ── GLOBAL VARIABLES ──────────────────────────────────────────
-let allTransactions = [];
-let filteredTransactions = [];
-let currentPage = 1;
+let currentPage  = 1;
+let totalPages   = 1;
+let currentType  = 'all';
 const rowsPerPage = 10;
+let allTransactions = []; // for stats and export
 
-// ── FETCH ALL TRANSACTIONS FROM BACKEND ──────────────────────
-async function loadTransactions() {
+// ── FETCH TRANSACTIONS FROM BACKEND ──────────────────────────
+async function loadTransactions(page = 1, type = 'all') {
   const token = localStorage.getItem('token');
   if(!token){
     alert('Please login first.');
@@ -53,30 +49,62 @@ async function loadTransactions() {
     return;
   }
 
+  showEmpty('Loading transactions...');
+
   try {
-    const res = await fetch(
-      'http://localhost:5000/api/transactions?limit=100',
-      {
-        headers: {
-          'Content-Type':  'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+    // Build URL with server-side pagination
+    let url = `http://localhost:5000/api/transactions?page=${page}&limit=${rowsPerPage}`;
+    if(type !== 'all') url += `&type=${type}`;
+
+    const res  = await fetch(url, {
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`
       }
-    );
+    });
     const data = await res.json();
 
     if(data.success){
-      allTransactions      = data.transactions;
-      filteredTransactions = data.transactions;
-      renderTable(filteredTransactions);
-      updateStats(filteredTransactions);
+      currentPage = data.page;
+      totalPages  = data.pages;
+
+      allTransactions = data.transactions;
+
+      renderTable(data.transactions);
+      updatePaginationButtons();
+
+      // Load all for stats if first page
+      if(page === 1) loadAllForStats(token, type);
+
     } else {
       showEmpty('Failed to load transactions.');
     }
 
   } catch(err) {
     console.log('History error:', err);
-    showEmpty('Cannot connect to server. Make sure backend is running.');
+    showEmpty('❌ Cannot connect to server. Make sure backend is running.');
+  }
+}
+
+// ── LOAD ALL TRANSACTIONS FOR STATS ──────────────────────────
+async function loadAllForStats(token, type) {
+  try {
+    let url = `http://localhost:5000/api/transactions?page=1&limit=1000`;
+    if(type !== 'all') url += `&type=${type}`;
+
+    const res  = await fetch(url, {
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const data = await res.json();
+
+    if(data.success){
+      updateStats(data.transactions);
+    }
+  } catch(err) {
+    console.log('Stats error:', err);
   }
 }
 
@@ -84,26 +112,19 @@ async function loadTransactions() {
 function renderTable(transactions) {
   const tbody = document.getElementById('historyBody');
 
-  if(transactions.length === 0){
+  if(!transactions || transactions.length === 0){
     tbody.innerHTML = `
       <tr>
         <td colspan="7" style="text-align:center; color:#64748b; padding:30px;">
           No transactions found
         </td>
       </tr>`;
-    updatePaginationButtons(0);
     return;
   }
 
-  // Pagination
-  const totalPages  = Math.ceil(transactions.length / rowsPerPage);
-  const startIndex  = (currentPage - 1) * rowsPerPage;
-  const endIndex    = startIndex + rowsPerPage;
-  const pageData    = transactions.slice(startIndex, endIndex);
-
   tbody.innerHTML = '';
 
-  pageData.forEach(txn => {
+  transactions.forEach(txn => {
     const isCredit  = txn.type === 'deposit' || txn.type === 'transfer_received';
     const sign      = isCredit ? '+' : '-';
     const cssClass  = isCredit ? 'credit' : 'debit';
@@ -112,21 +133,14 @@ function renderTable(transactions) {
 
     const tr = document.createElement('tr');
     tr.className = `transaction-row ${cssClass}`;
-    tr.setAttribute('data-id', txn._id);
 
     tr.innerHTML = `
       <td>${date}</td>
-      <td>
-        <span class="txn-type ${cssClass}">${typeLabel}</span>
-      </td>
+      <td><span class="txn-type ${cssClass}">${typeLabel}</span></td>
       <td>${txn.description || txn.type}</td>
-      <td class="amount ${cssClass}">
-        ${sign}₹${txn.amount.toLocaleString('en-IN')}
-      </td>
+      <td class="amount ${cssClass}">${sign}₹${txn.amount.toLocaleString('en-IN')}</td>
       <td>₹${txn.balanceAfter.toLocaleString('en-IN')}</td>
-      <td>
-        <span class="status success">✓ ${txn.status}</span>
-      </td>
+      <td><span class="status success">✓ ${txn.status}</span></td>
       <td>
         <button class="action-btn" onclick="viewDetails('${txn._id}')">
           👁️ View
@@ -135,17 +149,15 @@ function renderTable(transactions) {
     `;
     tbody.appendChild(tr);
   });
-
-  updatePaginationButtons(totalPages);
 }
 
 // ── GET TYPE LABEL ────────────────────────────────────────────
 function getTypeLabel(type) {
   switch(type){
-    case 'deposit':           return 'Credit';
-    case 'withdrawal':        return 'Debit';
-    case 'transfer_sent':     return 'Transfer Out';
-    case 'transfer_received': return 'Transfer In';
+    case 'deposit':           return '📥 Credit';
+    case 'withdrawal':        return '📤 Debit';
+    case 'transfer_sent':     return '➡️ Transfer Out';
+    case 'transfer_received': return '⬅️ Transfer In';
     default:                  return type;
   }
 }
@@ -158,11 +170,8 @@ function updateStats(transactions) {
 
   transactions.forEach(txn => {
     const isCredit = txn.type === 'deposit' || txn.type === 'transfer_received';
-    if(isCredit){
-      totalCredits += txn.amount;
-    } else {
-      totalDebits += txn.amount;
-    }
+    if(isCredit) totalCredits += txn.amount;
+    else         totalDebits  += txn.amount;
     if(txn.status === 'success') successCount++;
   });
 
@@ -170,44 +179,61 @@ function updateStats(transactions) {
     ? ((successCount / transactions.length) * 100).toFixed(1)
     : 0;
 
-  document.getElementById('totalTransactions').textContent =
-    transactions.length;
-  document.getElementById('totalCredits').textContent =
-    `₹${totalCredits.toLocaleString('en-IN')}`;
-  document.getElementById('totalDebits').textContent =
-    `₹${totalDebits.toLocaleString('en-IN')}`;
-  document.getElementById('successRate').textContent =
-    `${successRate}%`;
+  document.getElementById('totalTransactions').textContent = transactions.length;
+  document.getElementById('totalCredits').textContent      = `₹${totalCredits.toLocaleString('en-IN')}`;
+  document.getElementById('totalDebits').textContent       = `₹${totalDebits.toLocaleString('en-IN')}`;
+  document.getElementById('successRate').textContent       = `${successRate}%`;
 }
 
 // ── APPLY FILTERS ─────────────────────────────────────────────
 function applyFilters() {
-  const typeFilter = document.getElementById('typeFilter').value;
-
-  filteredTransactions = allTransactions.filter(txn => {
-    if(typeFilter === 'all') return true;
-    return txn.type === typeFilter;
-  });
-
+  currentType = document.getElementById('typeFilter').value;
   currentPage = 1;
-  renderTable(filteredTransactions);
-  updateStats(filteredTransactions);
+  loadTransactions(currentPage, currentType);
+}
+
+// ── PAGINATION ────────────────────────────────────────────────
+function changePage(direction) {
+  if(direction === 'next' && currentPage < totalPages){
+    currentPage++;
+    loadTransactions(currentPage, currentType);
+  } else if(direction === 'prev' && currentPage > 1){
+    currentPage--;
+    loadTransactions(currentPage, currentType);
+  }
+}
+
+// ✅ FIXED: uses pointerEvents instead of disabled so onclick is never blocked
+// ✅ FIXED: nextBtn lines removed since Next button was removed from HTML
+function updatePaginationButtons() {
+  document.getElementById('currentPage').textContent = currentPage;
+  document.getElementById('totalPages').textContent  = totalPages || 1;
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  // Previous button
+  if(currentPage >= totalPages || totalPages === 0){
+  nextBtn.style.opacity       = '0.5';
+  nextBtn.style.cursor        = 'not-allowed';
+  nextBtn.style.pointerEvents = 'none';
+  } else {
+  nextBtn.style.opacity       = '1';
+  nextBtn.style.cursor        = 'pointer';
+  nextBtn.style.pointerEvents = 'auto';
+}
+  
 }
 
 // ── VIEW TRANSACTION DETAILS ──────────────────────────────────
 async function viewDetails(id) {
   const token = localStorage.getItem('token');
-
   try {
-    const res = await fetch(
-      `http://localhost:5000/api/transactions/${id}`,
-      {
-        headers: {
-          'Content-Type':  'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+    const res  = await fetch(`http://localhost:5000/api/transactions/${id}`, {
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`
       }
-    );
+    });
     const data = await res.json();
 
     if(data.success){
@@ -237,56 +263,27 @@ async function viewDetails(id) {
 
 // ── EXPORT CSV ────────────────────────────────────────────────
 function exportHistory() {
-  if(filteredTransactions.length === 0){
+  if(allTransactions.length === 0){
     alert('No transactions to export.');
     return;
   }
 
   let csv = 'Date,Type,Description,Amount,Balance After,Status\n';
-
-  filteredTransactions.forEach(txn => {
+  allTransactions.forEach(txn => {
     const isCredit = txn.type === 'deposit' || txn.type === 'transfer_received';
     const sign     = isCredit ? '+' : '-';
     const date     = new Date(txn.createdAt).toLocaleString('en-IN');
-
     csv += `"${date}","${getTypeLabel(txn.type)}","${txn.description || txn.type}","${sign}₹${txn.amount}","₹${txn.balanceAfter}","${txn.status}"\n`;
   });
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   link.href  = URL.createObjectURL(blob);
-  link.setAttribute(
-    'download',
-    `transactions_${new Date().toISOString().split('T')[0]}.csv`
-  );
+  link.setAttribute('download', `transactions_${new Date().toISOString().split('T')[0]}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-
   alert('✅ Transactions exported successfully!');
-}
-
-// ── PAGINATION ────────────────────────────────────────────────
-function changePage(direction) {
-  const totalPages = Math.ceil(filteredTransactions.length / rowsPerPage);
-
-  if(direction === 'next' && currentPage < totalPages){
-    currentPage++;
-  } else if(direction === 'prev' && currentPage > 1){
-    currentPage--;
-  }
-
-  renderTable(filteredTransactions);
-}
-
-function updatePaginationButtons(totalPages) {
-  document.getElementById('currentPage').textContent = currentPage;
-  document.getElementById('totalPages').textContent  = totalPages || 1;
-
-  document.getElementById('prevBtn').disabled =
-    currentPage === 1;
-  document.getElementById('nextBtn').disabled =
-    currentPage === totalPages || totalPages === 0;
 }
 
 // ── SHOW EMPTY MESSAGE ────────────────────────────────────────
@@ -308,10 +305,22 @@ window.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  // Show admin link if admin
+  const user      = JSON.parse(localStorage.getItem('user') || '{}');
+  const adminLink = document.getElementById('adminLink');
+  if(adminLink && user.role === 'admin'){
+    adminLink.style.display = 'flex';
+  }
+
   restoreMode();
-  loadTransactions();
-  document.getElementById('modeToggle').addEventListener('click', toggleMode);
   initSidebarToggle();
+  loadTransactions(1, 'all');
+
+  document.getElementById('modeToggle').addEventListener('click', toggleMode);
+
+  // ✅ FIXED: pagination buttons attached via addEventListener, not onclick in HTML
+  document.getElementById('prevBtn').addEventListener('click', () => changePage('prev'));
+  document.getElementById('nextBtn').addEventListener('click', () => changePage('next'));
 
   // Fix logout link
   const logoutLink = document.querySelector('a[href="index.html"]');

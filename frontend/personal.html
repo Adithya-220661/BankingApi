@@ -7,21 +7,22 @@
         <title>Banking personal webpage</title>
         <style>
 
-            html{
-            scroll-behavior:smooth;
-            }
+         html{
+scroll-behavior:smooth;
+}
 
-            body{
-            margin:0;
-            font-family:"Segoe UI",Arial;
-            background:red;
-            color:black;
-            }
+/* BODY */
+.abc{
+margin:0;
+font-family:"Segoe UI",Arial;
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+}
 
             .navbar{
             position:sticky;
             top:0;
-            background:#0b2a4a;
+            background:#003366;
             display:flex;
             justify-content:space-between;
             align-items:center;
@@ -31,14 +32,14 @@
             }
 
             .logo{
-            font-size:20px;
-            font-weight:600;
-            color:#0b2a4a;
+            font-size:30px;
+            font-weight:800;
+            color:gold;
             }
 
             .nav-links{
             display:flex;
-            gap:28px;
+            gap:18px;
             list-style:none;
             }
 
@@ -47,40 +48,72 @@
             color:white;
             font-size:14px;
             transition:0.3s;
+            font-weight: 200;
             }
 
             .nav-links a:hover{
-            color:#1f4e79;
+            color:#1283f4;
             }
 
             /* first box  */
 
-            .hero{
-            height:50%;
-            background:linear-gradient(135deg,rgb(240, 213, 57),#c9a227);
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-            color:#003366;
-            text-align:center;
-            }
+           
+/* HERO */
+.hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    
 
-            .hero h1{
-            font-size:42px;
-            margin-bottom:10px;
-            }
+    background:whitesmoke;   /* no box */
+}
 
-            .hero p{
-            opacity:1;
-            }
+
+.hero h1{
+font-size:38px;
+color: #0f2027;
+}
+
+/* 🔥 IMAGE SLIDER */
+.slider{
+width:100%;
+margin:10px auto;
+overflow:hidden;
+border-radius:5px;
+}
+
+.slide-track{
+display:flex;
+width:calc(350px * 8);
+animation:scroll 18s linear infinite;
+}
+
+.slide-track img{
+width:250px;
+height:260px;
+margin:10px;
+border-radius:12px;
+transition:0.4s;
+}
+
+/* HOVER */
+.slide-track img:hover{
+transform:scale(1.15);
+}
+
+/* ANIMATION */
+@keyframes scroll{
+0%{transform:translateX(0);}
+100%{transform:translateX(-50%);}
+}
+
 
             /* SEARCH */
 
             .search-box{
             display:flex;
             justify-content:center;
-            margin-top:-30px;
+            margin-top:30px;
             }
 
             .search-box input{
@@ -256,38 +289,54 @@
 <link rel="stylesheet" href="css/index.css" >
 </head>
 
-<body>
-
-    <div class="navbar">
-        <div class="logo">Horizon Bank Products</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#accounts">Accounts</a></li>
-                <li><a href="#loans">Loans</a></li>
-                <li><a href="#cards">Cards</a></li>
-                <li><a href="#investments">Investments</a></li>
-                <li><a href="#insurance">Insurance</a></li>
-                <li><a href="#calculator">EMI Calculator</a></li>
-                <li><a href="#compare">Compare</a></li>
-                <button class="login-btn" onclick="openLogin()">Login🔒</button>
-
-            </ul>
+<body class="abc">
+    
+        <div class="navbar">
+            <div class="logo">Horizon Bank Products</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#accounts">Accounts</a></li>
+                    <li><a href="#loans">Loans</a></li>
+                    <li><a href="#cards">Cards</a></li>
+                    <li><a href="#investments">Investments</a></li>
+                    <li><a href="#insurance">Insurance</a></li>
+                    <li><a href="#calculator">EMI Calculator</a></li>
+                    <li><a href="#compare">Compare</a></li>
+                    <button class="login-btn" onclick="openLogin()">Login🔒</button>
+                </ul>
+            </div>
         </div>
+       
+<div class="hero">
 
-    <div class="hero">
-        <h1> Welcome to Horizon Netbanking Personal Services </h1>
-        <p>Comprehensive financial solutions for individuals and businesses</p>
+    <div class="hero-text">
+        <h1>Welcome to Horizon Banking</h1>
+        <p style="color: #1f4e79;">Modern digital banking experience</p>
     </div>
 
-<!-- SEARCH -->
+    <div class="slider">
+        <div class="slide-track">
 
-<div class="search-box">
+            <img src="https://picsum.photos/id/1015/400/300">
+            <img src="https://picsum.photos/id/1016/400/300">
+            <img src="https://picsum.photos/id/1018/400/300">
+            <img src="https://picsum.photos/id/1020/400/300">
 
-<input type="text" id="search" placeholder="Search banking products...">
+            <!-- DUPLICATE -->
+            <img src="https://picsum.photos/id/1015/400/300">
+            <img src="https://picsum.photos/id/1016/400/300">
+            <img src="https://picsum.photos/id/1018/400/300">
+            <img src="https://picsum.photos/id/1020/400/300">
+
+        </div>
+    </div>
 
 </div>
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Search banking products...">
+    </div>
 
-<!-- ACCOUNTS -->
+    <!-- ACCOUNTS -->
 
 <div class="section" id="accounts">
 

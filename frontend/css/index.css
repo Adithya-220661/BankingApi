@@ -16,7 +16,7 @@ body {
 .news-ticker {
     width: 100%;
     background: #ffcc00;
-    color: #000;
+    color: #333;
     overflow: hidden;
     height: 35px;
     display: flex;
@@ -726,7 +726,6 @@ box-shadow:0 20px 40px rgba(0,0,0,0.25);
     }
 }
 
-<<<<<<< HEAD
 /* Footer (Axis/Jio Inspired) */
 .main-footer {
     background: var(--footer-bg);
@@ -961,9 +960,6 @@ margin-trim:left;
 /* ============================= */
 /* NET BANKING SERVICES SECTION */
 /* ============================= */
-=======
-/* 4 Boxes css Section 3 */
->>>>>>> 810dc9704995ecd287bfb25a7b29066914babbea
 
 .netbanking-services{
 background:#1e293b;
@@ -1083,6 +1079,8 @@ color:#003366;
 width:85%;
 margin:60px auto;
 
+
+
 }
 
 .faq-heading{
@@ -1095,7 +1093,7 @@ font-weight:800;
 
 .faq-box{
 background:#1e293b;
-border-radius:12px;
+border-radius:0px 0px 60px px;
 box-shadow:0 8px 25px rgba(0,0,0,0.1);
 overflow:hidden;
 }
@@ -1106,7 +1104,7 @@ border-bottom:1px solid #003366;
 
 .faq-question{
 width:100%;
-background:linear-gradient(135deg,#87dcf6,lightblue,#003366);
+background:linear-gradient(135deg,#9ae4fb);
 border:none;
 padding:20px 25px;
 font-size:18px;

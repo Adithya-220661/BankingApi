@@ -570,67 +570,89 @@ Secure NetBanking Platform
 </div>
 
 
+
         <div class="login-modal" id="loginModal">
 
             <div class="login-box">
             <span class="close" onclick="closeLogin()">✖</span>
-            <h2 class="h"> Horizon NetBanking Login</h2>
-            <p class="sub">Secure access to your account</p>
+            <h2 class="h">Welcome to Horizon</h2>
+            <p class="sub" >Your Money-Our Security </p>
 
             <!-- Login /Admin -->
 
             <div class="login-type">
-                <button onclick="showCustomer()">User</button>
+                <button onclick="showCustomer()">Customer</button>
                 <button onclick="showAdmin()">Admin</button>
             </div>
 
-            <!-- User Login settings -->
+      
+<!-- User Login settings -->
 
-            <form id="customerLogin">
+<form id="customerLogin" autocomplete="off">
+    <label>Enter Username:</label>
+    <div class="password-wrapper">
+    
+    <input type="text" placeholder="Enter username" id="username">
+    </div>
+    
 
-                <label>Enter Username:</label>
-                <input type="text" placeholder="Enter username">
+    <label>Enter PIN:</label>
 
-                <label>Enter PIN:</label>
-                <input type="password" placeholder="Enter PIN">
+<div class="password-wrapper">
+    <input type="password" id="password" placeholder="Enter PIN">
+    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+</div>
+    <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin/Reset Password</a>
+    <br>
+    <br>
 
-                <a href="forgetpassword.html" class="forgetpin">Forgot Pin/Reset Password</a>
-                <br>
+    <label>Captcha</label>
+    <div class="captcha-box">
+       <span id="captchaText">AE2E4</span>
+<button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
 
-                <label>Captcha</label>
-                <div class="captcha-box">
-                    <span id="captchaText">AB12</span>
-                    <button type="button" onclick="generateCaptcha()">🔄</button>
-                    <input type="text" placeholder="Enter Captcha">
-                </div>
+        <input type="text" placeholder="Enter Captcha" id="captchaInput">
+    </div>
 
-                <button class="login-submit">Secure Login</button>
-                    <div class="signup-link">
-                        Don't have an account? <a href="registration.html">Create New Account</a>
-                    </div>
+    <div class="btn-group">
+    <button type="submit" class="login-submit">Secure Login</button>
+    <button type="reset" class="reset-btn">Reset</button>
+</div>
 
-            </form>
+    <div class="signup-link">
+        Don't have an account? <a href="registration.html">Create New Account</a>
+    </div>
 
+</form>
             <!-- Admin login Page -->
 
             <form id="adminLogin" style="display:none;">
-
-                <label>Admin Bank ID</label>
+                <div class="password-wrapper">
+                <label>Admin Bank ID:</label>
                 <input type="text" placeholder="Enter Admin ID">
+</div>
+   <label>Enter Admin Password:</label>
 
-                <label>Enter Admin Password</label>
-                <input type="password" placeholder="Enter Password">
-
-                <label> Enter Branch Code</label>
-                <input type="text" placeholder="Enter OTP">
-
+<div class="password-wrapper">
+    <input type="password" id="password" placeholder="Enter Password">
+    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+</div>
+                <div class="password-wrapper">
+                <label> Enter Branch Code:</label>
+                <input type="text" placeholder="Enter branch code">
+                </div>
+                
                 <label>Captcha</label>
-                    <div class="captcha-box">
-                        <span id="captchaText2">X4P8</span>
-                        <input type="text" placeholder="Enter Captcha">
-                    </div>
-
-                <button class="login-submit">Admin Login</button>
+    <div class="captcha-box">
+        <span id="captchaText2">AG125</span>
+<button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
+        <input type="text" placeholder="Enter Captcha" id="captchaInput">
+    </div>
+ <div class="btn-group">
+    <button type="submit" class="login-submit">Secure Access</button>
+    <button type="reset" class="reset-btn">Reset</button>
+</div>
+                
 
             </form>
 
@@ -731,43 +753,23 @@ window.location.href = "admin.html";
 });
 
 
-// =======================
 // RANDOM CAPTCHA GENERATOR
 // =======================
+function generateCaptcha(targetId){
 
-function generateCaptcha(){
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let captcha = "";
 
-let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for(let i=0;i<5;i++){
+        captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+    }
 
-let captcha = "";
-
-for(let i=0;i<5;i++){
-
-captcha += chars.charAt(Math.floor(Math.random()*chars.length));
-
-}
-
-document.getElementById("captchaText").innerText = captcha;
-
+    document.getElementById(targetId).innerText = captcha;
 }
 
 
 
-function generateCaptchaAdmin(){
 
-let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-let captcha = "";
-
-for(let i=0;i<5;i++){
-
-captcha += chars.charAt(Math.floor(Math.random()*chars.length));
-
-}
-
-document.getElementById("captchaText2").innerText = captcha;
-
-}
 
 document.addEventListener("DOMContentLoaded", function(){
 
@@ -775,6 +777,26 @@ generateCaptcha();
 generateCaptchaAdmin();
 
 });
+
+// Clear form on page load (after refresh)
+window.onload = function() {
+    document.getElementById("customerLogin").reset();
+    document.getElementById("adminLogin").reset();
+};
+
+function togglePassword() {
+
+    let pass = event.target.previousElementSibling; // input before icon
+    let eye = event.target;
+
+    if (pass.type === "password") {
+        pass.type = "text";
+        eye.innerText = "🙉";   // open eyes
+    } else {
+        pass.type = "password";
+        eye.innerText = "🙈";   // closed eyes
+    }
+}
 
 // Card hover glow
 

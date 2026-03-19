@@ -180,17 +180,21 @@
             <input type="password" id="confirmPin" maxlength="4" placeholder="Confirm PIN" required>
         </div>
         
+
         <div class="input-wrap full-line captcha-container">
             <div id="captchaCode" class="captcha-box"></div>
         <button type="button" onclick="generateCaptcha()">🔄</button>
         <input type="text" id="captchaInput" placeholder="Enter Captcha">
         </div>
-    </div>
+       
+<label>Captcha</label>
 
-    <div class="btn-group">
-        <button type="button" class="btn-nav" onclick="nextStep(3)">Previous</button>
-        <button type="button" class="btn-nav btn-grad" onclick="validateSecurity()">Save & Continue</button>
-    </div>
+<div class="captcha-box">
+<span id="captchaText">AB12</span>
+<button type="button" onclick="generateCaptcha()">🔄</button>
+<input type="text" id="captchaInput" placeholder="Enter Captcha">
+</div>
+
 </section>
 
 <section class="form-step" id="step-5">
@@ -211,22 +215,7 @@
         <button type="button" class="btn-nav btn-grad" onclick="finalSubmit()">Create Account</button>
     </div>
 </section>
-<!-- 
-        <section class="form-step" id="step-4">
-            <h2>Final Review</h2>
-            <div id="review-doc" class="document-view">
-                </div>
-            <input type="password" maxlength="4" placeholder="Generate 4-Digit Login PIN" id="userPin" required>
-            <label class="terms">
-                <input type="checkbox" required> I accept all Terms & Conditions
-            </label>
-            <div class="btn-row">
-                <button type="button" class="prev-btn" onclick="nextStep(3)">Previous</button>
-                <button type="submit" class="btn-grad">Create Account</button>
-            </div>
-        </section>
-    </form>
-</div> -->
+
     <script src="js/account.js"></script>
 </body>
 </html>

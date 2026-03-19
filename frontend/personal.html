@@ -2,261 +2,255 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Banking personal webpage</title>
+        <style>
 
-<title>Banking Products</title>
+            html{
+            scroll-behavior:smooth;
+            }
 
-<style>
+            body{
+            margin:0;
+            font-family:"Segoe UI",Arial;
+            background:red;
+            color:black;
+            }
 
-/* GLOBAL */
+            .navbar{
+            position:sticky;
+            top:0;
+            background:#0b2a4a;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:15px 60px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+            z-index:200;
+            }
 
-html{
-scroll-behavior:smooth;
-}
+            .logo{
+            font-size:20px;
+            font-weight:600;
+            color:#0b2a4a;
+            }
 
-body{
-margin:0;
-font-family:"Segoe UI",Arial;
-background:white;
-color:black;
-}
+            .nav-links{
+            display:flex;
+            gap:28px;
+            list-style:none;
+            }
 
-/* NAVBAR */
+            .nav-links a{
+            text-decoration:none;
+            color:white;
+            font-size:14px;
+            transition:0.3s;
+            }
 
-.navbar{
-position:sticky;
-top:0;
-background:#0b2a4a;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 60px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-z-index:200;
-}
+            .nav-links a:hover{
+            color:#1f4e79;
+            }
 
-.logo{
-font-size:20px;
-font-weight:600;
-color:#0b2a4a;
-}
+            /* first box  */
 
-.nav-links{
-display:flex;
-gap:28px;
-list-style:none;
-}
+            .hero{
+            height:50%;
+            background:linear-gradient(135deg,rgb(240, 213, 57),#c9a227);
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            color:#003366;
+            text-align:center;
+            }
 
-.nav-links a{
-text-decoration:none;
-color:white;
-font-size:14px;
-transition:0.3s;
-}
+            .hero h1{
+            font-size:42px;
+            margin-bottom:10px;
+            }
 
-.nav-links a:hover{
-color:#1f4e79;
-}
+            .hero p{
+            opacity:1;
+            }
 
-/* HERO */
+            /* SEARCH */
 
-.hero{
-height:320px;
-background:linear-gradient(135deg,#0b2a4a,#1f4e79);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-color:white;
-text-align:center;
-}
+            .search-box{
+            display:flex;
+            justify-content:center;
+            margin-top:-30px;
+            }
 
-.hero h1{
-font-size:42px;
-margin-bottom:10px;
-}
+            .search-box input{
+            width:380px;
+            padding:14px;
+            border-radius:30px;
+            border:none;
+            box-shadow:0 6px 20px rgba(0,0,0,0.15);
+            }
 
-.hero p{
-opacity:0.9;
-}
+            /* SECTION */
 
-/* SEARCH */
+            .section{
+            padding:70px 90px;
+            }
 
-.search-box{
-display:flex;
-justify-content:center;
-margin-top:-30px;
-}
+            .section-title{
+            font-size:28px;
+            margin-bottom:35px;
+            position:relative;
+            }
 
-.search-box input{
-width:380px;
-padding:14px;
-border-radius:30px;
-border:none;
-box-shadow:0 6px 20px rgba(0,0,0,0.15);
-}
+            .section-title:after{
+            content:"";
+            width:60px;
+            height:3px;
+            background:#c9a227;
+            position:absolute;
+            bottom:-10px;
+            left:0;
+            }
 
-/* SECTION */
+            /* GRID */
 
-.section{
-padding:70px 90px;
-}
+            .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:28px;
+            }
 
-.section-title{
-font-size:28px;
-margin-bottom:35px;
-position:relative;
-}
+            /* CARD */
 
-.section-title:after{
-content:"";
-width:60px;
-height:3px;
-background:#c9a227;
-position:absolute;
-bottom:-10px;
-left:0;
-}
+            .card{
+            background:white;
+            border-radius:14px;
+            padding:30px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+            transition:0.3s;
+            border-top:4px solid transparent;
+            }
 
-/* GRID */
+            .card:hover{
+            transform:translateY(-8px);
+            border-top:4px solid #1f4e79;
+            box-shadow:0 18px 40px rgba(0,0,0,0.18);
+            }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:28px;
-}
+            .card h3{
+            margin-top:0;
+            color:#0b2a4a;
+            }
 
-/* CARD */
+            .features{
+            font-size:13px;
+            margin-top:12px;
+            line-height:1.7;
+            color:#4b5a6a;
+            }
 
-.card{
-background:white;
-border-radius:14px;
-padding:30px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-transition:0.3s;
-border-top:4px solid transparent;
-}
+            /* BUTTON */
 
-.card:hover{
-transform:translateY(-8px);
-border-top:4px solid #1f4e79;
-box-shadow:0 18px 40px rgba(0,0,0,0.18);
-}
+            .apply{
+            margin-top:18px;
+            padding:10px 22px;
+            border:none;
+            border-radius:6px;
+            background:#0b2a4a;
+            color:white;
+            cursor:pointer;
+            transition:0.25s;
+            }
 
-.card h3{
-margin-top:0;
-color:#0b2a4a;
-}
+            .apply:hover{
+            background:#c9a227;
+            color:#0b2a4a;
+            }
 
-.features{
-font-size:13px;
-margin-top:12px;
-line-height:1.7;
-color:#4b5a6a;
-}
+            /* EMI CALCULATOR */
 
-/* BUTTON */
+            .calculator{
+            background:white;
+            margin:60px 90px;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.12);
+            }
 
-.apply{
-margin-top:18px;
-padding:10px 22px;
-border:none;
-border-radius:6px;
-background:#0b2a4a;
-color:white;
-cursor:pointer;
-transition:0.25s;
-}
+            .calculator input{
+            padding:12px;
+            margin:10px;
+            border-radius:6px;
+            border:1px solid #ccc;
+            }
 
-.apply:hover{
-background:#c9a227;
-color:#0b2a4a;
-}
+            .calculator button{
+            padding:10px 20px;
+            background:#1f4e79;
+            border:none;
+            color:white;
+            border-radius:6px;
+            cursor:pointer;
+            }
 
-/* EMI CALCULATOR */
+            /* TABLE */
 
-.calculator{
-background:white;
-margin:60px 90px;
-padding:40px;
-border-radius:12px;
-box-shadow:0 10px 30px rgba(0,0,0,0.12);
-}
+            .compare{
+            margin:70px 90px;
+            }
 
-.calculator input{
-padding:12px;
-margin:10px;
-border-radius:6px;
-border:1px solid #ccc;
-}
+            table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);
+            }
 
-.calculator button{
-padding:10px 20px;
-background:#1f4e79;
-border:none;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
+            th{
+            background:#0b2a4a;
+            color:white;
+            padding:14px;
+            }
 
-/* TABLE */
+            td{
+            padding:14px;
+            border-bottom:1px solid #eee;
+            }
 
-.compare{
-margin:70px 90px;
-}
+            tr:hover{
+            background:#f1f5f9;
+            }
 
-table{
-width:100%;
-border-collapse:collapse;
-background:white;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
+            /* CTA */
 
-th{
-background:#0b2a4a;
-color:white;
-padding:14px;
-}
+            .cta{
+            margin-top:70px;
+            background:linear-gradient(135deg,#1f4e79,#0b2a4a);
+            padding:70px;
+            text-align:center;
+            color:white;
+            }
 
-td{
-padding:14px;
-border-bottom:1px solid #eee;
-}
+            .cta button{
+            padding:14px 36px;
+            border:none;
+            border-radius:8px;
+            background:#c9a227;
+            color:#0b2a4a;
+            font-weight:600;
+            cursor:pointer;
+            }
 
-tr:hover{
-background:#f1f5f9;
-}
+            /* FOOTER */
 
-/* CTA */
-
-.cta{
-margin-top:70px;
-background:linear-gradient(135deg,#1f4e79,#0b2a4a);
-padding:70px;
-text-align:center;
-color:white;
-}
-
-.cta button{
-padding:14px 36px;
-border:none;
-border-radius:8px;
-background:#c9a227;
-color:#0b2a4a;
-font-weight:600;
-cursor:pointer;
-}
-
-/* FOOTER */
-
-.footer{
-background:#0b2a4a;
-color:white;
-text-align:center;
-padding:25px;
-margin-top:50px;
-}
+            .footer{
+            background:#0b2a4a;
+            color:white;
+            text-align:center;
+            padding:25px;
+            margin-top:50px;
+            }
 
 </style>
 <link rel="stylesheet" href="css/index.css" >
@@ -264,44 +258,26 @@ margin-top:50px;
 
 <body>
 
-<!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">Horizon Bank Products</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#accounts">Accounts</a></li>
+                <li><a href="#loans">Loans</a></li>
+                <li><a href="#cards">Cards</a></li>
+                <li><a href="#investments">Investments</a></li>
+                <li><a href="#insurance">Insurance</a></li>
+                <li><a href="#calculator">EMI Calculator</a></li>
+                <li><a href="#compare">Compare</a></li>
+                <button class="login-btn" onclick="openLogin()">Login🔒</button>
 
-<div class="navbar">
+            </ul>
+        </div>
 
-<div class="logo">Horizon Bank Products</div>
-
-<ul class="nav-links">
-<li><a href="index.html">MainPage</a></li>
-
-<li><a href="#accounts">Accounts</a></li>
-
-<li><a href="#loans">Loans</a></li>
-
-<li><a href="#cards">Cards</a></li>
-
-<li><a href="#investments">Investments</a></li>
-
-<li><a href="#insurance">Insurance</a></li>
-
-<li><a href="#calculator">EMI Calculator</a></li>
-
-<li><a href="#compare">Compare</a></li>
-
-<button class="login-btn" onclick="openLogin()">Login🔒</button>
-
-</ul>
-
-</div>
-
-<!-- HERO -->
-
-<div class="hero">
-
-<h1> Welcome to Horizon Netbanking Personal Services </h1>
-
-<p>Comprehensive financial solutions for individuals and businesses</p>
-
-</div>
+    <div class="hero">
+        <h1> Welcome to Horizon Netbanking Personal Services </h1>
+        <p>Comprehensive financial solutions for individuals and businesses</p>
+    </div>
 
 <!-- SEARCH -->
 

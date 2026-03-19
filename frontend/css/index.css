@@ -13,7 +13,30 @@ body {
     color:#1e293b;
     overflow-x: hidden;
 }
+.news-ticker {
+    width: 100%;
+    background: #ffcc00;
+    color: #000;
+    overflow: hidden;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    position: relative; /* SAFE */
+    z-index: 100; /* below navbar */
+}
 
+.ticker-text {
+    white-space: nowrap;
+    display: inline-block;
+    padding-left: 100%;
+    animation: tickerMove 15s linear infinite;
+    font-weight: bold;
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
 
 /* Navbar Redesign */
 
@@ -24,7 +47,7 @@ body {
     padding:20px 5%;
     background:#0A1F44;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    position: sticky;
+    position:relative;
     border-radius: 0px;
     top: 0;
     z-index:200;
@@ -648,10 +671,6 @@ margin-trim:left;
     margin-bottom: 50px;
     color:whitesmoke;
 }
-
-
-
-
 /* Stats */
 
 .stats-container {
@@ -708,7 +727,244 @@ box-shadow:0 20px 40px rgba(0,0,0,0.25);
     }
 }
 
+<<<<<<< HEAD
+/* Footer (Axis/Jio Inspired) */
+.main-footer {
+    background: var(--footer-bg);
+    color: #cbd5e1;
+    padding: 60px 5% 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+}
+
+.footer-col h4 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.footer-col ul li:hover { color: var(--secondary); padding-left: 5px; }
+
+.social-links {
+    font-size: 24px;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.app-badges img {
+    height: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
+}
+/*login page css*/
+/* LOGIN MODAL BACKGROUND */
+/* LOGIN BOX */
+
+.login-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #ffffff; /* Matches your glassmorphism text color */
+}
+
+.signup-link a {
+    color: #ffcc00; /* Gold color to match your buttons */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* CLOSE BUTTON */
+
+.close{
+    
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:20px;
+    cursor:pointer;
+    color:darkgray;
+}
+
+.h{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-weight: bolder;
+    font-size:35px;
+    color: black;
+    margin-bottom: auto;
+
+}
+
+/* SUB TEXT */
+
+.sub{
+    font-size:14px;
+    color:darkslategray;
+    margin-top: auto;
+    margin-bottom:20px;
+}
+
+
+/* CUSTOMER ADMIN BUTTONS */
+
+.login-type{
+    display:flex;
+    justify-content:center;
+    gap:1px;
+    margin-bottom:20px;
+}
+
+.login-type button{
+    padding:8px 20px;
+    border:none;
+    background:goldenrod;
+    color:black;
+    border-radius:40px;
+    font-weight: bold;
+    cursor:pointer;
+    font-size:20px;
+}
+
+/* GLASS LOGIN BOX */
+
+.login-box{
+    width:380px;
+    padding:35px;
+    border-radius:15px;
+
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    color:white;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* FORM */
+
+form{
+    text-align:left;
+}
+
+form label{
+    font-size:16px;
+    font-weight:bold;
+    color:black;
+}
+
+
+form input{
+    width:94%;
+    padding:10px;
+    margin:8px 0 15px;
+    border:1px solid gray;
+    border-radius:5px;
+}
+
+
+/* CAPTCHA */
+
+.captcha-box{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.captcha-box span{
+    background:#ae285d;
+    padding:8px 8px;
+    font-weight:bold;
+    letter-spacing:4px;
+    margin-right: 0%;
+}
+.captcha-box button{
+box-sizing: border-box;
+padding:0;
+justify-items: left;
+border:none;
+background:white;
+color:gold;
+cursor:pointer;
+border-radius:4px;
+margin-trim:left;
+
+}
+
+/* LOGIN BUTTON */
+
+.login-submit{
+    width:100%;
+    padding:13px;
+    background:goldenrod;
+    color:black;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+.forgotpin{
+    color:#12396b;
+    font-style: italic;
+    font-size: small;
+    margin-top:0px;
+    margin-bottom:2px ;
+}
+
+.login-submit:hover{
+    background:gold;
+    color:#1e1e1e;
+}
+ 
+
+/* ============================= */
+/* NET BANKING SERVICES SECTION */
+/* ============================= */
+=======
 /* 4 Boxes css Section 3 */
+>>>>>>> 810dc9704995ecd287bfb25a7b29066914babbea
 
 .netbanking-services{
 background:#1e293b;

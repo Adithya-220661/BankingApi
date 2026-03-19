@@ -728,6 +728,7 @@ box-shadow:0 20px 40px rgba(0,0,0,0.25);
 }
 
 /* Footer (Axis/Jio Inspired) */
+
 .main-footer {
     background: var(--footer-bg);
     color: #cbd5e1;
@@ -958,9 +959,7 @@ margin-trim:left;
 }
  
 
-/* ============================= */
-/* NET BANKING SERVICES SECTION */
-/* ============================= */
+
 
 .netbanking-services{
 background:#1e293b;
@@ -997,7 +996,7 @@ box-shadow:0 20px 40px rgba(0,0,0,0.25);
 }
 
 
-/* ORANGE HEADER */
+
 
 .service-header{
 background:linear-gradient(135deg,lightblue,#00c3ff,#003366);
@@ -1077,8 +1076,9 @@ color:#003366;
 
 
 .faq-section{
-width:85%;
+width:95%;
 margin:60px auto;
+
 
 
 

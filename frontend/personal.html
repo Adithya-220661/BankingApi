@@ -1,726 +1,701 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Banking personal webpage</title>
-        <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Bank | Premium Digital Banking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        
+        html { scroll-behavior: smooth; }
 
-         html{
-scroll-behavior:smooth;
-}
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background:rgb(151, 199, 249);
+            color:black;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-/* BODY */
-.abc{
-margin:0;
-font-family:"Segoe UI",Arial;
-background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-color:white;
-}
-
-            .navbar{
-            position:sticky;
-            top:0;
-            background:#003366;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:15px 60px;
-            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+        .navbar {
+            position: sticky;
+            top:1px;
+            background:#0b2a4a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
             z-index:200;
-            }
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-            .logo{
-            font-size:30px;
-            font-weight:800;
-            color:gold;
-            }
+        .logo { 
+            font-size: 25px;
+            font-weight: 800;
+            color:yellow;
+            letter-spacing:0.5px; }
 
-            .nav-links{
-            display:flex;
-            gap:18px;
-            list-style:none;
-            }
+        .nav-links { 
+            display: flex;
+            gap: 15px; 
+            list-style: none; 
+            align-items:center; 
+            margin: 0; 
+            padding: 0; 
+            text-decoration: wavy;
+        }
 
-            .nav-links a{
-            text-decoration:none;
+        .nav-links a {
+            text-decoration:wavy;
             color:white;
-            font-size:14px;
-            transition:0.3s;
-            font-weight: 200;
-            }
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: 0.3s;
+        }
 
-            .nav-links a:hover{
-            color:#1283f4;
-            }
+        .nav-links a:hover { 
+            color:#14a5e3; 
+        }
 
-            /* first box  */
+        .login-btn {
+            background:gold;
+            color:navy;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 10px;
+        }
 
-           
-/* HERO */
-.hero{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+        /* --- image scroller --- */
+
+        .hero1 {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            padding: 40px 8%;
+            min-height: 200px;
+            gap: 20px;
+            background:whitesmoke;
+        }
+
+        .hero-text1 h1 {
+            font-size: 64px;
+            line-height: 1;
+            margin-bottom: 20px;
+            font-weight: 800;
+            color: black;
+        }
+
+        .hero-text1 p { 
+            font-size: 18px; 
+            color:rgb(73, 72, 72); 
+            max-width: 550px; 
+            margin-bottom: 30px; 
+        }
+
+        /* --- slider css  --- */
+
+        .slider {
+            width: 100%; 
+            overflow: hidden; 
+            position: relative; 
+        }
+        .slide-track { 
+            display: flex; 
+            width: calc(250px * 8); 
+            animation: scroll 30s linear infinite; 
+        }
+        .slide-track img {
+            width: 230px; height: 250px; object-fit: cover; margin: 8px;
+            border-radius: 5px; border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.5s ease;
+        }
+        .slide-track img:hover { transform: scale(1.05); border-color:black; }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 4)); }
+        }
+
+        /* --- Section 2 css --- */
+
+        .section1{ 
+            padding: 40px 8%; 
+            border-bottom: 1px solid rgba(255,255,255,0.05) ;
+            background: #0b2a4a;
+            margin-bottom: 0;
+            
+        }
+        .section-title1 { 
+            font-size: 30px; 
+            margin-bottom: 15px; 
+            color: white; 
+        }
+        .section-subtitle1 { 
+            color:lightseagreen; 
+            font-size: 14px; 
+            margin-bottom: 40px; 
+            display: block; }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; }
+
+        .card {
+            background:whitesmoke;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 30px;
+            transition: 0.3s ease;
+        }
+        .card:hover { 
+            background-color:white;
+            transform: translateY(-5px); 
+            border-color:#14a5e3; 
+            color:black;
+        }
+
+        .card h3 { 
+
+            margin-bottom: 15px; 
+            font-size: 20px; color:rgb(245, 245, 17);
+         }
+        .features { 
+            font-size: 14px; 
+            color:#333; 
+            margin-bottom:20px; 
+            min-height:80px; 
+        }
+
+        .apply {
+            background: transparent; 
+            border: 1px solid #14a5e3; 
+            color:#0f2027;
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            width: 100%; 
+            transition: 0.3s;
+        }
+        .apply:hover { 
+            background:#62ccfa; 
+            color:darkblue; 
+        }
+
+        /* --- CALCULATOR --- */
+        
+        .calculator-box {
+            background:white; 
+            padding: 50px; 
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05); display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end;
+        }
+        .input-group { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            flex: 1; }
+        .input-group label { 
+            font-size: 12px; 
+            color:darkblue; 
+        }
+        .input-group input { 
+            padding: 12px; 
+            border-radius: 5px; 
+            border: 1px solid #333; 
+            background:#f0f4f5; 
+            color:black; }
+
+        /* --- TABLE --- */
+        .compare-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            background:white; 
+            align-items: center;
+        }
+        .compare-table th { 
+            background: rgba(0,0,0,0.3); 
+            color:black; 
+            text-align: left;
+            padding: 20px; 
+        }
+        .compare-table td { 
+            padding: 20px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+        }
+
+        /* footer csss .................. */
     
+        .footer {
+            background:#0f2027;
+            color: white;
+            padding: 60px 8% 20px 8%;
+            margin-top:0px;
+        }
 
-    background:whitesmoke;   /* no box */
-}
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
 
+        .footer-col h4 { 
+            color:#14a5e3; 
+            margin-bottom: 20px; 
+            font-size: 18px; 
+        }
+        .footer-col ul { 
+            list-style: none; 
+            padding: 0; 
+        }
+        .footer-col ul li { 
+            margin-bottom: 10px; 
+        }
+        .footer-col ul li a { 
+            color: #ccc; 
+            text-decoration: none; 
+            font-size: 14px; transition: 0.3s; 
+        }
+        .footer-col ul li a:hover { 
+            color:red; 
+            padding-left: 5px; 
+        }
 
-.hero h1{
-font-size:38px;
-color: #0f2027;
-}
+        .newsletter input {
+            width: 100%; 
+            padding: 10px; 
+            border-radius: 4px; 
+            border: none; 
+            margin-bottom: 10px;
+        }
 
-/* 🔥 IMAGE SLIDER */
-.slider{
-width:100%;
-margin:10px auto;
-overflow:hidden;
-border-radius:5px;
-}
-
-.slide-track{
-display:flex;
-width:calc(350px * 8);
-animation:scroll 18s linear infinite;
-}
-
-.slide-track img{
-width:250px;
-height:260px;
-margin:10px;
-border-radius:12px;
-transition:0.4s;
-}
-
-/* HOVER */
-.slide-track img:hover{
-transform:scale(1.15);
-}
-
-/* ANIMATION */
-@keyframes scroll{
-0%{transform:translateX(0);}
-100%{transform:translateX(-50%);}
-}
-
-
-            /* SEARCH */
-
-            .search-box{
-            display:flex;
-            justify-content:center;
-            margin-top:30px;
-            }
-
-            .search-box input{
-            width:380px;
-            padding:14px;
-            border-radius:30px;
-            border:none;
-            box-shadow:0 6px 20px rgba(0,0,0,0.15);
-            }
-
-            /* SECTION */
-
-            .section{
-            padding:70px 90px;
-            }
-
-            .section-title{
-            font-size:28px;
-            margin-bottom:35px;
-            position:relative;
-            }
-
-            .section-title:after{
-            content:"";
-            width:60px;
-            height:3px;
-            background:#c9a227;
-            position:absolute;
-            bottom:-10px;
-            left:0;
-            }
-
-            /* GRID */
-
-            .grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-            gap:28px;
-            }
-
-            /* CARD */
-
-            .card{
-            background:white;
-            border-radius:14px;
-            padding:30px;
-            box-shadow:0 8px 25px rgba(0,0,0,0.08);
-            transition:0.3s;
-            border-top:4px solid transparent;
-            }
-
-            .card:hover{
-            transform:translateY(-8px);
-            border-top:4px solid #1f4e79;
-            box-shadow:0 18px 40px rgba(0,0,0,0.18);
-            }
-
-            .card h3{
-            margin-top:0;
-            color:#0b2a4a;
-            }
-
-            .features{
-            font-size:13px;
-            margin-top:12px;
-            line-height:1.7;
-            color:#4b5a6a;
-            }
-
-            /* BUTTON */
-
-            .apply{
-            margin-top:18px;
-            padding:10px 22px;
-            border:none;
-            border-radius:6px;
-            background:#0b2a4a;
-            color:white;
-            cursor:pointer;
-            transition:0.25s;
-            }
-
-            .apply:hover{
-            background:#c9a227;
-            color:#0b2a4a;
-            }
-
-            /* EMI CALCULATOR */
-
-            .calculator{
-            background:white;
-            margin:60px 90px;
-            padding:40px;
-            border-radius:12px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.12);
-            }
-
-            .calculator input{
-            padding:12px;
-            margin:10px;
-            border-radius:6px;
-            border:1px solid #ccc;
-            }
-
-            .calculator button{
-            padding:10px 20px;
-            background:#1f4e79;
-            border:none;
-            color:white;
-            border-radius:6px;
-            cursor:pointer;
-            }
-
-            /* TABLE */
-
-            .compare{
-            margin:70px 90px;
-            }
-
-            table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            box-shadow:0 10px 30px rgba(0,0,0,0.08);
-            }
-
-            th{
-            background:#0b2a4a;
-            color:white;
-            padding:14px;
-            }
-
-            td{
-            padding:14px;
-            border-bottom:1px solid #eee;
-            }
-
-            tr:hover{
-            background:#f1f5f9;
-            }
-
-            /* CTA */
-
-            .cta{
-            margin-top:70px;
-            background:linear-gradient(135deg,#1f4e79,#0b2a4a);
-            padding:70px;
-            text-align:center;
-            color:white;
-            }
-
-            .cta button{
-            padding:14px 36px;
-            border:none;
-            border-radius:8px;
-            background:#c9a227;
-            color:#0b2a4a;
-            font-weight:600;
-            cursor:pointer;
-            }
-
-            /* FOOTER */
-
-            .footer{
-            background:#0b2a4a;
-            color:white;
-            text-align:center;
-            padding:25px;
-            margin-top:50px;
-            }
-
-</style>
-<link rel="stylesheet" href="css/index.css" >
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            font-size: 16px;
+            color: whitesmoke;
+        }
+       
+    </style>
+   <link rel="stylesheet" href="css/index.css">
 </head>
+<body>
 
-<body class="abc">
-    
-        <div class="navbar">
-            <div class="logo">Horizon Bank Products</div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#accounts">Accounts</a></li>
-                    <li><a href="#loans">Loans</a></li>
-                    <li><a href="#cards">Cards</a></li>
-                    <li><a href="#investments">Investments</a></li>
-                    <li><a href="#insurance">Insurance</a></li>
-                    <li><a href="#calculator">EMI Calculator</a></li>
-                    <li><a href="#compare">Compare</a></li>
-                    <button class="login-btn" onclick="openLogin()">Login🔒</button>
+    <nav class="navbar">
+        <div class="logo">HORIZON BANK</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#accounts">Accounts</a></li>
+            <li><a href="#loans">Loans</a></li>
+            <li><a href="#cards">Cards</a></li>
+            <li><a href="#investments">Investments</a></li>
+            <li><a href="#insurance">Insurance</a></li>
+            <li><a href="#calculator">Tools</a></li>
+            <li><a href="#compare">Compare</a></li>
+           <button class="login-btn" onclick="openLogin()">Login <i class="fas fa-lock"></i></button>
+        </ul>
+    </nav>
+
+    <header class="hero1">
+        <div class="hero-text1">
+            <h1>Elevate Your <br><span style="color:gold;">Financial Status.</span></h1>
+            <p>Welcome to the next generation of banking. We offer zero-fee accounts, instant loan approvals, and worldwide wealth management tools.</p>
+            <button class="login-btn" style="padding: 15px 40px; border-radius: 30px; font-size: 18px;">
+                <a href="registration.html" style="text-decoration: none;color:#333">Open Digital A/c </a></button>
+        </div>
+        <div class="slider">
+            <div class="slide-track">
+                <img src="https://picsum.photos/id/1015/300/400">
+                <img src="https://picsum.photos/id/1016/300/400">
+                <img src="https://picsum.photos/id/1018/300/400">
+                <img src="https://picsum.photos/id/1020/300/400">
+                <img src="https://picsum.photos/id/1015/300/400">
+                <img src="https://picsum.photos/id/1016/300/400">
+            </div>
+        </div>
+    </header>
+
+   
+    <section class="section1" id="accounts">
+         <h2 class="section-title1">👉Personalized Accounts</h2>
+        <span class="section-subtitle1">
+            Banking Excellence-At Horizon Bank, we offer a diverse range
+             of account types designed to match your specific lifestyle and financial goals. 
+             For those seeking long-term growth and high returns, our Savings Gold account provides
+              a premium experience with a high-yield interest rate of 4.5% APY, complemented by a 
+              free titanium debit card and global ATM access. For business leaders and high-net-worth 
+              individuals, the Current Elite account stands as the gold standard, offering unlimited
+               transaction limits, multi-currency support, and a dedicated wealth manager to handle
+                complex financial needs. Finally, our Youth Saver account is specifically crafted for 
+                students and young professionals under 25, featuring a zero-balance requirement, 
+                educational cashback rewards, and intuitive mobile tools to help the next generation
+                 build a solid financial foundation.</span>
+       
+        <div class="grid">
+            <div class="card">
+                <h3>Savings Gold</h3>
+                <div class="features">High-yield savings with 4.5% annual interest. Includes a free titanium debit card and global ATM access.</div>
+                <button class="apply">Apply Now</button>
+            </div>
+            <div class="card">
+                <h3>Current Elite</h3>
+                <div class="features">Unlimited business transactions, dedicated relationship manager, and premium checkbook facilities.</div>
+                <button class="apply">Apply Now</button>
+            </div>
+            <div class="card">
+                <h3>Youth Saver</h3>
+                <div class="features">Designed for students under 25. Zero balance requirement and cashback on educational spends.</div>
+                <button class="apply">Apply Now</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="loans">
+        <h2 class="section-title1">👉Loan Products</h2>
+        <span class="section-subtitle1">Fast Funding-Horizon Bank offers a
+             comprehensive suite of financial solutions ranging from high-yield
+              Savings Gold accounts with 4.5% interest to specialized Youth Saver
+               and Current Elite options tailored for every stage of life.
+                Our lending portfolio features Home Loans starting at 8.4% Fixed ROI 
+                and instant Personal Credit up to ₹25 Lakhs, ensuring you have the liquidity
+                 needed for your biggest milestones.</span>
+        <div class="grid">
+            <div class="card">
+                <h3>Home Loans</h3>
+                <div class="features">Rates starting at 8.2%. Minimal documentation and quick technical valuation of property.</div>
+                <button class="apply">Check Eligibility</button>
+            </div>
+            <div class="card">
+                <h3>Personal Credit</h3>
+                <div class="features">Instant disbursement up to ₹25 Lakhs for pre-approved customers with zero collateral.</div>
+                <button class="apply">Apply Instantly</button>
+            </div>
+            <div class="card">
+                <h3>Auto Finance</h3>
+                <div class="features">Up to 100% on-road funding for electric vehicles. 7-year flexible repayment tenures.</div>
+                <button class="apply">Get Quote</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="cards">
+        <h2 class="section-title1">👉Credit & Debit Cards</h2>
+        <span class="section-subtitle1">Spending Power-Our Infinite<b> Credit Cards</b> and Signature
+            <b> Debit suites</b> are designed to provide unparalleled spending power with 5x 
+             reward points on global dining and complimentary international 
+             lounge access for the frequent traveler. For everyday transactions,
+              our cards feature high-limit contactless "Tap & Pay" technology and 
+              enhanced multi-layer fraud protection to ensure your funds remain secure at
+               over 500+ merchant partners. Additionally, our multi-currency Forex Travel Cards 
+               allow you to lock in exchange rates before you fly, protecting your budget from market 
+               fluctuations during overseas trips</span>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>Infinite Credit</h3>
+                <div class="features">Lounge access, 5x reward points on travel, and comprehensive air accident insurance.</div>
+                <button class="apply">Explore Card</button>
+            </div>
+            <div class="card">
+                <h3>Signature Debit</h3>
+                <div class="features">Contactless payments with high daily withdrawal limits and lifestyle discounts.</div>
+                <button class="apply">Upgrade Now</button>
+            </div>
+            <div class="card">
+                <h3>Forex Travel</h3>
+                <div class="features">Load up to 15 currencies. Locked-in exchange rates for worry-free international travel.</div>
+                <button class="apply">Order Card</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="investments">
+         <h2 class="section-title1">👉Investment Plans</h2>
+        <span class="section-subtitle1">Wealth Growth-Gemini said
+Our <b>Investment Plans</b> are meticulously curated to accelerate your wealth growth,
+ offering secure Fixed Deposits with industry-leading returns of up to <b>7.8%</b> for
+  senior citizens and flexible interest payout options. For those seeking long-term 
+  capital appreciation, our expert-managed Mutual Fund SIPs leverage the power of
+   compounding to help you build a robust portfolio tailored to your risk appetite. 
+   We prioritize financial security by integrating these growth tools with comprehensive 
+   <b>Insurance Coverage</b>, ensuring your family’s future is protected through high-cover term life
+    and cashless health plans. By combining strategic asset allocation with professional market
+     insights, Horizon Bank empowers you to transform your savings into a lasting legacy of financial
+      independence.</span>
+       
+        <div class="grid">
+            <div class="card">
+                <h3>Fixed Deposits</h3>
+                <div class="features">Safe returns up to 7.8% for senior citizens. Tax-saver options available for 5-year terms.</div>
+                <button class="apply">Invest Now</button>
+            </div>
+            <div class="card">
+                <h3>Mutual Funds</h3>
+                <div class="features">Invest in top-performing SIPs curated by our experts for long-term wealth creation.</div>
+                <button class="apply">Start SIP</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="insurance">
+        <h2 class="section-title1">👉Insurance Coverage</h2>
+        <span class="section-subtitle1">Total Protection-Our Insurance Coverage provides a robust 
+            360-degree safety net, offering high-cover Term Life Insurance to secure your family’s
+             financial future and comprehensive Health Care plans with cashless hospitalization at
+              over 10,000+ network providers. We prioritize your peace of mind by integrating Vehicle 
+              Insurance with instant claim settlements and specialized protection for your digital 
+              assets against modern cyber threats. Each policy is designed with affordable premiums and 
+              flexible riders, ensuring that your health, life, and hard-earned assets remain shielded
+               from life’s unpredictable turns.</span>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>Term Life</h3>
+                <div class="features">Secure your family's future with high cover amounts at very low premium costs.</div>
+                <button class="apply">View Plans</button>
+            </div>
+            <div class="card">
+                <h3>Health Care</h3>
+                <div class="features">Cashless hospitalization at 10,000+ network hospitals with maternity benefits.</div>
+                <button class="apply">View Plans</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="calculator">
+        
+        <h2 class="section-title1">👉Smart EMI Calculator</h2>
+        <span class="section-subtitle1">Plan Your Budget-Our Smart EMI Calculator is an 
+            essential budgeting tool designed to bring complete transparency to your borrowing
+             experience, allowing you to visualize your monthly commitments before you commit to a 
+             loan. By simply inputting your desired principal amount, current interest rates, and
+              preferred tenure, you can instantly generate a detailed repayment schedule 
+               to your financial capacity.</span>
+        <div class="calculator-box">
+            <div class="input-group">
+                <label>Amount (₹)</label>
+                <input type="number" id="amount" placeholder="e.g. 500000">
+            </div>
+            <div class="input-group">
+                <label>Interest Rate (%)</label>
+                <input type="number" id="rate" placeholder="e.g. 8.5">
+            </div>
+            <div class="input-group">
+                <label>Tenure (Years)</label>
+                <input type="number" id="years" placeholder="e.g. 5">
+            </div>
+            <button class="login-btn" style="height: 45px;" onclick="calculateEMI()">Calculate</button>
+            <div id="emiResult" style="flex: 1; font-weight: bold; color: var(--primary); font-size: 20px;"></div>
+        </div>
+    </section>
+
+    <section class="section1" id="compare">
+        <h2 class="section-title1">👉Product Comparison</h2>
+        <span class="section-subtitle1">Transparency First-By comparing key metrics such as 
+            minimum balance requirements, interest yields, and exclusive lifestyle benefits,
+             you can identify which "Horizon" tier best serves your current lifestyle. This
+              transparency ensures that whether you are a conservative saver or a dynamic entrepreneur
+              , you are equipped with the data to select the gold standard of banking excellence.
+        </span>
+      
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Annual Interest</th>
+                    <th>Min. Balance</th>
+                    <th>Benefit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Savings Gold</td>
+                    <td>4.5%</td>
+                    <td>₹10,000</td>
+                    <td>Free Insurance</td>
+                </tr>
+                <tr>
+                    <td>Fixed Deposit</td>
+                    <td>7.5%</td>
+                    <td>₹5,000</td>
+                    <td>Guaranteed Returns</td>
+                </tr>
+                <tr>
+                    <td>Elite Current</td>
+                    <td>0.0%</td>
+                    <td>₹50,000</td>
+                    <td>Multi-city Cheque</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Horizon Bank</h4>
+                <p style="font-size: 13px; color: #ccc;">Leading the digital revolution in personal and corporate banking since 1998. Trusted by millions.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#accounts">Savings Accounts</a></li>
+                    <li><a href="#loans">Home Loans</a></li>
+                    <li><a href="#investments">Fixed Deposits</a></li>
+                    <li><a href="#insurance">Life Insurance</a></li>
                 </ul>
             </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">24/7 Helpline</a></li>
+                    <li><a href="#">Locate Branch</a></li>
+                    <li><a href="#">Report Fraud</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col newsletter">
+                <h4>Stay Updated</h4>
+                <p style="font-size: 12px; color: #ccc;">
+                    Subscribe to get the latest interest rate updates.
+                </p>
+                <input type="email" placeholder="Your Email">
+                <button class="login-btn" style="width: 100%;">Subscribe</button>
+            </div>
         </div>
-       
-<div class="hero">
-
-    <div class="hero-text">
-        <h1>Welcome to Horizon Banking</h1>
-        <p style="color: #1f4e79;">Modern digital banking experience</p>
-    </div>
-
-    <div class="slider">
-        <div class="slide-track">
-
-            <img src="https://picsum.photos/id/1015/400/300">
-            <img src="https://picsum.photos/id/1016/400/300">
-            <img src="https://picsum.photos/id/1018/400/300">
-            <img src="https://picsum.photos/id/1020/400/300">
-
-            <!-- DUPLICATE -->
-            <img src="https://picsum.photos/id/1015/400/300">
-            <img src="https://picsum.photos/id/1016/400/300">
-            <img src="https://picsum.photos/id/1018/400/300">
-            <img src="https://picsum.photos/id/1020/400/300">
-
+        <div class="footer-bottom">
+            &copy; 2026 Horizon Global Bank. All rights reserved. Member FDIC. ISO 27001 Certified.
         </div>
-    </div>
+    </footer>
+    
+    <!-- Login Box opening  -->
 
-</div>
-    <div class="search-box">
-        <input type="text" id="search" placeholder="Search banking products...">
-    </div>
 
-    <!-- ACCOUNTS -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+        <span class="close" onclick="closeLogin()">✖</span>
+        <h2 class="h">Welcome to Horizon</h2>
+        <p class="sub" >Your Money-Our Security </p>
 
-<div class="section" id="accounts">
+        <!-- Login /Admin -->
 
-<h2 class="section-title">Accounts</h2>
+        <div class="login-type">
+            <button onclick="showCustomer()">Customer</button>
+            <button onclick="showAdmin()">Admin</button>
+        </div>
 
-<div class="grid">
+        <!-- User Login settings -->
 
-<div class="card">
-<h3>Savings Account</h3>
-<div class="features">
-• 4% annual interest<br>
-• Mobile banking<br>
-• Debit card access
-</div>
-<button class="apply">Apply</button>
-</div>
+        <form id="customerLogin" autocomplete="off">
 
-<div class="card">
-<h3>Current Account</h3>
-<div class="features">
-• Unlimited transactions<br>
-• Business tools<br>
-• Overdraft facility
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Senior Citizen Account</h3>
-<div class="features">
-• Higher interest<br>
-• Priority service<br>
-• Free cheque book
-</div>
-<button class="apply">Apply</button>
-</div>
-
-</div>
-</div>
-
-<!-- LOANS -->
-
-<div class="section" id="loans">
-
-<h2 class="section-title">Loans</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Home Loan</h3>
-<div class="features">
-• Interest from 8.5%<br>
-• Loan up to ₹2 Cr<br>
-• 30 year tenure
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Personal Loan</h3>
-<div class="features">
-• Instant approval<br>
-• No collateral<br>
-• Flexible EMI
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Vehicle Loan</h3>
-<div class="features">
-• Up to 90% funding<br>
-• Fast approval<br>
-• Flexible EMI
-</div>
-<button class="apply">Apply</button>
-</div>
-
-</div>
-</div>
-
-<!-- CARDS -->
-
-<div class="section" id="cards">
-
-<h2 class="section-title">Cards</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Debit Card</h3>
-<div class="features">
-• ATM withdrawals<br>
-• Contactless payment<br>
-• Global usage
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Credit Card</h3>
-<div class="features">
-• Cashback rewards<br>
-• Online payments<br>
-• Travel benefits
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Travel Card</h3>
-<div class="features">
-• Multi currency<br>
-• Secure payments<br>
-• Global acceptance
-</div>
-<button class="apply">Apply</button>
-</div>
-
-</div>
-</div>
-
-<!-- INVESTMENTS -->
-
-<div class="section" id="investments">
-
-<h2 class="section-title">Investments</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Fixed Deposit</h3>
-<div class="features">
-• Interest up to 7%<br>
-• Safe investment<br>
-• Flexible tenure
-</div>
-<button class="apply">Invest</button>
-</div>
-
-<div class="card">
-<h3>Recurring Deposit</h3>
-<div class="features">
-• Monthly deposit<br>
-• Secure growth<br>
-• Fixed returns
-</div>
-<button class="apply">Invest</button>
-</div>
-
-<div class="card">
-<h3>Mutual Funds</h3>
-<div class="features">
-• Equity funds<br>
-• Balanced funds<br>
-• Long term growth
-</div>
-<button class="apply">Explore</button>
-</div>
-
-</div>
-</div>
-
-<!-- INSURANCE -->
-
-<div class="section" id="insurance">
-
-<h2 class="section-title">Insurance</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Health Insurance</h3>
-<button class="apply">View Plans</button>
-</div>
-
-<div class="card">
-<h3>Life Insurance</h3>
-<button class="apply">View Plans</button>
-</div>
-
-<div class="card">
-<h3>Vehicle Insurance</h3>
-<button class="apply">View Plans</button>
-</div>
-
-</div>
-</div>
-
-<!-- EMI CALCULATOR -->
-
-<div class="calculator" id="calculator">
-
-<h2>Loan EMI Calculator</h2>
-
-<input type="number" id="amount" placeholder="Loan Amount">
-
-<input type="number" id="rate" placeholder="Interest Rate %">
-
-<input type="number" id="years" placeholder="Years">
-
-<button onclick="calculateEMI()">Calculate EMI</button>
-
-<h3 id="emiResult"></h3>
-
-</div>
-
-<!-- COMPARISON -->
-
-<div class="compare" id="compare">
-
-<h2>Product Comparison</h2>
-
-<table>
-
-<tr>
-<th>Product</th>
-<th>Interest Rate</th>
-<th>Minimum Balance</th>
-</tr>
-
-<tr>
-<td>Savings Account</td>
-<td>4%</td>
-<td>₹1000</td>
-</tr>
-
-<tr>
-<td>Current Account</td>
-<td>0%</td>
-<td>₹5000</td>
-</tr>
-
-<tr>
-<td>Fixed Deposit</td>
-<td>7%</td>
-<td>₹5000</td>
-</tr>
-
-</table>
-
-</div>
-
-<div class="cta">
-
-<h2>Start Your Digital Banking Today</h2>
-
-<button>Open Account</button>
-
-</div>
-
-<div class="footer">
-
-Secure NetBanking Platform
-
-</div>
-
-
-
-        <div class="login-modal" id="loginModal">
-
-            <div class="login-box">
-            <span class="close" onclick="closeLogin()">✖</span>
-            <h2 class="h">Welcome to Horizon</h2>
-            <p class="sub" >Your Money-Our Security </p>
-
-            <!-- Login /Admin -->
-
-            <div class="login-type">
-                <button onclick="showCustomer()">Customer</button>
-                <button onclick="showAdmin()">Admin</button>
+            <label>Enter Username:</label>
+            <div class="password-wrapper">
+                <input type="text" placeholder="Enter username" id="username" required>
             </div>
 
-      
-<!-- User Login settings -->
+            <label>Enter PIN:</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter PIN" maxlength="4" required>
+                <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+            </div>
+            <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin</a>
+            <br>
+            <br>
 
-<form id="customerLogin" autocomplete="off">
-    <label>Enter Username:</label>
-    <div class="password-wrapper">
-    
-    <input type="text" placeholder="Enter username" id="username">
-    </div>
-    
+            <label>Captcha</label>
+            <div class="captcha-box">
+                <span id="captchaText">AE2E4</span>
+                <button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
+                <input type="text" placeholder="Enter Captcha" id="captchaInput">
+            </div>
 
-    <label>Enter PIN:</label>
+            <div class="btn-group">
+                <button type="submit" class="login-submit">Secure Login</button>
+                <button type="reset" class="reset-btn">Reset</button>
+            </div>
 
-<div class="password-wrapper">
-    <input type="password" id="password" placeholder="Enter PIN">
-    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
-</div>
-    <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin/Reset Password</a>
-    <br>
-    <br>
-
-    <label>Captcha</label>
-    <div class="captcha-box">
-       <span id="captchaText">AE2E4</span>
-<button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
-
-        <input type="text" placeholder="Enter Captcha" id="captchaInput">
-    </div>
-
-    <div class="btn-group">
-    <button type="submit" class="login-submit">Secure Login</button>
-    <button type="reset" class="reset-btn">Reset</button>
-</div>
-
-    <div class="signup-link">
-        Don't have an account? <a href="registration.html">Create New Account</a>
-    </div>
-
-</form>
-            <!-- Admin login Page -->
-
-            <form id="adminLogin" style="display:none;">
-                <div class="password-wrapper">
-                <label>Admin Bank ID:</label>
-                <input type="text" placeholder="Enter Admin ID">
-</div>
-   <label>Enter Admin Password:</label>
-
-<div class="password-wrapper">
-    <input type="password" id="password" placeholder="Enter Password">
-    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
-</div>
-                <div class="password-wrapper">
-                <label> Enter Branch Code:</label>
-                <input type="text" placeholder="Enter branch code">
-                </div>
-                
-                <label>Captcha</label>
-    <div class="captcha-box">
-        <span id="captchaText2">AG125</span>
-<button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
-        <input type="text" placeholder="Enter Captcha" id="captchaInput">
-    </div>
- <div class="btn-group">
-    <button type="submit" class="login-submit">Secure Access</button>
-    <button type="reset" class="reset-btn">Reset</button>
-</div>
-                
+            <div class="signup-link">
+                Don't have an account? <a href="registration.html">Create New Account</a>
+            </div>
 
             </form>
 
-            </div>
+            <!-- Admin login Page -->
+
+            <form id="adminLogin" style="display:none;">
+
+                <div class="password-wrapper">
+                    <label>Admin Bank ID:</label>
+                    <input type="text" placeholder="Enter Admin ID" id="adminId">
+                </div>
+
+                <label>Enter Admin Password:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter Password">
+                    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+                </div>
+
+                <div class="password-wrapper">
+                    <label> Enter Branch Code:</label>
+                    <input type="text" placeholder="Enter branch code">
+                </div>
+                
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText2">AG125</span>
+                    <button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
+                    <input type="text" placeholder="Enter Captcha" id="captchaInput">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="login-submit">Secure Access</button>
+                    <button type="reset" class="reset-btn">Reset</button>
+                </div>
+                
+
+            </form>
+        </div>
     </div>
-
-
-<script>
-
-/* SEARCH */
-
-document.getElementById("search").addEventListener("keyup",function(){
-
-let value=this.value.toLowerCase();
-
-document.querySelectorAll(".card").forEach(card=>{
-
-card.style.display =
-card.innerText.toLowerCase().includes(value)
-? "block" : "none";
-
-});
-
-});
-
-/* EMI CALCULATOR */
-
-function calculateEMI(){
-
-let P=document.getElementById("amount").value;
-
-let r=document.getElementById("rate").value/1200;
-
-let n=document.getElementById("years").value*12;
-
-let emi=(P*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
-
-document.getElementById("emiResult").innerText =
-"Monthly EMI : ₹ "+Math.round(emi);
-
-}
-
+    
   
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        
+
+        // EMI Logic
+        function calculateEMI() {
+            let P = document.getElementById("amount").value;
+            let r = document.getElementById("rate").value / 1200;
+            let n = document.getElementById("years").value * 12;
+            if (P && r && n) {
+                let emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+                document.getElementById("emiResult").innerText = "Monthly EMI: ₹" + Math.round(emi).toLocaleString();
+            }
+        }
+
+        //login js code
+
+
+
 // OPEN LOGIN POPUP
 function openLogin(){
     document.getElementById("loginModal").style.display="flex";
@@ -751,33 +726,122 @@ document.addEventListener("DOMContentLoaded", function(){
 const customerForm = document.getElementById("customerLogin");
 const adminForm = document.getElementById("adminLogin");
 
-
 // CUSTOMER REDIRECT
 if(customerForm){
-customerForm.addEventListener("submit", function(e){
-
+customerForm.addEventListener("submit", async function(e){
 e.preventDefault();
 
-window.location.href = "dashboard.html";
+const username = document.getElementById('username').value.trim();
+const pin      = document.getElementById('password').value.trim();
+const captchaInput = document.getElementById('captchaInput').value.trim();
+const captchaText = document.getElementById('captchaText').innerText.trim();
+
+// Basic validation
+if(!username && !pin){
+  alert('⚠️ Please enter username and PIN.');
+  return;
+}
+if(!username){
+  alert('⚠️ Please enter your username.');
+  return;
+}
+if(!pin){
+  alert('⚠️ Please enter your PIN.');
+  return;
+}
+if(pin.length < 4){
+  alert('⚠️ PIN must be 4 digits.');
+  return;
+}
+
+if(captchaInput !== captchaText){
+    alert('❌ Invalid Captcha! Please try again.');
+    generateCaptcha('captchaText');
+    return;
+}
+
+try {
+  const res  = await fetch('http://localhost:5000/api/auth/login', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ username, pin })
+  });
+  const data = await res.json();
+
+  if(data.success){
+    // ✅ Found in database → go to dashboard
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    alert(`Welcome back, ${data.user.fullName}!`);
+    window.location.href = 'dashboard.html';
+
+  } else {
+    // ❌ Not found → show message
+    const goRegister = window.confirm(
+      '❌ ' + data.message + '\n\nDo you want to create a new account?'
+    );
+    if(goRegister){
+      window.location.href = 'registration.html';
+    }
+  }
+
+} catch(err) {
+  alert('❌ Cannot connect to server. Make sure backend is running on port 5000.');
+}
 
 });
 }
-
 
 // ADMIN REDIRECT
 if(adminForm){
-adminForm.addEventListener("submit", function(e){
-
+adminForm.addEventListener("submit", async function(e){
 e.preventDefault();
+const adminId  = document.getElementById('adminId') ? document.getElementById('adminId').value 
+                 : document.querySelector('#adminLogin input[type="text"]').value;
+const password = document.querySelector('#adminLogin input[type="password"]').value;
+const bankId   = document.querySelector('#adminLogin input[placeholder="Enter branch code"]').value;
 
-window.location.href = "admin.html";
+
+
+try {
+  const res  = await fetch('http://localhost:5000/api/auth/admin-login', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ adminId, password, bankId })
+  });
+  const data = await res.json();
+
+  if(data.success){
+    localStorage.setItem('token', data.token);
+    // ✅ Force save role as admin
+    const adminUser = { ...data.user, role: 'admin' };
+    localStorage.setItem('user', JSON.stringify(adminUser));
+    alert(`✅ Welcome, ${data.user.fullName}! Admin access granted.`);
+    window.location.href = 'admin.html';
+} else {
+  if(data.message === 'Invalid username or PIN.'){
+    const confirm = window.confirm(
+      'Account not found! Do you want to create a new account?'
+    );
+    if(confirm){
+      window.location.href = 'registration.html';
+    }
+  } else {
+    alert(data.message);
+  }
+}
+} catch(err) {
+  alert('Backend not running! Start server first.');
+}
 
 });
 }
 
+
 });
 
 
+// =======================
 // RANDOM CAPTCHA GENERATOR
 // =======================
 function generateCaptcha(targetId){
@@ -792,21 +856,33 @@ function generateCaptcha(targetId){
     document.getElementById(targetId).innerText = captcha;
 }
 
-
-
-
-
 document.addEventListener("DOMContentLoaded", function(){
+    generateCaptcha("captchaText");
+    generateCaptcha("captchaText2");
+});
 
-generateCaptcha();
-generateCaptchaAdmin();
+// Card hover glow
+
+document.querySelectorAll(".service-card").forEach(card => {
+
+card.addEventListener("mouseenter", () => {
+card.style.transform="translateY(-12px)";
+});
+
+card.addEventListener("mouseleave", () => {
+card.style.transform="translateY(0)";
+});
 
 });
+
+
 
 // Clear form on page load (after refresh)
 window.onload = function() {
     document.getElementById("customerLogin").reset();
     document.getElementById("adminLogin").reset();
+    generateCaptcha("captchaText");
+    generateCaptcha("captchaText2");
 };
 
 function togglePassword() {
@@ -823,22 +899,10 @@ function togglePassword() {
     }
 }
 
-// Card hover glow
-
-document.querySelectorAll(".service-card").forEach(card => {
-
-card.addEventListener("mouseenter", () => {
-card.style.transform="translateY(-12px)";
-});
-
-card.addEventListener("mouseleave", () => {
-card.style.transform="translateY(0)";
-});
-
-});
-
-</script>
 
 
+       
+    </script>
+  
 </body>
 </html>

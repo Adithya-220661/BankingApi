@@ -9,11 +9,12 @@
 </head>
 <body>
 
-    <marquee class="news-ticker">
-        ⚡IMPORTANT: Banks never asks for OTP or PIN over phone calls. Stay alert, stay secure.For queries contact us:1800 2345 1235 
-        |📈New FD rates increased to 7.5% p.a.
-    </marquee>
-
+    <div class="news-ticker">
+    <div class="ticker-text">
+        ⚡ IMPORTANT: Banks never ask for OTP or PIN over phone calls. Stay alert, stay secure. Contact: 1800 2345 1235 
+        | 📈 New FD rates increased to 7.5% p.a.|<a href="cyber.html">Stay aware about the cyber attacks</a>
+    </div>
+</div>
     <nav class="bank-navbar">
         <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
         <div id="logoSplash">
@@ -332,14 +333,14 @@
                 <ul>
                     <li>Interest Rates</li>
                     <li>Claim Form</li>
-                    <li>Complaint Form</li>
+                    <li><a href="complaintforms.html" style="color:white;text-decoration: none">Complaint Form</a></li>
                     <li>Grievance Redressal</li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Our Company</h4>
                 <ul>
-                    <li>About Us</li>
+                    <li><a href="aboutus.html" style="color:white;text-decoration: none;">About Us</a></li>
                     <li>Investor Relations</li>
                     <li>Regulatory Disclosure</li>
                 </ul>
@@ -347,8 +348,7 @@
             <div class="footer-col">
                 <h4>Legal</h4>
                 <ul>
-                    <li>Terms & Conditions</li>
-                    <li>Privacy Policy</li>
+                    <li><a href="privacypol.html" style="color:white;text-decoration: none">Terms & Conditions</a></li>
                     <li>Security Tips</li>
                 </ul>
             </div>
@@ -373,96 +373,95 @@
 
 
 
-        <!-- Login Box opening  -->
-        <div class="login-modal" id="loginModal">
+    <!-- Login Box opening  -->
 
-            <div class="login-box">
-            <span class="close" onclick="closeLogin()">✖</span>
-            <h2 class="h">Welcome to Horizon</h2>
-            <p class="sub" >Your Money-Our Security </p>
 
-            <!-- Login /Admin -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+        <span class="close" onclick="closeLogin()">✖</span>
+        <h2 class="h">Welcome to Horizon</h2>
+        <p class="sub" >Your Money-Our Security </p>
 
-            <div class="login-type">
-                <button onclick="showCustomer()">Customer</button>
-                <button onclick="showAdmin()">Admin</button>
+        <!-- Login /Admin -->
+
+        <div class="login-type">
+            <button onclick="showCustomer()">Customer</button>
+            <button onclick="showAdmin()">Admin</button>
+        </div>
+
+        <!-- User Login settings -->
+
+        <form id="customerLogin" autocomplete="off">
+
+            <label>Enter Username:</label>
+            <div class="password-wrapper">
+                <input type="text" placeholder="Enter username" id="username" required>
             </div>
 
-      
-<!-- User Login settings -->
+            <label>Enter PIN:</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter PIN" maxlength="4" required>
+                <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+            </div>
+            <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin</a>
+            <br>
+            <br>
 
-<form id="customerLogin" autocomplete="off">
-    <label>Enter Username:</label>
-    <div class="password-wrapper">
-    
-    <input type="text" placeholder="Enter username" id="username" required>
-    </div>
-    
+            <label>Captcha</label>
+            <div class="captcha-box">
+                <span id="captchaText">AE2E4</span>
+                <button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
+                <input type="text" placeholder="Enter Captcha" id="captchaInput">
+            </div>
 
-    <label>Enter PIN:</label>
+            <div class="btn-group">
+                <button type="submit" class="login-submit">Secure Login</button>
+                <button type="reset" class="reset-btn">Reset</button>
+            </div>
 
-<div class="password-wrapper">
-    <input type="password" id="password" placeholder="Enter PIN" maxlength="4" required>
-    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
-</div>
-    <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin</a>
-    <br>
-    <br>
-
-    <label>Captcha</label>
-    <div class="captcha-box">
-       <span id="captchaText">AE2E4</span>
-<button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
-
-        <input type="text" placeholder="Enter Captcha" id="captchaInput">
-    </div>
-
-    <div class="btn-group">
-    <button type="submit" class="login-submit">Secure Login</button>
-    <button type="reset" class="reset-btn">Reset</button>
-</div>
-
-    <div class="signup-link">
-        Don't have an account? <a href="registration.html">Create New Account</a>
-    </div>
-
-</form>
-            <!-- Admin login Page -->
-
-            <form id="adminLogin" style="display:none;">
-                <div class="password-wrapper">
-                <label>Admin Bank ID:</label>
-                <input type="text" placeholder="Enter Admin ID" id="adminId">
-</div>
-   <label>Enter Admin Password:</label>
-
-<div class="password-wrapper">
-    <input type="password" id="password" placeholder="Enter Password">
-    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
-</div>
-                <div class="password-wrapper">
-                <label> Enter Branch Code:</label>
-                <input type="text" placeholder="Enter branch code">
-                </div>
-                
-                <label>Captcha</label>
-    <div class="captcha-box">
-        <span id="captchaText2">AG125</span>
-<button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
-        <input type="text" placeholder="Enter Captcha" id="captchaInput">
-    </div>
- <div class="btn-group">
-    <button type="submit" class="login-submit">Secure Access</button>
-    <button type="reset" class="reset-btn">Reset</button>
-</div>
-                
+            <div class="signup-link">
+                Don't have an account? <a href="registration.html">Create New Account</a>
+            </div>
 
             </form>
 
-            </div>
-    </div>
+            <!-- Admin login Page -->
 
-<script src="js/index.js"></script>
+            <form id="adminLogin" style="display:none;">
+
+                <div class="password-wrapper">
+                    <label>Admin Bank ID:</label>
+                    <input type="text" placeholder="Enter Admin ID" id="adminId">
+                </div>
+
+                <label>Enter Admin Password:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter Password">
+                    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+                </div>
+
+                <div class="password-wrapper">
+                    <label> Enter Branch Code:</label>
+                    <input type="text" placeholder="Enter branch code">
+                </div>
+                
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText2">AG125</span>
+                    <button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
+                    <input type="text" placeholder="Enter Captcha" id="captchaInput">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="login-submit">Secure Access</button>
+                    <button type="reset" class="reset-btn">Reset</button>
+                </div>
+                
+
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/index.js"></script>
 
 </body>
 </html>

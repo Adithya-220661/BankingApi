@@ -1,42 +1,70 @@
-Project Title:BankingApi
+Project Title:
+Banking API (Digital Banking System)
 
 Problem Statement:
-Required to create an digital banking system that includes several features like:
--Account creation
--Transactions
--History
--Fraud modules 
--Admin Panel
-
-Problem Statement:
-In this technical generation banking system is rapidly changing.But in some regions we are still encountering the wastage of time due to long lines,writing slips,filling loan forms with amost 25 signatures.
-
-To avoid this type of problems we have to create a net banking system that allows user to do their respective banking operaions sitting at the home.According to latest surveys,80% of people have smart phones in their hand.So net banking is very easy for them if the interface is user-friendly and understandable.
+In today’s digital era, traditional banking systems are becoming inefficient due to long queues, manual form filling, and time-consuming processes such as loan applications and transactions. In many regions, customers still rely on physical banking services which leads to wastage of time and effort.
+With the rapid growth of smartphones and internet usage, there is a need for a secure and user-friendly digital banking system that allows users to perform banking operations from anywhere. This system aims to reduce dependency on physical banks and provide seamless banking services online.
 
 Objectives:
-Account creation,
-Online transactions,
-Providing transaction history,
-complaint and query modules
+To provide an easy and secure account creation system,
+To enable online fund transactions between users,
+To maintain and display transaction history,
+To implement fraud detection and reporting modules,
+To provide complaint and query support for users
+To develop an admin panel for monitoring and management
 
-
-Key features:
-Login Page,
-User authentication,
+Key Features:
+User Authentication,
+Secure login system,
+CAPTCHA verification,
+JWT-based authentication,
+Data security and validation,
+Account Management,
+User registration,
+Account details storage,
+Profile management,
+Online Transactions,
+Fund transfer between accounts,
+Secure and real-time processing,
+Validation of transactions,
+Transaction History,
+View past transactions,
+Track and filter records,
+Maintain transparency,
+Awareness of phishing and scams,
+Secure handling of sensitive data,
+Complaint System,
+Raise complaints for issues,
+Download and print complaint receipts,
 Admin Panel,
+Manage users and accounts,
+Monitor transactions,
+Handle complaints,
+Access system data,
 Dashboard,
-Emerging Information
+User-friendly interface,
+Overview of account details,
+Quick navigation to services,
 
-Technologies used:
-HTML(Front end),
-CSS(Front end),
-Node JS(Backend),
-Mongo DB(Database)
+Technologies Used:
+Frontend:
+HTML, CSS, JavaScript,
+Backend:
+Node.js, Express.js
 
-Work items:
-Login UI,Index UI,Register UI-Manohar
-Dashboard Ui,History UI,Transfer UI-Pravallika
-Precautions UI-Adithya,Bhagya Sri
-MongoDB-Manohar,Adithya
-Backend-Asreetha,Jagadeeswari
+Database:
+MongoDB (Atlas)
 
+Work Distribution:
+Login UI, Index UI, Register UI – Manohar,
+Dashboard UI, History UI, Transfer UI – Pravallika,
+Precautions UI,About Us UI,Complaint Form UI,Terms and Conditions UI, – Adithya, Bhagya Sri,
+MongoDB Integration – Asreetha,Jadadeeswari,
+Backend Development – Asreetha, Jagadeeswari
+
+Expected Outcomes:
+Reduce physical visits to banks,
+Save time for users,
+Provide secure digital transactions.
+Improve accessibility of banking services
+Deliver a user-friendly and efficient system

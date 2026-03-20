@@ -124,31 +124,33 @@
         </table>
       </div>
 
-      <!-- Pagination -->
+      <!-- Pagination — NO onclick here, attached in history.js -->
       <div class="pagination">
-        <button class="page-btn" onclick="changePage('prev')" id="prevBtn">
+        <button class="page-btn" id="prevBtn">
           ⬅️ Previous
         </button>
         <span class="page-info">
-          Page <span id="currentPage">1</span> 
+          Page <span id="currentPage">1</span>
           of <span id="totalPages">1</span>
         </span>
-        <button class="page-btn" onclick="changePage('next')" id="nextBtn">
-          Next ➡️
+        <!-- Next button  -->
+         <button class="page-btn" id="nextBtn">
+         Next ➡️
         </button>
       </div>
 
     </div>
   </div>
 
-  <script src="js/history.js">
+  <script src="js/history.js"></script>
+  <script>
     window.addEventListener('DOMContentLoaded', () => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const adminLink = document.getElementById('adminLink');
-    if(adminLink && user.role === 'admin'){
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const adminLink = document.getElementById('adminLink');
+      if(adminLink && user.role === 'admin'){
         adminLink.style.display = 'flex';
-    }
-});
+      }
+    });
   </script>
 </body>
 </html>

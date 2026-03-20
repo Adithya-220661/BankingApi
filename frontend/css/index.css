@@ -13,7 +13,29 @@ body {
     color:#1e293b;
     overflow-x: hidden;
 }
+.news-ticker {
+    width: 100%;
+    background: #ffcc00;
+    color: #333;
+    overflow: hidden;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    position: relative; /* SAFE */
+    z-index: 100; /* below navbar */
+}
 
+.ticker-text {
+    white-space: nowrap;
+    display: inline-block;
+    padding-left: 100%;
+    animation: tickerMove 15s linear infinite;
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
 
 /* Navbar Redesign */
 
@@ -24,7 +46,7 @@ body {
     padding:20px 5%;
     background:#0A1F44;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    position: sticky;
+    position:relative;
     border-radius: 0px;
     top: 0;
     z-index:200;
@@ -164,12 +186,6 @@ cursor:pointer;
 
 /*login page css*/
 
-
-
-
-
-
-
 .login-modal{
     display:none;
     position:fixed;
@@ -242,7 +258,8 @@ cursor:pointer;
     overflow: hidden;
     width: fit-content;
     margin: 20px auto;
-    background:grey;
+    background:lightblue;
+    color: #1e1e1e;
 }
 
 /* buttons inside */
@@ -367,24 +384,24 @@ margin-trim:left;
     width: 100%;
 }
 
-/* THIS IS THE REAL FIX */
+
 .password-wrapper input {
     width: 100%;
-    padding: 10px 40px 10px 10px; /* right padding for eye */
+    padding: 10px 40px 10px 10px; 
     border: 1px solid gray;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
-/* EYE INSIDE INPUT */
+
 .toggle-eye {
     position: absolute;
-    left:90%;   /* move inside */
+    left:90%;   
     top: 48%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 16px;
-    z-index: 2;   /* IMPORTANT */
+    z-index: 2;
 }
 .btn-group {
     display: flex;
@@ -412,7 +429,7 @@ margin-trim:left;
     color: black;
 }
 
-/* vedio-css */
+/*  Section 1 .....................vedio-css */
 
 
 .hero {
@@ -448,9 +465,6 @@ margin-trim:left;
     z-index: 2;
 }
 
-
-/* vedio text css*/
-
 .hero-content{
     position: relative;
     z-index: 3;
@@ -459,18 +473,12 @@ margin-trim:left;
 
 }
 
-
-/* main text css in vedio */
-
 .hero-content h1{
     font-size: 5px;
     font-weight:5px;
     line-height: 1.1;
     margin-bottom: 25px;
 }
-
-
-/* buttton css in vedio*/
 
 .hero-btn{
     background: white;
@@ -526,7 +534,7 @@ margin-trim:left;
 }
 
 
-/*section 1  css */ 
+/*section 2 .................mobile box ..... css */ 
 
 .digital-showcase {
     padding: 60px 5%;
@@ -607,286 +615,7 @@ margin-trim:left;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-/* Section 2 */
-
-.impact-banner {
-    background:url("indexfamily.png");
-    background-size: cover;
-    background-position: center;
-    color:gold;
-    padding:30px 60px;
-    border-radius:50px;
-    margin: 20px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-.content-wrapper {
-    max-width: 1200px;
-    margin: auto;
-    
-}
-
-.text-section {
-    max-width:500px;
-    color:yellow;
-
-}
-
-.main-title {
-    font-size:30px;
-    font-style:bold;
-    font-weight:100px;
-    margin-bottom:2px;
-    margin-top:10px;
-    color:white;
-    
-
-}
-
-.subtitle {
-    font-size:20px ;
-    margin-bottom: 50px;
-    color:whitesmoke;
-}
-/* Stats */
-
-.stats-container {
-    display:auto;
-    gap:8px;
-    margin-bottom:20px;
-    color:gold;
-    margin-left:10px ;
-    width:50%;
-    height: fit-content;
-}
-
-.stat-card {
-   
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 10px;
-    background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border-radius:40px;
-    flex: 1;
-    color: gold;
-}
-
-.stat-card:hover{
-transform:translateX(-10px);
-box-shadow:0 20px 40px rgba(0,0,0,0.25);
-}
-
-.stat-card h2 {
-    font-size: 1.8rem;
-}
-
-.stat-card p {
-    font-size: 0.9rem;
-}
-
-/* Button */
-.know-more-btn {
-    background:gold;
-    color:black;
-    border:none;
-    padding: 12px 35px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Responsive */
-@media (max-width:768px){
-    .stats-container{
-        flex-direction: column;
-    }
-}
-
-/* 4 Boxes css Section 3 */
-
-.netbanking-services{
-background:#1e293b;
-padding:70px 5%;
-}
-
-.services-title{
-text-align:center;
-font-size:36px;
-margin-bottom:50px;
-color:white;
-}
-
-.services-container{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:30px;
-}
-
-
-/* boxes */
-
-.service-card{
-background:white;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-transition:0.4s;
-}
-
-.service-card:hover{
-transform:translateY(-10px);
-box-shadow:0 20px 40px rgba(0,0,0,0.25);
-}
-
-
-/* ORANGE HEADER */
-
-.service-header{
-background:linear-gradient(135deg,lightblue,#00c3ff,#003366);
-color:black;
-font-size:22px;
-font-weight:bold;
-padding:20px;
-}
-
-/* BODY */
-
-.service-body{
-padding:25px;
-}
-
-/* TAG */
-
-.tag{
-background:whitesmoke;
-color:navy;
-padding:4px 10px;
-font-size:12px;
-border-radius:5px;
-display:inline-block;
-margin-bottom:10px;
-
-}
-
-
-/* DESCRIPTION */
-
-.service-desc{
-color:#003366;
-font-weight:bold;
-margin-bottom:15px;
-
-}
-
-
-/* LIST */
-
-.service-body ul{
-
-padding-left:18px;
-margin-bottom:20px;
-color:red;
-}
-
-.service-body ul li{
-
-margin-bottom:8px;
-font-size:14px;
-color:#555;
-}
-
-
-/* LINK */
-
-.service-link{
-
-text-decoration:none;
-color:#00c3ff;
-font-weight:bold;
-font-size:13px;
-
-}
-
-.service-link:hover{
-
-text-decoration:underline;
-color:#003366;
-}
-
-
-
-/*faq Section 4 */
-
-
-.faq-section{
-width:85%;
-margin:60px auto;
-
-}
-
-.faq-heading{
-text-align:left;
-font-size:30px;
-color:rgb(26, 26, 179);
-margin-bottom:30px;
-font-weight:800;
-}
-
-.faq-box{
-background:#1e293b;
-border-radius:12px;
-box-shadow:0 8px 25px rgba(0,0,0,0.1);
-overflow:hidden;
-}
-
-.faq-item{
-border-bottom:1px solid #003366;
-}
-
-.faq-question{
-width:100%;
-background:linear-gradient(135deg,#87dcf6,lightblue,#003366);
-border:none;
-padding:20px 25px;
-font-size:18px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-cursor:pointer;
-font-weight:500;
-transition:0.3s;
-}
-
-.faq-question:hover{
-background:#00c3ff;
-}
-
-.icon{
-font-size:20px;
-color:black;
-transition:0.3s;
-}
-
-.faq-answer{
-max-height:0;
-overflow:hidden;
-padding:0 25px;
-color:#555;
-line-height:1.6;
-transition:max-height 0.4s ease;
-background:whitesmoke;
-}
-
-.faq-answer p{
-margin:15px 0;
-color:#000;
-}
-
-.faq-item.active .faq-answer{
-padding:15px 25px;
-}
+/* Section 3 .......................4 Loans image boxes css */
 
 /* products sections section 3*/
 
@@ -1015,7 +744,294 @@ transform:scale(1.2);
 pointer-events:none;
 }
 
-/* Footer.. Css.......................... */
+/* Section 4 ...........................family imaged box css  */
+
+.impact-banner {
+    background:url("indexfamily.png");
+    background-size: cover;
+    background-position: center;
+    color:gold;
+    padding:30px 60px;
+    border-radius:50px;
+    margin: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin: auto;
+    
+}
+
+.text-section {
+    max-width:500px;
+    color:yellow;
+
+}
+
+.main-title {
+    font-size:30px;
+    font-style:bold;
+    font-weight:100px;
+    margin-bottom:2px;
+    margin-top:10px;
+    color:white;
+    
+
+}
+
+.subtitle {
+    font-size:20px ;
+    margin-bottom: 50px;
+    color:whitesmoke;
+}
+/* Stats */
+
+.stats-container {
+    display:auto;
+    gap:8px;
+    margin-bottom:20px;
+    color:gold;
+    margin-left:10px ;
+    width:50%;
+    height: fit-content;
+}
+
+.stat-card {
+   
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-radius:40px;
+    flex: 1;
+    color: gold;
+}
+
+.stat-card:hover{
+transform:translateX(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+.stat-card h2 {
+    font-size: 1.8rem;
+}
+
+.stat-card p {
+    font-size: 0.9rem;
+}
+
+/* Button */
+.know-more-btn {
+    background:gold;
+    color:black;
+    border:none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width:768px){
+    .stats-container{
+        flex-direction: column;
+    }
+}
+
+/* Section 5 ...........................Services offered by netbanking box css */
+
+
+
+.netbanking-services{
+background:#1e293b;
+padding:70px 5%;
+}
+
+.services-title{
+text-align:center;
+font-size:36px;
+margin-bottom:50px;
+color:white;
+}
+
+.services-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+
+/* boxes */
+
+.service-card{
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:0.4s;
+}
+
+.service-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+
+
+
+.service-header{
+background:linear-gradient(135deg,lightblue,#00c3ff,#003366);
+color:black;
+font-size:22px;
+font-weight:bold;
+padding:20px;
+}
+
+/* BODY */
+
+.service-body{
+padding:25px;
+}
+
+/* TAG */
+
+.tag{
+background:whitesmoke;
+color:navy;
+padding:4px 10px;
+font-size:12px;
+border-radius:5px;
+display:inline-block;
+margin-bottom:10px;
+
+}
+
+
+/* DESCRIPTION */
+
+.service-desc{
+color:#003366;
+font-weight:bold;
+margin-bottom:15px;
+
+}
+
+
+/* LIST */
+
+.service-body ul{
+
+padding-left:18px;
+margin-bottom:20px;
+color:red;
+}
+
+.service-body ul li{
+
+margin-bottom:8px;
+font-size:14px;
+color:#555;
+}
+
+
+/* LINK */
+
+.service-link{
+
+text-decoration:none;
+color:#00c3ff;
+font-weight:bold;
+font-size:13px;
+
+}
+
+.service-link:hover{
+
+text-decoration:underline;
+color:#003366;
+}
+
+/* Section 6 ..................................FAQ box css*/
+
+
+/*faq Section 4 */
+
+
+.faq-section{
+width:95%;
+margin:60px auto;
+
+
+
+
+}
+
+.faq-heading{
+text-align:left;
+font-size:30px;
+color:rgb(26, 26, 179);
+margin-bottom:30px;
+font-weight:800;
+}
+
+.faq-box{
+background:#1e293b;
+border-radius:0px 0px 60px px;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
+overflow:hidden;
+}
+
+.faq-item{
+border-bottom:1px solid #003366;
+}
+
+.faq-question{
+width:100%;
+background:linear-gradient(135deg,#9ae4fb);
+border:none;
+padding:20px 25px;
+font-size:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
+}
+
+.faq-question:hover{
+background:#00c3ff;
+}
+
+.icon{
+font-size:20px;
+color:black;
+transition:0.3s;
+}
+
+.faq-answer{
+max-height:0;
+overflow:hidden;
+padding:0 25px;
+color:#555;
+line-height:1.6;
+transition:max-height 0.4s ease;
+background:whitesmoke;
+}
+
+.faq-answer p{
+margin:15px 0;
+color:#000;
+}
+
+.faq-item.active .faq-answer{
+padding:15px 25px;
+}
+
+/* Section 7 ............footer box css */
 
 .main-footer {
     background: var(--footer-bg);
@@ -1068,3 +1084,4 @@ pointer-events:none;
     text-align: center;
     font-size: 12px;
 }
+

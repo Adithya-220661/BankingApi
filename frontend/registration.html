@@ -7,7 +7,7 @@
 <title>Open Digital Account</title>
 <link rel="stylesheet" href="css/account.css">
 </head>
-<body>
+<body>git
     <div class="registration-container">
     <div class="roadmap">
         <div class="step active" id="track-1">1</div>
@@ -182,6 +182,12 @@
             <input type="password" id="confirmPin" maxlength="4" placeholder="Confirm PIN" required>
         </div>
         
+
+        <div class="input-wrap full-line captcha-container">
+            <div id="captchaCode" class="captcha-box"></div>
+        <button type="button" onclick="generateCaptcha()">🔄</button>
+        <input type="text" id="captchaInput" placeholder="Enter Captcha">
+        </div>
        
 <label>Captcha</label>
 
@@ -190,12 +196,7 @@
 <button type="button" onclick="generateCaptcha()">🔄</button>
 <input type="text" id="captchaInput" placeholder="Enter Captcha">
 </div>
-    </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn-nav" onclick="nextStep(3)">Previous</button>
-        <button type="button" class="btn-nav btn-grad" onclick="validateSecurity()">Save & Continue</button>
-    </div>
 </section>
 
 <section class="form-step" id="step-5">

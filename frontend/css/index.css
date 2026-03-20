@@ -6,7 +6,6 @@
     --text-dark: #1e293b;
     --footer-bg: #0b1f3a;
 }
-
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -14,8 +13,32 @@ body {
     color:#1e293b;
     overflow-x: hidden;
 }
+.news-ticker {
+    width: 100%;
+    background: #ffcc00;
+    color: #333;
+    overflow: hidden;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    position: relative; /* SAFE */
+    z-index: 100; /* below navbar */
+}
+
+.ticker-text {
+    white-space: nowrap;
+    display: inline-block;
+    padding-left: 100%;
+    animation: tickerMove 15s linear infinite;
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
 
 /* Navbar Redesign */
+
 .bank-navbar {
     display: flex;
     justify-content: space-between;
@@ -23,15 +46,13 @@ body {
     padding:20px 5%;
     background:#0A1F44;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    position: sticky;
+    position:relative;
     border-radius: 0px;
     top: 0;
     z-index:200;
     height:60px;
     
 }
-
-
 .logo-img{
     width:260px;
     height: auto;
@@ -42,11 +63,8 @@ body {
     margin-left:0px;
     
 }
-
-
-
 .nav-item {
-    text-decoration:red;
+    text-decoration:#003366;
     color:white;
     font-weight: 500;
     transition: 0.3s;
@@ -65,47 +83,40 @@ body {
     padding: 5px 10px;
     transition: 0.3s;
 }
-
 .nav-item:hover {
     color: #00c3ff;
     /* Adds a subtle text glow */
     text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
 }
-
 .nav-actions {
     display: flex;
     align-items:left;
     gap:20px;
 }
 
-/* THE LIGHT BEAM UNDERLINE */
+/* underline css  */
+
 .nav-item:after {
     content: "";
     position: absolute;
-    left: 50%; /* Start from center */
+    left: 50%; 
     bottom: -5px;
     width: 0%;
     height: 3px;
-    /* Gradient gives it the 'light' look */
     background:lightskyblue;
     background-size: 200% 100%;
     transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform: translateX(-50%);
     border-radius: 5px;
-    /* The Glow Effect */
     box-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
     opacity: 0;
 }
-
 .nav-item:hover::after {
-    width:85%; /* Slightly wider than text for effect */
+    width:85%; 
     opacity: 1;
     height: 1px;
-    /* Animate the light beam internally */
     animation: lightMove 1.5s linear infinite;
 }
-
-/* ANIMATION FOR THE LIGHT INTERNALLY */
 @keyframes lightMove {
     0% { background-position: 70% 50%; }
     100% { background-position: 200% 50%; }
@@ -125,8 +136,6 @@ body {
 }
 
 .circle-menu:hover { transform: rotate(90deg); }
-
-/* Accessibility Drawer */
 
 .acc-drawer {
     position: fixed;
@@ -156,7 +165,7 @@ body {
     align-items: center;
     gap: 10px;
 }
-/*login box*/
+
 
 .login-btn{
 
@@ -173,10 +182,255 @@ font-weight:bold;
 cursor:pointer;
 
 }
-/*vedio---------*/
 
-/* Hero Section */
-/* HERO SECTION CONTAINER */
+
+/*login page css*/
+
+.login-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:right ;
+    align-items:center;
+    z-index:200;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #ffffff; /* Matches your glassmorphism text color */
+}
+
+.signup-link a {
+    color: #ffcc00; /* Gold color to match your buttons */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* CLOSE BUTTON */
+
+.close{
+    
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:20px;
+    cursor:pointer;
+    color:darkgray;
+}
+
+.h{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style:bold;
+    font-weight: bolder;
+    font-size:35px;
+    color:gold;
+    margin-bottom: auto;
+
+}
+
+/* SUB TEXT */
+
+.sub{
+    text-align:left;
+    font-size:16px;
+    color:white;
+    margin-top: 2px;
+    margin-bottom:20px;
+}
+
+
+/* CUSTOMER ADMIN BUTTONS */
+
+.login-type {
+    display: flex;
+    border: 3px solid #0A1F44;
+    border-radius: 10px;
+    overflow: hidden;
+    width: fit-content;
+    margin: 20px auto;
+    background:lightblue;
+    color: #1e1e1e;
+}
+
+/* buttons inside */
+.login-type button {
+    flex: 1;
+    padding: 10px 25px;
+    border: none;
+    font-size:medium;
+    background: transparent;
+    color:white;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* left button (Customer) */
+.login-type button:first-child {
+    border-right: 2px solid white;
+}
+
+/* hover effect */
+.login-type button:hover {
+    background:gold;
+    color:black;
+}
+/* GLASS LOGIN BOX */
+
+.login-box{
+    width:380px;
+    padding:35px;
+    border-radius:15px;
+
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    color:white;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* FORM */
+
+form{
+    text-align:left;
+}
+
+form label{
+    font-size:16px;
+    font-weight:bold;
+    color:black;
+}
+
+
+form input {
+    width:90%;
+    padding:10px;
+    margin:8px 0 15px;
+    border:1px solid gray;
+    border-radius:5px;
+    box-sizing: border-box;
+}
+
+
+/* CAPTCHA */
+
+.captcha-box{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.captcha-box span{
+    background:#ae285d;
+    padding:8px 8px;
+    font-weight:bold;
+    letter-spacing:4px;
+    margin-right: 0%;
+}
+.captcha-box button{
+box-sizing: border-box;
+padding:0;
+justify-items: left;
+border:none;
+background:white;
+color:gold;
+cursor:pointer;
+border-radius:4px;
+margin-trim:left;
+
+}
+
+/* LOGIN BUTTON */
+
+.login-submit{
+    width:50%;
+    padding:12px;
+    background:goldenrod;
+    color:black;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+.forgotpin{
+    
+    color:#00c3ff;
+    font-style: italic;
+    font-size: small;
+    margin-top:0px;
+    margin-bottom:2px ;
+}
+
+.login-submit:hover{
+    background:gold;
+    color:#1e1e1e;
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+
+.password-wrapper input {
+    width: 100%;
+    padding: 10px 40px 10px 10px; 
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+
+.toggle-eye {
+    position: absolute;
+    left:90%;   
+    top: 48%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 2;
+}
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.login-submit,
+.reset-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-submit {
+    background: goldenrod;
+    color: black;
+}
+
+.reset-btn {
+    background:goldenrod;
+    color: black;
+}
+
+/*  Section 1 .....................vedio-css */
+
 
 .hero {
     height:80vh;
@@ -191,7 +445,6 @@ cursor:pointer;
     align-items: center;
     padding-left: 60px;
 }
-
 
 .hero-video {
     position: absolute;
@@ -212,9 +465,6 @@ cursor:pointer;
     z-index: 2;
 }
 
-
-/* HERO CONTENT */
-
 .hero-content{
     position: relative;
     z-index: 3;
@@ -223,18 +473,12 @@ cursor:pointer;
 
 }
 
-
-/* HERO TITLE */
-
 .hero-content h1{
     font-size: 5px;
     font-weight:5px;
     line-height: 1.1;
     margin-bottom: 25px;
 }
-
-
-/* BUTTON */
 
 .hero-btn{
     background: white;
@@ -290,7 +534,7 @@ cursor:pointer;
 }
 
 
-
+/*section 2 .................mobile box ..... css */ 
 
 .digital-showcase {
     padding: 60px 5%;
@@ -349,7 +593,7 @@ cursor:pointer;
 .icon-circle {
     width:50px;
     height:50px;
-    background:lightseagreen;
+    background:lightskyblue;
     border-radius:50%;
     display: flex;
     align-items:center;
@@ -357,7 +601,7 @@ cursor:pointer;
     color:red;
     font-size: 20px;
 }
-/* Phone and Floating Cards */
+
 .phone-display {
     position: relative;
     flex: 1.5;
@@ -370,570 +614,14 @@ cursor:pointer;
     border-radius: 30px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
-/* 
-/*box */
 
-.impact-banner {
-    background:url("indexfamily.png");
+/* Section 3 .......................4 Loans image boxes css */
 
-    background-size: cover;
-    background-position: center;
-
-    color:gold;
-    padding:80px 40px;
-    border-radius:70px;
-    margin: 20px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-.content-wrapper {
-    max-width: 1200px;
-    margin: auto;
-    
-}
-
-.text-section {
-    max-width:500px;
-    color:gold;
-
-}
-
-.main-title {
-    font-size:8px;
-    font-style:bold;
-    font-weight:100px;
-    margin-bottom:1px;
-    margin-top: auto;
-    color:rgb(220, 220, 231);
-    font-size:50px;
-
-}
-
-.subtitle {
-    font-size:20px ;
-    margin-bottom: 30px;
-    color:black;
-}
-
-
-
-
-
-/* Stats */
-.stats-container {
-    display: flex;
-    gap:7px;
-    margin-bottom: 40px;
-    margin-left:10px ;
-    width: fit-content;
-}
-
-.stat-card {
-    background:#0b1f3a;
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 10px;
-    border-radius:40px;
-    flex: 1;
-}
-
-.stat-card h2 {
-    font-size: 1.8rem;
-}
-
-.stat-card p {
-    font-size: 0.9rem;
-}
-
-/* Button */
-.know-more-btn {
-    background:#0b1f3a;
-    color:gold;
-    border:none;
-    padding: 12px 35px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Responsive */
-@media (max-width:768px){
-    .stats-container{
-        flex-direction: column;
-    }
-}
-
-
-
-/* Footer (Axis/Jio Inspired) */
-.main-footer {
-    background: var(--footer-bg);
-    color: #cbd5e1;
-    padding: 60px 5% 20px;
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-}
-
-.footer-col h4 {
-    color: white;
-    margin-bottom: 20px;
-}
-
-.footer-col ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-col ul li {
-    margin-bottom: 10px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.footer-col ul li:hover { color: var(--secondary); padding-left: 5px; }
-
-.social-links {
-    font-size: 24px;
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.app-badges img {
-    height: 40px;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 20px;
-    margin-top: 40px;
-    text-align: center;
-    font-size: 12px;
-}
-
-/*login page css*/
-
-
-/* LOGIN MODAL BACKGROUND */
-
-
-
-
-/* LOGIN BOX */
-
-.login-modal{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    justify-content:center;
-    align-items:center;
-    z-index:999;
-}
-
-.signup-link {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
-    color: #ffffff; /* Matches your glassmorphism text color */
-}
-
-.signup-link a {
-    color: #ffcc00; /* Gold color to match your buttons */
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.signup-link a:hover {
-    text-decoration: underline;
-}
-
-/* CLOSE BUTTON */
-
-.close{
-    
-    position:absolute;
-    top:10px;
-    right:15px;
-    font-size:20px;
-    cursor:pointer;
-    color:darkgray;
-}
-
-.h{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-style: italic;
-    font-weight: bolder;
-    font-size:35px;
-    color: black;
-    margin-bottom: auto;
-
-}
-
-/* SUB TEXT */
-
-.sub{
-    font-size:14px;
-    color:darkslategray;
-    margin-top: auto;
-    margin-bottom:20px;
-}
-
-
-/* CUSTOMER ADMIN BUTTONS */
-
-.login-type {
-    display: flex;
-    border: 3px solid #0A1F44;
-    border-radius: 10px;
-    overflow: hidden;
-    width: fit-content;
-    margin: 20px auto;
-    background:grey;
-}
-
-/* buttons inside */
-.login-type button {
-    flex: 1;
-    padding: 10px 25px;
-    border: none;
-    font-size:medium;
-    background: transparent;
-    color:white;
-    font-weight: 800;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-/* left button (Customer) */
-.login-type button:first-child {
-    border-right: 2px solid white;
-}
-
-/* hover effect */
-.login-type button:hover {
-    background:gold;
-    color:black;
-}
-/* GLASS LOGIN BOX */
-
-.login-box{
-    width:380px;
-    padding:35px;
-    border-radius:15px;
-
-    background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-
-    border:1px solid rgba(255,255,255,0.3);
-
-    color:white;
-    box-shadow:0 8px 32px rgba(0,0,0,0.3);
-}
-
-/* FORM */
-
-form{
-    text-align:left;
-}
-
-form label{
-    font-size:16px;
-    font-weight:bold;
-    color:black;
-}
-
-
-form input{
-    width:94%;
-    padding:10px;
-    margin:8px 0 15px;
-    border:1px solid gray;
-    border-radius:5px;
-}
-
-
-/* CAPTCHA */
-
-.captcha-box{
-    display:flex;
-    align-items:center;
-    gap:14px;
-}
-
-.captcha-box span{
-    background:#ae285d;
-    padding:8px 8px;
-    font-weight:bold;
-    letter-spacing:4px;
-    margin-right: 0%;
-}
-.captcha-box button{
-box-sizing: border-box;
-padding:0;
-justify-items: left;
-border:none;
-background:white;
-color:gold;
-cursor:pointer;
-border-radius:4px;
-margin-trim:left;
-
-}
-
-/* LOGIN BUTTON */
-
-.login-submit{
-    width:100%;
-    padding:13px;
-    background:goldenrod;
-    color:black;
-    border:none;
-    border-radius:5px;
-    font-size:16px;
-    cursor:pointer;
-}
-.forgotpin{
-    color:#12396b;
-    font-style: italic;
-    font-size: small;
-    margin-top:0px;
-    margin-bottom:2px ;
-}
-
-.login-submit:hover{
-    background:gold;
-    color:#1e1e1e;
-}
- 
-
-/* ============================= */
-/* NET BANKING SERVICES SECTION */
-/* ============================= */
-
-.netbanking-services{
-
-background:#f5f6f8;
-padding:70px 5%;
-
-}
-
-
-.services-title{
-
-text-align:center;
-font-size:36px;
-margin-bottom:50px;
-color:#333;
-
-}
-
-
-.services-container{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:30px;
-
-}
-
-
-/* CARD */
-
-.service-card{
-
-background:white;
-border-radius:20px;
-overflow:hidden;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-
-transition:0.4s;
-
-}
-
-.service-card:hover{
-
-transform:translateY(-10px);
-box-shadow:0 20px 40px rgba(0,0,0,0.25);
-
-}
-
-
-/* ORANGE HEADER */
-
-.service-header{
-
-background:linear-gradient(135deg,#ff7a18,#ff5100);
-
-color:white;
-font-size:22px;
-font-weight:bold;
-
-padding:20px;
-
-}
-
-
-/* BODY */
-
-.service-body{
-
-padding:25px;
-
-}
-
-
-/* TAG */
-
-.tag{
-
-background:#e6f5ea;
-color:#1b7f3a;
-
-padding:4px 10px;
-font-size:12px;
-
-border-radius:5px;
-
-display:inline-block;
-margin-bottom:10px;
-
-}
-
-
-/* DESCRIPTION */
-
-.service-desc{
-
-font-weight:bold;
-margin-bottom:15px;
-
-}
-
-
-/* LIST */
-
-.service-body ul{
-
-padding-left:18px;
-margin-bottom:20px;
-
-}
-
-.service-body ul li{
-
-margin-bottom:8px;
-font-size:14px;
-
-}
-
-
-/* LINK */
-
-.service-link{
-
-text-decoration:none;
-
-color:#ff5100;
-
-font-weight:bold;
-font-size:13px;
-
-}
-
-.service-link:hover{
-
-text-decoration:underline;
-
-}
-
-/*faq section */
-
-/* FAQ SECTION */
-
-.faq-section{
-width:85%;
-margin:60px auto;
-}
-
-.faq-heading{
-text-align:center;
-font-size:28px;
-color:#f3ecec;
-margin-bottom:30px;
-font-weight:600;
-
-}
-
-.faq-box{
-background:white;
-border-radius:12px;
-box-shadow:0 8px 25px rgba(0,0,0,0.1);
-overflow:hidden;
-}
-
-.faq-item{
-border-bottom:1px solid #e5e5e5;
-}
-
-.faq-question{
-width:100%;
-background:white;
-border:none;
-padding:20px 25px;
-font-size:18px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-cursor:pointer;
-font-weight:500;
-transition:0.3s;
-}
-
-.faq-question:hover{
-background:#f7f7f7;
-}
-
-.icon{
-font-size:20px;
-color:#ff6b00;
-transition:0.3s;
-}
-
-.faq-answer{
-max-height:0;
-overflow:hidden;
-padding:0 25px;
-color:#555;
-line-height:1.6;
-transition:max-height 0.4s ease;
-background:#fafafa;
-}
-
-.faq-answer p{
-margin:15px 0;
-}
-
-.faq-item.active .faq-answer{
-padding:15px 25px;
-}
-/* products sections */
+/* products sections section 3*/
 
 .products-section {
     padding: 50px 10%;
-    background-color:lightskyblue;
+    background-color:rgb(160, 209, 239);
     font-family: Arial, sans-serif;
 }
 
@@ -947,12 +635,7 @@ padding:15px 25px;
     padding-bottom: 5px;
 }
 
-/* .products-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-} */
+
 .products-container {
     display: flex;
    
@@ -1060,3 +743,345 @@ opacity:0;
 transform:scale(1.2);
 pointer-events:none;
 }
+
+/* Section 4 ...........................family imaged box css  */
+
+.impact-banner {
+    background:url("indexfamily.png");
+    background-size: cover;
+    background-position: center;
+    color:gold;
+    padding:30px 60px;
+    border-radius:50px;
+    margin: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin: auto;
+    
+}
+
+.text-section {
+    max-width:500px;
+    color:yellow;
+
+}
+
+.main-title {
+    font-size:30px;
+    font-style:bold;
+    font-weight:100px;
+    margin-bottom:2px;
+    margin-top:10px;
+    color:white;
+    
+
+}
+
+.subtitle {
+    font-size:20px ;
+    margin-bottom: 50px;
+    color:whitesmoke;
+}
+/* Stats */
+
+.stats-container {
+    display:auto;
+    gap:8px;
+    margin-bottom:20px;
+    color:gold;
+    margin-left:10px ;
+    width:50%;
+    height: fit-content;
+}
+
+.stat-card {
+   
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-radius:40px;
+    flex: 1;
+    color: gold;
+}
+
+.stat-card:hover{
+transform:translateX(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+.stat-card h2 {
+    font-size: 1.8rem;
+}
+
+.stat-card p {
+    font-size: 0.9rem;
+}
+
+/* Button */
+.know-more-btn {
+    background:gold;
+    color:black;
+    border:none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width:768px){
+    .stats-container{
+        flex-direction: column;
+    }
+}
+
+/* Section 5 ...........................Services offered by netbanking box css */
+
+
+
+.netbanking-services{
+background:#1e293b;
+padding:70px 5%;
+}
+
+.services-title{
+text-align:center;
+font-size:36px;
+margin-bottom:50px;
+color:white;
+}
+
+.services-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+
+/* boxes */
+
+.service-card{
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:0.4s;
+}
+
+.service-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+
+
+
+.service-header{
+background:linear-gradient(135deg,lightblue,#00c3ff,#003366);
+color:black;
+font-size:22px;
+font-weight:bold;
+padding:20px;
+}
+
+/* BODY */
+
+.service-body{
+padding:25px;
+}
+
+/* TAG */
+
+.tag{
+background:whitesmoke;
+color:navy;
+padding:4px 10px;
+font-size:12px;
+border-radius:5px;
+display:inline-block;
+margin-bottom:10px;
+
+}
+
+
+/* DESCRIPTION */
+
+.service-desc{
+color:#003366;
+font-weight:bold;
+margin-bottom:15px;
+
+}
+
+
+/* LIST */
+
+.service-body ul{
+
+padding-left:18px;
+margin-bottom:20px;
+color:red;
+}
+
+.service-body ul li{
+
+margin-bottom:8px;
+font-size:14px;
+color:#555;
+}
+
+
+/* LINK */
+
+.service-link{
+
+text-decoration:none;
+color:#00c3ff;
+font-weight:bold;
+font-size:13px;
+
+}
+
+.service-link:hover{
+
+text-decoration:underline;
+color:#003366;
+}
+
+/* Section 6 ..................................FAQ box css*/
+
+
+/*faq Section 4 */
+
+
+.faq-section{
+width:95%;
+margin:60px auto;
+
+
+
+
+}
+
+.faq-heading{
+text-align:left;
+font-size:30px;
+color:rgb(26, 26, 179);
+margin-bottom:30px;
+font-weight:800;
+}
+
+.faq-box{
+background:#1e293b;
+border-radius:0px 0px 60px px;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
+overflow:hidden;
+}
+
+.faq-item{
+border-bottom:1px solid #003366;
+}
+
+.faq-question{
+width:100%;
+background:linear-gradient(135deg,#9ae4fb);
+border:none;
+padding:20px 25px;
+font-size:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
+}
+
+.faq-question:hover{
+background:#00c3ff;
+}
+
+.icon{
+font-size:20px;
+color:black;
+transition:0.3s;
+}
+
+.faq-answer{
+max-height:0;
+overflow:hidden;
+padding:0 25px;
+color:#555;
+line-height:1.6;
+transition:max-height 0.4s ease;
+background:whitesmoke;
+}
+
+.faq-answer p{
+margin:15px 0;
+color:#000;
+}
+
+.faq-item.active .faq-answer{
+padding:15px 25px;
+}
+
+/* Section 7 ............footer box css */
+
+.main-footer {
+    background: var(--footer-bg);
+    color: #cbd5e1;
+    padding: 60px 5% 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+}
+
+.footer-col h4 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.footer-col ul li:hover { color: var(--secondary); padding-left: 5px; }
+
+.social-links {
+    font-size: 24px;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.app-badges img {
+    height: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
+}
+

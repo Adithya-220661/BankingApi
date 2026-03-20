@@ -258,7 +258,8 @@ cursor:pointer;
     overflow: hidden;
     width: fit-content;
     margin: 20px auto;
-    background:grey;
+    background:lightblue;
+    color: #1e1e1e;
 }
 
 /* buttons inside */

@@ -19,21 +19,35 @@ background:#eef3f8;
 color:#1b2b3a;
 }
 
-/* TOP HEADER */
-
-.header{
-background:#0b3d5c;
+        .navbar{
+background:#002970;
 color:white;
-padding:18px 60px;
 display:flex;
 justify-content:space-between;
+padding:1px 20px;
 align-items:center;
 }
 
-.logo{
-font-size:20px;
-font-weight:bold;
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
 }
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
+}
+
+        .nav a:hover { 
+            color:#33b6f2; }
 
 /* NAV */
 
@@ -189,10 +203,27 @@ padding:20px;
 </head>
 
 <body>
+<div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
 
-<!-- HEADER -->
+<div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="personal.html">Resources</a>
+            <a href="#loans">Loans</a> 
+            <a href="#investments">Investments</a> 
+            <a href="#insurance">Insurance</a>
+            <a href="#tool">Calculator</a>
+            <a href="index.html" class="login">Login</a>
+</div>
 
-<div class="header">
+</div>
+    
+    <div class="hero1">
+        <h1>Premier Business Services</h1>
+        <p>Empowering your enterprise with the gold standard of digital banking. From local startups to global corporations, we scale with you.</p>
+    </div>
 
 <div class="logo">Horizon Bank</div>
 

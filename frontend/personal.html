@@ -7,6 +7,7 @@
 
 <title>Banking Products</title>
 
+<<<<<<< Updated upstream
 <style>
 
 /* GLOBAL */
@@ -23,6 +24,37 @@ color:black;
 }
 
 /* NAVBAR */
+=======
+       .navbar{
+            background:#002970;
+            color:white;
+            display:flex;
+            justify-content:space-between;
+            padding:1px 20px;
+            align-items:center;
+}
+
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
+}
+        .nav-links a:hover { 
+            color:#14a5e3; 
+        }
+>>>>>>> Stashed changes
 
 .navbar{
 position:sticky;
@@ -264,7 +296,22 @@ margin-top:50px;
 
 <body>
 
-<!-- NAVBAR -->
+    <div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
+<div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#loans">Loans</a>
+            <a href="#cards">Cards</a>
+            <a href="#investments">Investments</a>
+            <a href="#insurance">Insurance</a>
+            <a href="#calculator">Tools</a>
+            <a href="index.html" class="login">Login</a>
+</div>
+
+</div>
+    
 
 <div class="navbar">
 

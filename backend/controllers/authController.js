@@ -17,50 +17,87 @@ const sendSMS = async (phone, otp) => {
       process.env.TWILIO_ACCOUNT_SID,
       process.env.TWILIO_AUTH_TOKEN
     );
-    await client.messages.create({
-      body: `Your Horizon Bank OTP is: ${otp}. Valid for 5 minutes. Do not share with anyone.`,
-      from: process.env.TWILIO_PHONE,
-      to:   `+91${phone}`
-    });
-    console.log(`✅ OTP SMS sent to ${phone}: ${otp}`);
+    // ✅ Twilio Verify — no phone number needed!
+    await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SID)
+      .verifications.create({
+        to:      `+91${phone}`,
+        channel: 'sms'
+      });
+    console.log(`✅ Twilio Verify OTP sent to ${phone}`);
   } catch(err) {
-    console.log('❌ Twilio SMS Error:', err.message);
+    console.log('❌ Twilio Verify Error:', err.message);
   }
 };
 
+const verifyTwilioOTP = async (phone, otp) => {
+  try {
+    const client = require('twilio')(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    );
+    const result = await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SID)
+      .verificationChecks.create({
+        to:   `+91${phone}`,
+        code: otp
+      });
+    return result.status === 'approved';
+  } catch(err) {
+    console.log('❌ Verify Check Error:', err.message);
+    return false;
+  }
+};
 // ════════════════════════════════════════════════════════════
 //  SEND OTP
 // ════════════════════════════════════════════════════════════
 const sendOtp = async (req, res) => {
   try {
     const { phone } = req.body;
+
+    // ── Validate phone ────────────────────────────────────────
     if (!phone || phone.length !== 10) {
-      return res.status(400).json({ success: false, message: 'Valid 10-digit phone number required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Valid 10-digit phone number required.'
+      });
     }
 
+    // ── Check if already registered ───────────────────────────
     const existing = await User.findOne({ phone });
     if (existing) {
-      return res.status(409).json({ success: false, message: 'This phone number is already registered.' });
+      return res.status(409).json({
+        success: false,
+        message: 'This phone number is already registered.'
+      });
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    await OtpSession.findOneAndUpdate(
-      { phone },
-      { otp, createdAt: new Date() },
-      { upsert: true, returnDocument: 'after' }
+    // ── Send OTP via Twilio Verify ────────────────────────────
+    const client = require('twilio')(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
     );
+    await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SID)
+      .verifications.create({
+        to:      `+91${phone}`,
+        channel: 'sms'
+      });
 
-    await sendSMS(phone, otp);
+    console.log(`✅ Twilio Verify OTP sent to +91${phone}`);
 
     res.status(200).json({
       success: true,
       message: 'OTP sent to your phone number.',
-      otp_dev: otp,
     });
 
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Server error.', error: err.message });
+    console.log('SEND OTP ERROR:', err.message);
+    res.status(500).json({
+      success: false,
+      message: 'Server error.',
+      error:   err.message
+    });
   }
 };
 
@@ -70,25 +107,48 @@ const sendOtp = async (req, res) => {
 const verifyOtp = async (req, res) => {
   try {
     const { phone, otp } = req.body;
+
+    // ── Validate inputs ───────────────────────────────────────
     if (!phone || !otp) {
-      return res.status(400).json({ success: false, message: 'Phone and OTP are required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Phone and OTP are required.'
+      });
     }
 
-    const session = await OtpSession.findOne({ phone });
-    if (!session) {
-      return res.status(400).json({ success: false, message: 'OTP expired or not sent. Please resend.' });
-    }
-    if (session.otp !== otp) {
-      return res.status(400).json({ success: false, message: 'Incorrect OTP. Please try again.' });
+    if (otp.length !== 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'OTP must be 6 digits.'
+      });
     }
 
-    await OtpSession.deleteOne({ phone });
+    // ── Verify through Twilio Verify ──────────────────────────
+    const isValid = await verifyTwilioOTP(phone, otp);
 
-    res.status(200).json({ success: true, message: 'OTP verified successfully.' });
+    if (!isValid) {
+      return res.status(400).json({
+        success: false,
+        message: 'Incorrect OTP. Please try again.'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'OTP verified successfully.'
+    });
+
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Server error.', error: err.message });
+    console.log('VERIFY OTP ERROR:', err.message);
+    res.status(500).json({
+      success: false,
+      message: 'Server error.',
+      error:   err.message
+    });
   }
 };
+  
+    
 
 // ════════════════════════════════════════════════════════════
 //  REGISTER
@@ -165,11 +225,12 @@ const handleFailedAttempt = async (username, user, res) => {
 
   if (user) {
     // ── User exists → store in DATABASE ──────────────────────
-     const updated = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: user._id },
       { $inc: { loginAttempts: 1 } },
-      { new: true, select: '+loginAttempts +lockUntil' }
+      { returnDocument: 'after' }
     );
+    const updated = await User.findById(user._id).select('+loginAttempts +lockUntil');
     console.log(`❌ Login failed for ${username}`);
     console.log(`📊 loginAttempts: ${updated.loginAttempts}`);
     console.log(`📊 attemptsLeft: ${MAX_ATTEMPTS - updated.loginAttempts}`);
@@ -484,6 +545,7 @@ const resetPin = async (req, res) => {
   try {
     const { phone, otp, newPin } = req.body;
 
+    // ── Validate inputs ───────────────────────────────────────
     if (!phone || !otp || !newPin) {
       return res.status(400).json({
         success: false,
@@ -498,22 +560,16 @@ const resetPin = async (req, res) => {
       });
     }
 
-    const session = await OtpSession.findOne({ phone });
-    if (!session) {
-      return res.status(400).json({
-        success: false,
-        message: 'OTP expired. Please request again.'
-      });
-    }
-    if (session.otp !== otp) {
+    // ── Verify OTP through Twilio Verify ──────────────────────
+    const isValid = await verifyTwilioOTP(phone, otp);
+    if (!isValid) {
       return res.status(400).json({
         success: false,
         message: 'Incorrect OTP. Please try again.'
       });
     }
 
-    await OtpSession.deleteOne({ phone });
-
+    // ── Find user and update PIN ───────────────────────────────
     const user = await User.findOne({ phone }).select('+pin +loginAttempts +lockUntil');
     if (!user) {
       return res.status(404).json({

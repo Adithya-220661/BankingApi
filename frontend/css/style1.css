@@ -1,4 +1,4 @@
-/* Base styles */
+/* Base styles dekho*/
 :root {
   /* Match `index.css` theme */
   --primary: #0a1f44;
@@ -73,7 +73,7 @@ body.dark-mode .sidebar-toggle:hover {
   background: #caa42f;
 }
 
-/* Sidebar */
+/* Sidebar super untaadi*/
 .sidebar {
   width: 240px;
   height: 100vh;
@@ -665,7 +665,12 @@ body.dark-mode .metric-label {
   color: #cbd5e1;
 }
 body.dark-mode .recent-transactions h2 {
-  color: #000000;
+  color: #e2e8f0;
+}
+body.dark-mode .recent-transactions {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 body.dark-mode table th {
   background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
@@ -681,8 +686,25 @@ body.dark-mode table tbody tr:hover {
 body.dark-mode table tbody tr:hover td {
   color: #ffffff;
 }
+body.dark-mode .recent-transactions table tbody tr:hover {
+  background-color: #24344d;
+}
 body.dark-mode table td {
-  color: #000000;
+  color: #ffffff;
+}
+body.dark-mode #historyTable tbody td {
+  color: #ffffff !important;
+}
+body.dark-mode #historyTable .txn-type,
+body.dark-mode #historyTable .status,
+body.dark-mode #historyTable .amount {
+  color: #ffffff !important;
+}
+body.dark-mode table td.amount.income {
+  color: #ffffff;
+}
+body.dark-mode table td.amount.expense {
+  color: #ffffff;
 }
 
 /* User Table */
@@ -726,8 +748,14 @@ body.dark-mode table td {
   border-bottom: 1px solid #e0e7ff;
   color: #000000;
 }
+#usersTable tbody tr {
+  transition: background-color 0.2s ease;
+}
 #usersTable tbody tr:hover {
   background-color: #f0f9ff;
+}
+#usersTable tbody tr:hover td:first-child {
+  box-shadow: inset 3px 0 0 #3b82f6;
 }
 .balance-amount {
   font-weight: 600;
@@ -789,14 +817,17 @@ body.dark-mode #usersTable th {
   border-bottom-color: #3b82f6;
 }
 body.dark-mode #usersTable td {
-  color: #000000;
+  color: #ffffff;
   border-bottom-color: #334155;
 }
 body.dark-mode #usersTable tbody tr:hover {
-  background-color: #1e293b;
+  background-color: #24344d;
 }
 body.dark-mode #usersTable tbody tr:hover td {
   color: #ffffff;
+}
+body.dark-mode #usersTable tbody tr:hover td:first-child {
+  box-shadow: inset 3px 0 0 #60a5fa;
 }
 body.dark-mode .balance-amount {
   color: #10b981;
@@ -1681,7 +1712,7 @@ body.dark-mode .page-info {
   color: #e2e8f0;
 }
 
-/* Responsive History Styles */
+/* Responsive History Styles (ee comments teluskodaaniki pettam and it is very proffessional to maintain comments. DISCLAIMER) */
 @media (max-width: 768px) {
   .history-filters {
     flex-direction: column;

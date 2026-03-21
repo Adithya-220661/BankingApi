@@ -42,20 +42,32 @@
             text-transform: uppercase; 
             letter-spacing: 1px; }
 
-        .nav { 
-            display:flex; 
-            gap:20px; 
-            align-items:center; 
-            
-        }
-        .nav a { 
-            color: white;  
-            font-size:19px; 
-            font-weight: 600; 
-            transition: 0.3s; 
-            text-decoration: none;
+        .navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:1px 20px;
+align-items:center;
+}
 
-        }
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
+}
         .nav a:hover { 
             color:#33b6f2; }
 
@@ -258,20 +270,27 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+<div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
 
-    <div class="header">
-        <div class="logo">Horizon Bank</div>
-        <div class="nav">
-            <a href="index.html">Home</a>
+<div><b></b></div>
+
+<div class="nav-links">
+<a href="index.html">Home</a>
             <a href="#accounts">Accounts</a>
             <a href="#loans">Loans</a> 
             <a href="#investments">Investments</a> 
             <a href="#insurance">Insurance</a>
             <a href="#tool">Calculator</a>
-            <button class="login-btn" onclick="openLogin()">Login🔒</button>
-        </div>
-    </div>
+            <a href="aboutus.html">About Us</a>
+            <button class="login-btn" onclick="openLogin()">Login🔒 <i class="fas fa-lock"></i></button>
 
+</div>
+</div>
+
+</div>
     <div class="hero1">
         <h1>Premier Business Services</h1>
         <p>Empowering your enterprise with the gold standard of digital banking. From local startups to global corporations, we scale with you.</p>

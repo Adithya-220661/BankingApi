@@ -20,7 +20,7 @@ background:#002970;
 color:white;
 display:flex;
 justify-content:space-between;
-padding:15px 60px;
+padding:1px 20px;
 align-items:center;
 }
 
@@ -36,6 +36,10 @@ background:#ffcc00;
 padding:8px 18px;
 border-radius:6px;
 color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
 }
 
 /* HERO */
@@ -180,19 +184,22 @@ margin-top:50px;
 <!-- NAVBAR -->
 
 <div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
 
 <div><b>About Us</b></div>
 
 <div class="nav-links">
 <a href="index.html">Home</a>
-<a href="#">Resources</a>
-<a href="#">About Us</a>
-<a href="#">Contact</a>
-<a href="#">Support</a>
-<button class="login-btn" onclick="openLogin()">Login🔒</button>
+<a href="personal.html">Resources</a>
+<a href="aboutus.html">About Us</a>
+<a href="index.html" class="login">Login</a>
 </div>
 
 </div>
+
+
 
 <!-- HERO -->
 

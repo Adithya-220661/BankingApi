@@ -18,42 +18,38 @@
             line-height: 1.6;
         }
 
-        .navbar {
-            position: sticky;
-            top:1px;
-            background:#0b2a4a;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            z-index:200;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logo { 
+         .logo { 
             font-size: 25px;
             font-weight: 800;
             color:yellow;
             letter-spacing:0.5px; }
 
-        .nav-links { 
-            display: flex;
-            gap: 15px; 
-            list-style: none; 
-            align-items:center; 
-            margin: 0; 
-            padding: 0; 
-            text-decoration: wavy;
-        }
+         .navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:1px 20px;
+align-items:center;
+}
 
-        .nav-links a {
-            text-decoration:wavy;
-            color:white;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: 0.3s;
-        }
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   
+}
 
         .nav-links a:hover { 
             color:#14a5e3; 
@@ -290,21 +286,27 @@
    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+        <div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
 
-    <nav class="navbar">
-        <div class="logo">HORIZON BANK</div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#accounts">Accounts</a></li>
-            <li><a href="#loans">Loans</a></li>
-            <li><a href="#cards">Cards</a></li>
-            <li><a href="#investments">Investments</a></li>
-            <li><a href="#insurance">Insurance</a></li>
-            <li><a href="#calculator">Tools</a></li>
-            <li><a href="#compare">Compare</a></li>
-           <button class="login-btn" onclick="openLogin()">Login🔒 <i class="fas fa-lock"></i></button>
-        </ul>
-    </nav>
+<div><b></b></div>
+
+<div class="nav-links">
+<a href="index.html">Home</a>
+            <a href="#accounts">Accounts</a>
+            <a href="#loans">Loans</a> 
+            <a href="#investments">Investments</a> 
+            <a href="#insurance">Insurance</a>
+            <a href="#tool">Calculator</a>
+            <a href="aboutus.html">About Us</a>
+            <button class="login-btn" onclick="openLogin()">Login🔒 <i class="fas fa-lock"></i></button>
+
+</div>
+
+</div>
+            
 
     <header class="hero1">
         <div class="hero-text1">

@@ -5,6 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transaction History – Mini NetBank</title>
   <link rel="stylesheet" href="css/style1.css">
+  <style>
+    /* Keep Type/Status pills in the older flat "button" style (history.html only). */
+    #historyTable .txn-type.credit,
+    #historyTable .status.success {
+      background: #dcfce7;
+      border: none;
+    }
+
+    body.dark-mode #historyTable .txn-type.credit,
+    body.dark-mode #historyTable .status.success {
+      color: #166534 !important;
+    }
+
+    #historyTable .txn-type.debit,
+    #historyTable .status.failed {
+      background: #fef2f2;
+      border: none;
+    }
+
+    body.dark-mode #historyTable .txn-type.debit,
+    body.dark-mode #historyTable .status.failed {
+      color: #991b1b !important;
+    }
+
+    #historyTable .txn-type.transfer,
+    #historyTable .status.pending {
+      background: #fef3c7;
+      border: none;
+    }
+
+    body.dark-mode #historyTable .txn-type.transfer,
+    body.dark-mode #historyTable .status.pending {
+      color: #92400e !important;
+    }
+  </style>
 </head>
 <body>
   <button class="sidebar-toggle" id="sidebarToggle">☰</button>

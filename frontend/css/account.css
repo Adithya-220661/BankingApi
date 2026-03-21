@@ -324,17 +324,32 @@ body {
     border: 1px solid #ccc;
 }
 
-.captcha-box {
-    background: #444;
-    color: #fff;
-    font-style: italic;
-    font-weight: bold;
-    letter-spacing: 5px;
-    padding: 10px;
-    text-align: center;
-    user-select: none;
-    margin-bottom: 5px;
-    border-radius: 5px;
+/* CAPTCHA */
+
+.captcha-box{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.captcha-box span{
+    background:#ae285d;
+    padding:8px 8px;
+    font-weight:bold;
+    letter-spacing:4px;
+    margin-right: 0%;
+}
+.captcha-box button{
+box-sizing: border-box;
+padding:0;
+justify-items: left;
+border:none;
+background:white;
+color:gold;
+cursor:pointer;
+border-radius:4px;
+margin-trim:left;
+
 }
 
 .terms-container {

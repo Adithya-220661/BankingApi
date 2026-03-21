@@ -1,4 +1,3 @@
-// 
 // ═══════════════════════════════════════════════════
 //  ACCESSIBILITY
 // ═══════════════════════════════════════════════════
@@ -67,14 +66,14 @@ function showLockoutMessage(remainingSec) {
     const forgotPin = document.querySelector('#customerLogin .forgetpin');
     const lockMsg   = document.getElementById('lockoutMessage');
 
-    // ✅ Disable Secure Login button
+    // Disable login button
     if (loginBtn) {
         loginBtn.disabled      = true;
         loginBtn.style.opacity = '0.5';
         loginBtn.style.cursor  = 'not-allowed';
     }
 
-    // ✅ Highlight Forgot PIN in red
+    // Highlight Forgot PIN
     if (forgotPin) {
         forgotPin.style.color      = 'red';
         forgotPin.style.fontWeight = 'bold';
@@ -82,9 +81,10 @@ function showLockoutMessage(remainingSec) {
         forgotPin.textContent      = '🔑 Forgot Pin? Click here to recover access';
     }
 
-    // ✅ Clear fields
+    // Clear all fields
     clearLoginFields();
 
+    // ✅ Use EXACT remaining seconds from backend
     let seconds = remainingSec;
 
     function updateDisplay() {
@@ -92,13 +92,15 @@ function showLockoutMessage(remainingSec) {
         const secs = seconds % 60;
         if (lockMsg) {
             lockMsg.style.display    = 'block';
-            lockMsg.style.background = 'rgba(255,0,0,0.25)';
+            lockMsg.style.background = 'rgba(255,0,0,0.15)';
             lockMsg.style.color      = '#ff4444';
             lockMsg.style.border     = '1px solid red';
             lockMsg.innerHTML        = `
                 🔒 Account locked. Try again in
-                <strong>${mins}:${secs.toString().padStart(2,'0')}</strong> minutes.
-                <br><small style="color:#ffcc00;">Use Forgot PIN to recover access immediately.</small>
+                <strong>${mins}:${secs.toString().padStart(2, '0')}</strong>
+                <br><small style="color:#ffcc00;">
+                    Use Forgot PIN to recover access immediately.
+                </small>
             `;
         }
     }
@@ -136,6 +138,9 @@ function unlockLoginForm() {
         lockMsg.style.display = 'none';
         lockMsg.innerHTML     = '';
     }
+
+    // Regenerate captcha
+    generateCaptcha('captchaText');
 }
 
 // ✅ Show red warning for wrong attempt
@@ -150,7 +155,7 @@ function showAttemptWarning(message) {
     }
 }
 
-// ✅ Show yellow warning for wrong captcha only
+// ✅ Show yellow warning for captcha
 function showCaptchaWarning(message) {
     const lockMsg = document.getElementById('lockoutMessage');
     if (lockMsg) {
@@ -162,16 +167,25 @@ function showCaptchaWarning(message) {
     }
 }
 
-// ✅ Clear username + PIN + captcha input + regenerate captcha
+// ✅ Clear all login fields
 function clearLoginFields() {
     const u = document.getElementById('username');
     const p = document.getElementById('password');
     const c = document.getElementById('captchaInput');
-    if (u) { u.value = ''; }
+    if (u) u.value = '';
     if (p) p.value = '';
     if (c) c.value = '';
     generateCaptcha('captchaText');
     if (u) u.focus();
+}
+
+// ✅ Hide warning message
+function hideWarning() {
+    const lockMsg = document.getElementById('lockoutMessage');
+    if (lockMsg) {
+        lockMsg.style.display = 'none';
+        lockMsg.innerHTML     = '';
+    }
 }
 
 // ═══════════════════════════════════════════════════
@@ -187,21 +201,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // ═══════════════════════════════════════════════
     if (customerForm) {
         customerForm.addEventListener("submit", async function (e) {
-            e.preventDefault(); // ✅ MUST be first — prevents page refresh
+            e.preventDefault();
 
             const username     = document.getElementById('username').value.trim();
             const pin          = document.getElementById('password').value.trim();
             const captchaInput = document.getElementById('captchaInput').value.trim();
             const captchaText  = document.getElementById('captchaText').innerText.trim();
 
-            // ✅ Step 1 — validate empty fields
+            // ── Step 1: validate empty fields ──────────────────
             if (!username) { showAttemptWarning('⚠️ Please enter your username.'); return; }
             if (!pin)      { showAttemptWarning('⚠️ Please enter your PIN.');      return; }
             if (pin.length < 4) { showAttemptWarning('⚠️ PIN must be 4 digits.'); return; }
 
-            // ✅ Step 2 — validate captcha
-            // Wrong captcha → yellow warning + regenerate
-            // Does NOT count as login attempt — no backend call
+            // ── Step 2: validate captcha ────────────────────────
             if (captchaInput !== captchaText) {
                 showCaptchaWarning('⚠️ Invalid Captcha! Please enter the correct captcha.');
                 document.getElementById('captchaInput').value = '';
@@ -209,8 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // ✅ Step 3 — captcha passed, send to backend
-            // From here any failure = login attempt counted
+            // ── Step 3: call backend ────────────────────────────
             try {
                 const response = await fetch('http://localhost:5000/api/auth/login', {
                     method:  'POST',
@@ -219,35 +230,37 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 const data = await response.json();
 
+                console.log('Login response:', data); // debug
+
                 if (data.success) {
                     // ✅ Login successful
                     clearLockoutTimer();
                     unlockLoginForm();
+                    hideWarning();
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    alert(`Welcome back, ${data.user.fullName}!`);
-                    if(data.user.role === 'admin'){
+                    alert(`✅ Welcome back, ${data.user.fullName}!`);
+                    if (data.user.role === 'admin') {
                         window.location.href = 'admin.html';
                     } else {
                         window.location.href = 'dashboard.html';
                     }
 
-                } else if (data.locked) {
-                    // ✅ Locked — show countdown timer
+                } else if (data.locked === true) {
+                    // ✅ Account locked — show countdown timer
                     showLockoutMessage(data.remainingSec);
 
                 } else if (data.attemptsLeft !== undefined) {
-                    // ✅ Wrong username or PIN
-                    // attempt already counted in backend
-                    // clear all fields + regenerate captcha
+                    // ✅ Wrong credentials — show remaining attempts
                     showAttemptWarning(data.message);
                     clearLoginFields();
 
                 } else {
-                    // User not found
+                    // ✅ User not found or other error
                     clearLoginFields();
+                    hideWarning();
                     const goRegister = window.confirm(
-                        '❌ Account not found!\n\nDo you want to create a new account?'
+                        '❌ ' + data.message + '\n\nDo you want to create a new account?'
                     );
                     if (goRegister) window.location.href = 'registration.html';
                 }
@@ -266,10 +279,27 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
 
             const adminId  = document.getElementById('adminId')
-                             ? document.getElementById('adminId').value
-                             : document.querySelector('#adminLogin input[type="text"]').value;
-            const password = document.querySelector('#adminLogin input[type="password"]').value;
-            const bankId   = document.querySelector('#adminLogin input[placeholder="Enter branch code"]').value;
+                             ? document.getElementById('adminId').value.trim()
+                             : document.querySelector('#adminLogin input[type="text"]').value.trim();
+            const password = document.querySelector('#adminLogin input[type="password"]').value.trim();
+            const bankId   = document.querySelector('#adminLogin input[placeholder="Enter branch code"]').value.trim();
+
+            // Captcha check for admin
+            const adminCaptchaInput = document.querySelectorAll('.captcha-box input[type="text"]')[1];
+            const adminCaptchaText  = document.getElementById('captchaText2');
+
+            if (adminCaptchaInput && adminCaptchaText) {
+                if (adminCaptchaInput.value.trim() !== adminCaptchaText.innerText.trim()) {
+                    alert('❌ Invalid Captcha! Please try again.');
+                    generateCaptcha('captchaText2');
+                    adminCaptchaInput.value = '';
+                    return;
+                }
+            }
+
+            if (!adminId)  { alert('⚠️ Please enter Admin ID.');       return; }
+            if (!password) { alert('⚠️ Please enter Admin Password.'); return; }
+            if (!bankId)   { alert('⚠️ Please enter Branch Code.');    return; }
 
             try {
                 const response = await fetch('http://localhost:5000/api/auth/admin-login', {
@@ -289,7 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert('❌ ' + data.message);
                 }
             } catch (err) {
-                alert('Backend not running! Start server first.');
+                alert('❌ Backend not running! Start server first.');
             }
         });
     }

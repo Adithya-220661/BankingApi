@@ -305,6 +305,16 @@ const userLogin = async (req, res) => {
         });
       }
     }
+    // ── Check DB lockout BEFORE PIN ──────────────────────────
+      if (user && user.lockUntil && user.lockUntil > Date.now()) {
+        const remainingSec = Math.ceil((user.lockUntil - Date.now()) / 1000);
+        return res.status(403).json({
+          success:      false,
+          locked:       true,
+          message:      '🔒 Account temporarily locked. Please wait.',
+          remainingSec,
+        });
+      }
 
     // ── Wrong username OR wrong PIN → reduce attempts ─────────
     if (!user || !(await user.comparePin(pin))) {

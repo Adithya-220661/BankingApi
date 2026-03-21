@@ -231,10 +231,52 @@ color:white;
 .card{
 background:rgba(255,255,255,0.9) !important;
 }
+.navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:15px 60px;
+align-items:center;
+}
+
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
+}
 </style>
 </head>
 
 <body>
+
+<div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
+
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="personal.html">Resources</a>
+<a href="aboutus.html">About Us</a>
+<a href="index.html" class="login">Login</a>
+</div>
+
+</div>
+
+
 
 <canvas id="cyberbg"></canvas>
 <div class="cyberlock"><i class="fa-solid fa-lock"></i></div>

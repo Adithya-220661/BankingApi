@@ -1,7 +1,7 @@
 
 body {
-    background:url("accountbg.png");
-    background-size:78%;
+    background:url(accountbackgd.png);
+    background-size:cover;
     
     font-family: 'Poppins', sans-serif;
     display:flex;

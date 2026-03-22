@@ -46,7 +46,7 @@ body {
     padding:20px 5%;
     background:#0A1F44;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    position:relative;
+    position:sticky;
     border-radius: 0px;
     top: 0;
     z-index:200;
@@ -85,7 +85,6 @@ body {
 }
 .nav-item:hover {
     color: #00c3ff;
-    /* Adds a subtle text glow */
     text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
 }
 .nav-actions {
@@ -617,18 +616,15 @@ margin-trim:left;
 
 /* Section 3 .......................4 Loans image boxes css */
 
-/* products sections section 3*/
-
 .products-section {
     padding: 50px 10%;
-    background-color:rgb(160, 209, 239);
     font-family: Arial, sans-serif;
 }
 
 .section-title {
     font-size: 24px;
     font-weight: bold;
-    color: #333;
+    color:#1e1e1e;
     margin-bottom: 30px;
     border-bottom: 2px solid #f0f0f0;
     display: inline-block;
@@ -638,24 +634,18 @@ margin-trim:left;
 
 .products-container {
     display: flex;
-   
     flex-wrap: nowrap;
     gap: 20px;
     justify-content: center;
-    
-    /* ADD: ensure the container itself doesn't overflow horizontally */
     max-width: 100%;
     margin: 0 auto;
-    
-    /* OPTIONAL: add horizontal scrolling if the screen gets too small */
-    /* overflow-x: auto; */
 }
 
 .product-card {
     flex: 1;
     min-width: 250px;
     max-width: 300px;
-    background: #fff;
+    background:lightskyblue;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
 }
@@ -673,39 +663,38 @@ margin-trim:left;
 .card-content {
     padding: 20px;
     text-align: center;
+    
 }
 
 .card-content h3 {
     font-size: 18px;
-    color: #444;
+    color: #282727;
     margin: 10px 0;
 }
 
 .subtitle {
-    font-size: 11px;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
+    font-size:8px;
+    color: #333;
 }
 
 .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f8f8f8;
-    margin: 0 -20px -20px -20px; /* Aligns background to card edges */
-    padding: 15px 20px;
+    background-color:#003366;
+    margin: 0 -20px -20px -20px; 
+    padding: 15px 10px;
 }
 
 .rate {
     font-size: 13px;
     font-weight: bold;
-    color: #555;
+    color:white;
 }
 
 .arrow-btn {
     text-decoration: none;
-    color: #d35400; /* Orange color from screenshot */
+    color: #1e1e1e;
     font-size: 20px;
     font-weight: bold;
 }
@@ -724,7 +713,7 @@ transition:opacity 1.5s ease, transform 1.5s ease;
 }
 
 #logoSplash img{
-width:750px; /* BIGGER LOGO */
+width:750px;
 max-width:80%;
 opacity:0;
 transform:scale(0.3);
@@ -773,16 +762,16 @@ pointer-events:none;
     font-size:30px;
     font-style:bold;
     font-weight:100px;
-    margin-bottom:2px;
-    margin-top:10px;
-    color:white;
+   
+    margin-top:3px;
+    color:gold;
     
 
 }
 
 .subtitle {
-    font-size:20px ;
-    margin-bottom: 50px;
+    font-size:18px ;
+    margin-bottom:10px;
     color:whitesmoke;
 }
 /* Stats */
@@ -816,11 +805,11 @@ box-shadow:0 20px 40px rgba(0,0,0,0.25);
 }
 
 .stat-card h2 {
-    font-size: 1.8rem;
+    font-size:20px;
 }
 
 .stat-card p {
-    font-size: 0.9rem;
+    font-size:15px;
 }
 
 /* Button */
@@ -842,8 +831,6 @@ box-shadow:0 20px 40px rgba(0,0,0,0.25);
 }
 
 /* Section 5 ...........................Services offered by netbanking box css */
-
-
 
 .netbanking-services{
 background:#1e293b;
@@ -961,24 +948,22 @@ color:#003366;
 
 
 .faq-section{
-width:95%;
+width:85%;
 margin:60px auto;
-
-
-
+background: transparent;
 
 }
 
 .faq-heading{
 text-align:left;
 font-size:30px;
-color:rgb(26, 26, 179);
+color:#003366;
 margin-bottom:30px;
 font-weight:800;
 }
 
 .faq-box{
-background:#1e293b;
+background: transparent;
 border-radius:0px 0px 60px px;
 box-shadow:0 8px 25px rgba(0,0,0,0.1);
 overflow:hidden;
@@ -990,7 +975,7 @@ border-bottom:1px solid #003366;
 
 .faq-question{
 width:100%;
-background:linear-gradient(135deg,#9ae4fb);
+background:whitesmoke;
 border:none;
 padding:20px 25px;
 font-size:18px;

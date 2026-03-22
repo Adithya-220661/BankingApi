@@ -1,30 +1,19 @@
 /**
  * GLOBAL VARIABLES
  */
-let kycStream = null;
-let resendTimer = null;
+let kycStream    = null;
+let resendTimer  = null;
 let resendSeconds = 30;
-let currentOTP = '';
+let currentOTP   = '';
 
-/**
- * SHARED HELPER — stores OTP for clipboard
- */
-function storeOTPForClipboard(otp) {
-    currentOTP = otp.toString();
-    navigator.clipboard.writeText(currentOTP)
-        .then(() => console.log('✅ OTP copied to clipboard:', currentOTP))
-        .catch(() => console.log('❌ Clipboard copy failed'));
-}
-
-/**
- * CAPTCHA GENERATOR
- * ✅ Single definition — targets captchaCode span directly
- * ✅ Sets innerText so it always shows regardless of CSS
- */
+// ════════════════════════════════════════════════════════════
+//  CAPTCHA GENERATOR — Step 4
+//  ✅ Single function — no duplicate!
+// ════════════════════════════════════════════════════════════
 function generateCaptcha() {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let captcha = "";
-    for (let i = 0; i < 5; i++) {
+    const chars   = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let captcha   = "";
+    for(let i = 0; i < 5; i++){
         captcha += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     const el = document.getElementById('captchaCode');
@@ -33,46 +22,58 @@ function generateCaptcha() {
     }
 }
 
-/**
- * 1. NAVIGATION & ROADMAP LOGIC
- */
+// ════════════════════════════════════════════════════════════
+//  SHARED HELPER — stores OTP for clipboard
+// ════════════════════════════════════════════════════════════
+function storeOTPForClipboard(otp) {
+    currentOTP = otp.toString();
+    navigator.clipboard.writeText(currentOTP)
+        .then(() => console.log('✅ OTP copied to clipboard:', currentOTP))
+        .catch(() => console.log('❌ Clipboard copy failed'));
+}
+
+// ════════════════════════════════════════════════════════════
+//  1. NAVIGATION & ROADMAP LOGIC
+// ════════════════════════════════════════════════════════════
 function nextStep(stepNumber) {
-    const formSteps = document.querySelectorAll('.form-step');
-    formSteps.forEach(step => step.classList.remove('active'));
+    // Hide all steps
+    document.querySelectorAll('.form-step').forEach(step => {
+        step.classList.remove('active');
+    });
 
+    // Show target step
     const targetStep = document.getElementById(`step-${stepNumber}`);
-    if (targetStep) {
-        targetStep.classList.add('active');
-    }
+    if(targetStep) targetStep.classList.add('active');
 
-    const roadmapCircles = document.querySelectorAll('.roadmap .step');
-    roadmapCircles.forEach((circle, idx) => {
-        if (idx < stepNumber) {
+    // Update roadmap circles
+    document.querySelectorAll('.roadmap .step').forEach((circle, idx) => {
+        if(idx < stepNumber){
             circle.classList.add('active');
         } else {
             circle.classList.remove('active');
         }
     });
 
-    if (stepNumber === 3) {
+    // Step-specific actions
+    if(stepNumber === 3){
         startAutomatedKYC();
     } else {
         stopCamera();
     }
 
-    // ✅ Generate captcha when step 4 becomes active
-    if (stepNumber === 4) {
-        generateCaptcha();
+    // ✅ Generate captcha when step 4 loads
+    if(stepNumber === 4){
+        setTimeout(() => generateCaptcha(), 100);
     }
 
-    if (stepNumber === 5) {
+    if(stepNumber === 5){
         generatePDFReview();
     }
 }
 
-/**
- * 2. STEP 1: SEND OTP
- */
+// ════════════════════════════════════════════════════════════
+//  2. STEP 1: SEND OTP
+// ════════════════════════════════════════════════════════════
 async function handleSendOTP() {
     const phone = document.getElementById('phone').value;
 
@@ -82,7 +83,7 @@ async function handleSendOTP() {
     }
 
     try {
-        const res = await fetch('http://localhost:5000/api/auth/send-otp', {
+        const res  = await fetch('http://localhost:5000/api/auth/send-otp', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ phone })
@@ -97,10 +98,10 @@ async function handleSendOTP() {
             }
 
             const sendBtn = document.querySelector('.send-btn');
-            if (sendBtn) {
-                sendBtn.disabled      = true;
+            if(sendBtn){
+                sendBtn.disabled     = true;
                 sendBtn.style.opacity = '0.5';
-                sendBtn.innerText     = 'OTP Sent ✅';
+                sendBtn.innerText    = 'OTP Sent ✅';
             }
 
             alert('✅ OTP sent to your registered mobile number!');
@@ -112,9 +113,9 @@ async function handleSendOTP() {
     }
 }
 
-/**
- * 2b. VERIFY OTP
- */
+// ════════════════════════════════════════════════════════════
+//  2b. VERIFY OTP
+// ════════════════════════════════════════════════════════════
 async function verifyOTP() {
     const boxes = document.querySelectorAll('.otp-box');
     let enteredOtp = '';
@@ -128,7 +129,7 @@ async function verifyOTP() {
     const phone = document.getElementById('phone').value;
 
     try {
-        const res = await fetch('http://localhost:5000/api/auth/verify-otp', {
+        const res  = await fetch('http://localhost:5000/api/auth/verify-otp', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ phone, otp: enteredOtp })
@@ -148,9 +149,9 @@ async function verifyOTP() {
     }
 }
 
-/**
- * 2c. RESEND OTP
- */
+// ════════════════════════════════════════════════════════════
+//  2c. RESEND OTP
+// ════════════════════════════════════════════════════════════
 async function resendOTP() {
     const phone = document.getElementById('phone').value;
 
@@ -160,13 +161,13 @@ async function resendOTP() {
     }
 
     const resendBtn = document.getElementById('resendBtn');
-    if (resendBtn) {
-        resendBtn.disabled      = true;
+    if(resendBtn){
+        resendBtn.disabled     = true;
         resendBtn.style.opacity = '0.5';
     }
 
     try {
-        const res = await fetch('http://localhost:5000/api/auth/send-otp', {
+        const res  = await fetch('http://localhost:5000/api/auth/send-otp', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ phone })
@@ -190,36 +191,35 @@ async function resendOTP() {
             clearInterval(resendTimer);
             resendTimer = setInterval(() => {
                 resendSeconds--;
-                if (resendBtn) resendBtn.innerText = `Resend in ${resendSeconds}s`;
-
-                if (resendSeconds <= 0) {
+                if(resendBtn) resendBtn.innerText = `Resend in ${resendSeconds}s`;
+                if(resendSeconds <= 0){
                     clearInterval(resendTimer);
-                    if (resendBtn) {
-                        resendBtn.disabled      = false;
+                    if(resendBtn){
+                        resendBtn.disabled     = false;
                         resendBtn.style.opacity = '1';
-                        resendBtn.innerText     = 'Resend Code';
+                        resendBtn.innerText    = 'Resend Code';
                     }
                 }
             }, 1000);
         } else {
             alert('❌ ' + data.message);
-            if (resendBtn) {
-                resendBtn.disabled      = false;
+            if(resendBtn){
+                resendBtn.disabled     = false;
                 resendBtn.style.opacity = '1';
             }
         }
     } catch (err) {
         alert('Backend not running! Start server first.');
-        if (resendBtn) {
-            resendBtn.disabled      = false;
+        if(resendBtn){
+            resendBtn.disabled     = false;
             resendBtn.style.opacity = '1';
         }
     }
 }
 
-/**
- * 2d. PASTE FROM CLIPBOARD
- */
+// ════════════════════════════════════════════════════════════
+//  2d. PASTE FROM CLIPBOARD
+// ════════════════════════════════════════════════════════════
 async function pasteFromClipboard() {
     try {
         const text    = await navigator.clipboard.readText();
@@ -237,24 +237,25 @@ async function pasteFromClipboard() {
         });
 
         boxes[Math.min(numbers.length - 1, 5)].focus();
-    } catch (err) {
+
+    } catch(err) {
         alert("Please allow clipboard access in browser settings.");
     }
 }
 
-/**
- * 2e. AUTO FOCUS OTP BOXES
- */
+// ════════════════════════════════════════════════════════════
+//  2e. AUTO FOCUS OTP BOXES
+// ════════════════════════════════════════════════════════════
 const otpBoxes = document.querySelectorAll('.otp-box');
 function moveToNext(input, index) {
-    if (input.value.length === 1 && index < otpBoxes.length - 1) {
+    if(input.value.length === 1 && index < otpBoxes.length - 1){
         otpBoxes[index + 1].focus();
     }
 }
 
-/**
- * 3. STEP 2: PERSONAL VALIDATION
- */
+// ════════════════════════════════════════════════════════════
+//  3. STEP 2: PERSONAL VALIDATION
+// ════════════════════════════════════════════════════════════
 function handleStep2() {
     let isValid = true;
     document.querySelectorAll('.err').forEach(e => e.innerText = "");
@@ -282,14 +283,12 @@ function handleStep2() {
         isValid = false;
     }
 
-    if (isValid) {
-        nextStep(3);
-    }
+    if(isValid) nextStep(3);
 }
 
-/**
- * 4. STEP 3: AUTOMATED KYC
- */
+// ════════════════════════════════════════════════════════════
+//  4. STEP 3: AUTOMATED KYC
+// ════════════════════════════════════════════════════════════
 async function startAutomatedKYC() {
     const video      = document.getElementById('video');
     const circle     = document.getElementById('scanCircle');
@@ -297,17 +296,17 @@ async function startAutomatedKYC() {
     const proceedBtn = document.getElementById('proceedBtn');
 
     try {
-        kycStream         = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject   = kycStream;
-        status.innerText  = "Scanning Face...";
+        kycStream        = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject  = kycStream;
+        status.innerText = "Scanning Face...";
         status.style.color = "#555";
 
         setTimeout(() => {
             if (video.srcObject) {
                 circle.classList.add('detected');
-                status.innerText         = "Face Verified Successfully!";
-                status.style.color       = "#2ecc71";
-                proceedBtn.disabled      = false;
+                status.innerText       = "Face Verified Successfully!";
+                status.style.color     = "#2ecc71";
+                proceedBtn.disabled    = false;
                 proceedBtn.style.opacity = "1";
                 video.pause();
             }
@@ -325,10 +324,9 @@ function stopCamera() {
     }
 }
 
-/**
- * 5. STEP 4: SECURITY VALIDATION
- * ✅ Properly validates all fields including captcha before going to step 5
- */
+// ════════════════════════════════════════════════════════════
+//  5. STEP 4: SECURITY VALIDATION
+// ════════════════════════════════════════════════════════════
 function validateSecurity() {
     const user        = document.getElementById('username').value.trim();
     const pin         = document.getElementById('userPin').value;
@@ -336,11 +334,10 @@ function validateSecurity() {
     const captcha     = document.getElementById('captchaInput').value.trim();
     const realCaptcha = document.getElementById('captchaCode').innerText.trim();
 
-    if (user.length < 4)         { alert("Username must be at least 4 characters!"); return; }
-    if (pin.length < 4)           { alert("PIN must be 4 digits!"); return; }
-    if (pin !== confirm)          { alert("PINs do not match!"); return; }
-    if (captcha === '')           { alert("Please enter Captcha!"); return; }
-    if (captcha !== realCaptcha)  {
+    if(user.length < 4)        { alert("Username too short! Minimum 4 characters."); return; }
+    if(!/^\d{4}$/.test(pin))   { alert("PIN must be exactly 4 digits!"); return; }
+    if(pin !== confirm)         { alert("PINs do not match!"); return; }
+    if(captcha !== realCaptcha) {
         alert("Invalid Captcha! Please try again.");
         generateCaptcha();
         document.getElementById('captchaInput').value = '';
@@ -350,9 +347,9 @@ function validateSecurity() {
     nextStep(5);
 }
 
-/**
- * 6. STEP 5: PDF REVIEW
- */
+// ════════════════════════════════════════════════════════════
+//  6. STEP 5: PDF REVIEW
+// ════════════════════════════════════════════════════════════
 function generatePDFReview() {
     const name   = document.getElementById('accName').value;
     const email  = document.getElementById('accEmail').value;
@@ -361,7 +358,7 @@ function generatePDFReview() {
     const city   = document.getElementById('city').value;
     const user   = document.getElementById('username').value;
 
-    const pdfContent = `
+    document.getElementById('pdf-viewer').innerHTML = `
         <center><h3>HORIZON BANK DIGITAL RECEIPT</h3></center>
         <hr>
         <p><strong>APPLICATION ID:</strong> HB-${Math.floor(Math.random() * 1000000)}</p>
@@ -374,12 +371,11 @@ function generatePDFReview() {
         <hr>
         <p style="color:#2ecc71; font-weight:bold;">✔ KYC VERIFICATION SUCCESSFUL</p>
     `;
-    document.getElementById('pdf-viewer').innerHTML = pdfContent;
 }
 
-/**
- * 7. FINAL SUBMISSION
- */
+// ════════════════════════════════════════════════════════════
+//  7. FINAL SUBMISSION
+// ════════════════════════════════════════════════════════════
 async function finalSubmit() {
     const isChecked = document.getElementById('termsCheck').checked;
     if (!isChecked) {

@@ -18,54 +18,19 @@
             line-height: 1.6;
         }
 
-        .navbar {
-            position: sticky;
-            top:1px;
-            background:#0b2a4a;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            z-index:200;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-
-        .logo { 
+         .logo { 
             font-size: 25px;
             font-weight: 800;
             color:yellow;
             letter-spacing:0.5px; }
 
-        .nav-links { 
-            display: flex;
-            gap: 15px; 
-            list-style: none; 
-            align-items:center; 
-            margin: 0; 
-            padding: 0; 
-            text-decoration: wavy;
-        }
-
-        .nav-links a {
-            text-decoration:wavy;
-            color:white;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: 0.3s;
-        }
-
-
-/* NAVBAR */
-
-       .navbar{
-            background:#002970;
-            color:white;
-            display:flex;
-            justify-content:space-between;
-            padding:1px 20px;
-            align-items:center;
+         .navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:1px 20px;
+align-items:center;
 }
 
 .nav-links a{
@@ -83,16 +48,12 @@ color:black;
 }
 .logo-img{
 height:50px;
-opacity:0.85;   /* reduce brightness */
+opacity:0.85;   
 }
-        .nav-links a:hover { 
-            color:#14a5e3; 
-        }
 
         .nav-links a:hover { 
             color:#14a5e3; 
         }
-
 
         .login-btn {
             background:gold;
@@ -325,296 +286,323 @@ opacity:0.85;   /* reduce brightness */
    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-
-    <div class="navbar">
+        <div class="navbar">
     <div class="logo">
     <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
 </div>
+
+<div><b></b></div>
+
 <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="#loans">Loans</a>
-            <a href="#cards">Cards</a>
-            <a href="#investments">Investments</a>
+<a href="index.html">Home</a>
+            <a href="#accounts">Accounts</a>
+            <a href="#loans">Loans</a> 
+            <a href="#investments">Investments</a> 
             <a href="#insurance">Insurance</a>
-            <a href="#calculator">Tools</a>
-            <a href="index.html" class="login">Login</a>
+            <a href="#tool">Calculator</a>
+            <a href="aboutus.html">About Us</a>
+            <button class="login-btn" onclick="openLogin()">Login🔒 <i class="fas fa-lock"></i></button>
+
 </div>
 
 </div>
+            
+
+    <header class="hero1">
+        <div class="hero-text1">
+            <h1>Elevate Your <br><span style="color:gold;">Financial Status.</span></h1>
+            <p>Welcome to the next generation of banking. We offer zero-fee accounts, instant loan approvals, and worldwide wealth management tools.</p>
+            <button class="login-btn" style="padding: 15px 40px; border-radius: 30px; font-size: 18px;">
+                <a href="registration.html" style="text-decoration: none;color:#333">Open Digital A/c </a></button>
+        </div>
+        <div class="slider">
+            <div class="slide-track">
+                <img src="https://picsum.photos/id/1015/300/400">
+                <img src="https://picsum.photos/id/1016/300/400">
+                <img src="https://picsum.photos/id/1018/300/400">
+                <img src="https://picsum.photos/id/1020/300/400">
+                <img src="https://picsum.photos/id/1015/300/400">
+                <img src="https://picsum.photos/id/1016/300/400">
+            </div>
+        </div>
+    </header>
+
+   
+    <section class="section1" id="accounts">
+         <h2 class="section-title1">👉Personalized Accounts</h2>
+        <span class="section-subtitle1">
+            Banking Excellence-At Horizon Bank, we offer a diverse range
+             of account types designed to match your specific lifestyle and financial goals. 
+             For those seeking long-term growth and high returns, our Savings Gold account provides
+              a premium experience with a high-yield interest rate of 4.5% APY, complemented by a 
+              free titanium debit card and global ATM access. For business leaders and high-net-worth 
+              individuals, the Current Elite account stands as the gold standard, offering unlimited
+               transaction limits, multi-currency support, and a dedicated wealth manager to handle
+                complex financial needs. Finally, our Youth Saver account is specifically crafted for 
+                students and young professionals under 25, featuring a zero-balance requirement, 
+                educational cashback rewards, and intuitive mobile tools to help the next generation
+                 build a solid financial foundation.</span>
+       
+        <div class="grid">
+            <div class="card">
+                <h3>Savings Gold</h3>
+                <div class="features">High-yield savings with 4.5% annual interest. Includes a free titanium debit card and global ATM access.</div>
+                <button class="apply">Apply Now</button>
+            </div>
+            <div class="card">
+                <h3>Current Elite</h3>
+                <div class="features">Unlimited business transactions, dedicated relationship manager, and premium checkbook facilities.</div>
+                <button class="apply">Apply Now</button>
+            </div>
+            <div class="card">
+                <h3>Youth Saver</h3>
+                <div class="features">Designed for students under 25. Zero balance requirement and cashback on educational spends.</div>
+                <button class="apply">Apply Now</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="loans">
+        <h2 class="section-title1">👉Loan Products</h2>
+        <span class="section-subtitle1">Fast Funding-Horizon Bank offers a
+             comprehensive suite of financial solutions ranging from high-yield
+              Savings Gold accounts with 4.5% interest to specialized Youth Saver
+               and Current Elite options tailored for every stage of life.
+                Our lending portfolio features Home Loans starting at 8.4% Fixed ROI 
+                and instant Personal Credit up to ₹25 Lakhs, ensuring you have the liquidity
+                 needed for your biggest milestones.</span>
+        <div class="grid">
+            <div class="card">
+                <h3>Home Loans</h3>
+                <div class="features">Rates starting at 8.2%. Minimal documentation and quick technical valuation of property.</div>
+                <button class="apply">Check Eligibility</button>
+            </div>
+            <div class="card">
+                <h3>Personal Credit</h3>
+                <div class="features">Instant disbursement up to ₹25 Lakhs for pre-approved customers with zero collateral.</div>
+                <button class="apply">Apply Instantly</button>
+            </div>
+            <div class="card">
+                <h3>Auto Finance</h3>
+                <div class="features">Up to 100% on-road funding for electric vehicles. 7-year flexible repayment tenures.</div>
+                <button class="apply">Get Quote</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="cards">
+        <h2 class="section-title1">👉Credit & Debit Cards</h2>
+        <span class="section-subtitle1">Spending Power-Our Infinite<b> Credit Cards</b> and Signature
+            <b> Debit suites</b> are designed to provide unparalleled spending power with 5x 
+             reward points on global dining and complimentary international 
+             lounge access for the frequent traveler. For everyday transactions,
+              our cards feature high-limit contactless "Tap & Pay" technology and 
+              enhanced multi-layer fraud protection to ensure your funds remain secure at
+               over 500+ merchant partners. Additionally, our multi-currency Forex Travel Cards 
+               allow you to lock in exchange rates before you fly, protecting your budget from market 
+               fluctuations during overseas trips</span>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>Infinite Credit</h3>
+                <div class="features">Lounge access, 5x reward points on travel, and comprehensive air accident insurance.</div>
+                <button class="apply">Explore Card</button>
+            </div>
+            <div class="card">
+                <h3>Signature Debit</h3>
+                <div class="features">Contactless payments with high daily withdrawal limits and lifestyle discounts.</div>
+                <button class="apply">Upgrade Now</button>
+            </div>
+            <div class="card">
+                <h3>Forex Travel</h3>
+                <div class="features">Load up to 15 currencies. Locked-in exchange rates for worry-free international travel.</div>
+                <button class="apply">Order Card</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="investments">
+         <h2 class="section-title1">👉Investment Plans</h2>
+        <span class="section-subtitle1">Wealth Growth-Gemini said
+Our <b>Investment Plans</b> are meticulously curated to accelerate your wealth growth,
+ offering secure Fixed Deposits with industry-leading returns of up to <b>7.8%</b> for
+  senior citizens and flexible interest payout options. For those seeking long-term 
+  capital appreciation, our expert-managed Mutual Fund SIPs leverage the power of
+   compounding to help you build a robust portfolio tailored to your risk appetite. 
+   We prioritize financial security by integrating these growth tools with comprehensive 
+   <b>Insurance Coverage</b>, ensuring your family’s future is protected through high-cover term life
+    and cashless health plans. By combining strategic asset allocation with professional market
+     insights, Horizon Bank empowers you to transform your savings into a lasting legacy of financial
+      independence.</span>
+       
+        <div class="grid">
+            <div class="card">
+                <h3>Fixed Deposits</h3>
+                <div class="features">Safe returns up to 7.8% for senior citizens. Tax-saver options available for 5-year terms.</div>
+                <button class="apply">Invest Now</button>
+            </div>
+            <div class="card">
+                <h3>Mutual Funds</h3>
+                <div class="features">Invest in top-performing SIPs curated by our experts for long-term wealth creation.</div>
+                <button class="apply">Start SIP</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="insurance">
+        <h2 class="section-title1">👉Insurance Coverage</h2>
+        <span class="section-subtitle1">Total Protection-Our Insurance Coverage provides a robust 
+            360-degree safety net, offering high-cover Term Life Insurance to secure your family’s
+             financial future and comprehensive Health Care plans with cashless hospitalization at
+              over 10,000+ network providers. We prioritize your peace of mind by integrating Vehicle 
+              Insurance with instant claim settlements and specialized protection for your digital 
+              assets against modern cyber threats. Each policy is designed with affordable premiums and 
+              flexible riders, ensuring that your health, life, and hard-earned assets remain shielded
+               from life’s unpredictable turns.</span>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>Term Life</h3>
+                <div class="features">Secure your family's future with high cover amounts at very low premium costs.</div>
+                <button class="apply">View Plans</button>
+            </div>
+            <div class="card">
+                <h3>Health Care</h3>
+                <div class="features">Cashless hospitalization at 10,000+ network hospitals with maternity benefits.</div>
+                <button class="apply">View Plans</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="calculator">
+        
+        <h2 class="section-title1">👉Smart EMI Calculator</h2>
+        <span class="section-subtitle1">Plan Your Budget-Our Smart EMI Calculator is an 
+            essential budgeting tool designed to bring complete transparency to your borrowing
+             experience, allowing you to visualize your monthly commitments before you commit to a 
+             loan. By simply inputting your desired principal amount, current interest rates, and
+              preferred tenure, you can instantly generate a detailed repayment schedule 
+               to your financial capacity.</span>
+        <div class="calculator-box">
+            <div class="input-group">
+                <label>Amount (₹)</label>
+                <input type="number" id="amount" placeholder="e.g. 500000">
+            </div>
+            <div class="input-group">
+                <label>Interest Rate (%)</label>
+                <input type="number" id="rate" placeholder="e.g. 8.5">
+            </div>
+            <div class="input-group">
+                <label>Tenure (Years)</label>
+                <input type="number" id="years" placeholder="e.g. 5">
+            </div>
+            <button class="login-btn" style="height: 45px;" onclick="calculateEMI()">Calculate</button>
+            <div id="emiResult" style="flex: 1; font-weight: bold; color: var(--primary); font-size: 20px;"></div>
+        </div>
+    </section>
+
+    <section class="section1" id="compare">
+        <h2 class="section-title1">👉Product Comparison</h2>
+        <span class="section-subtitle1">Transparency First-By comparing key metrics such as 
+            minimum balance requirements, interest yields, and exclusive lifestyle benefits,
+             you can identify which "Horizon" tier best serves your current lifestyle. This
+              transparency ensures that whether you are a conservative saver or a dynamic entrepreneur
+              , you are equipped with the data to select the gold standard of banking excellence.
+        </span>
+      
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Annual Interest</th>
+                    <th>Min. Balance</th>
+                    <th>Benefit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Savings Gold</td>
+                    <td>4.5%</td>
+                    <td>₹10,000</td>
+                    <td>Free Insurance</td>
+                </tr>
+                <tr>
+                    <td>Fixed Deposit</td>
+                    <td>7.5%</td>
+                    <td>₹5,000</td>
+                    <td>Guaranteed Returns</td>
+                </tr>
+                <tr>
+                    <td>Elite Current</td>
+                    <td>0.0%</td>
+                    <td>₹50,000</td>
+                    <td>Multi-city Cheque</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Horizon Bank</h4>
+                <p style="font-size: 13px; color: #ccc;">Leading the digital revolution in personal and corporate banking since 1998. Trusted by millions.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#accounts">Savings Accounts</a></li>
+                    <li><a href="#loans">Home Loans</a></li>
+                    <li><a href="#investments">Fixed Deposits</a></li>
+                    <li><a href="#insurance">Life Insurance</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">24/7 Helpline</a></li>
+                    <li><a href="#">Locate Branch</a></li>
+                    <li><a href="#">Report Fraud</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col newsletter">
+                <h4>Stay Updated</h4>
+                <p style="font-size: 12px; color: #ccc;">
+                    Subscribe to get the latest interest rate updates.
+                </p>
+                <input type="email" placeholder="Your Email">
+                <button class="login-btn" style="width: 100%;">Subscribe</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Horizon Global Bank. All rights reserved. Member FDIC. ISO 27001 Certified.
+        </div>
+    </footer>
     
+    <!-- Login Box opening  -->
 
 
-<!-- ACCOUNTS -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+        <span class="close" onclick="closeLogin()">✖</span>
+        <h2 class="h">Welcome to Horizon</h2>
+        <p class="sub" >Your Money-Our Security </p>
 
-<div class="section" id="accounts">
+        <!-- Login /Admin -->
 
-<h2 class="section-title">Accounts</h2>
+        <div class="login-type">
+            <button onclick="showCustomer()">Customer</button>
+            <button onclick="showAdmin()">Admin</button>
+        </div>
 
-<div class="grid">
+        <!-- User Login settings -->
 
-<div class="card">
-<h3>Savings Account</h3>
-<div class="features">
-• 4% annual interest<br>
-• Mobile banking<br>
-• Debit card access
-</div>
-<button class="apply">Apply</button>
-</div>
+        <form id="customerLogin" autocomplete="off">
 
-<div class="card">
-<h3>Current Account</h3>
-<div class="features">
-• Unlimited transactions<br>
-• Business tools<br>
-• Overdraft facility
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Senior Citizen Account</h3>
-<div class="features">
-• Higher interest<br>
-• Priority service<br>
-• Free cheque book
-</div>
-<button class="apply">Apply</button>
-</div>
-
-</div>
-</div>
-
-<!-- LOANS -->
-
-<div class="section" id="loans">
-
-<h2 class="section-title">Loans</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Home Loan</h3>
-<div class="features">
-• Interest from 8.5%<br>
-• Loan up to ₹2 Cr<br>
-• 30 year tenure
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Personal Loan</h3>
-<div class="features">
-• Instant approval<br>
-• No collateral<br>
-• Flexible EMI
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Vehicle Loan</h3>
-<div class="features">
-• Up to 90% funding<br>
-• Fast approval<br>
-• Flexible EMI
-</div>
-<button class="apply">Apply</button>
-</div>
-
-</div>
-</div>
-
-<!-- CARDS -->
-
-<div class="section" id="cards">
-
-<h2 class="section-title">Cards</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Debit Card</h3>
-<div class="features">
-• ATM withdrawals<br>
-• Contactless payment<br>
-• Global usage
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Credit Card</h3>
-<div class="features">
-• Cashback rewards<br>
-• Online payments<br>
-• Travel benefits
-</div>
-<button class="apply">Apply</button>
-</div>
-
-<div class="card">
-<h3>Travel Card</h3>
-<div class="features">
-• Multi currency<br>
-• Secure payments<br>
-• Global acceptance
-</div>
-<button class="apply">Apply</button>
-</div>
-
-</div>
-</div>
-
-<!-- INVESTMENTS -->
-
-<div class="section" id="investments">
-
-<h2 class="section-title">Investments</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Fixed Deposit</h3>
-<div class="features">
-• Interest up to 7%<br>
-• Safe investment<br>
-• Flexible tenure
-</div>
-<button class="apply">Invest</button>
-</div>
-
-<div class="card">
-<h3>Recurring Deposit</h3>
-<div class="features">
-• Monthly deposit<br>
-• Secure growth<br>
-• Fixed returns
-</div>
-<button class="apply">Invest</button>
-</div>
-
-<div class="card">
-<h3>Mutual Funds</h3>
-<div class="features">
-• Equity funds<br>
-• Balanced funds<br>
-• Long term growth
-</div>
-<button class="apply">Explore</button>
-</div>
-
-</div>
-</div>
-
-<!-- INSURANCE -->
-
-<div class="section" id="insurance">
-
-<h2 class="section-title">Insurance</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Health Insurance</h3>
-<button class="apply">View Plans</button>
-</div>
-
-<div class="card">
-<h3>Life Insurance</h3>
-<button class="apply">View Plans</button>
-</div>
-
-<div class="card">
-<h3>Vehicle Insurance</h3>
-<button class="apply">View Plans</button>
-</div>
-
-</div>
-</div>
-
-<!-- EMI CALCULATOR -->
-
-<div class="calculator" id="calculator">
-
-<h2>Loan EMI Calculator</h2>
-
-<input type="number" id="amount" placeholder="Loan Amount">
-
-<input type="number" id="rate" placeholder="Interest Rate %">
-
-<input type="number" id="years" placeholder="Years">
-
-<button onclick="calculateEMI()">Calculate EMI</button>
-
-<h3 id="emiResult"></h3>
-
-</div>
-
-<!-- COMPARISON -->
-
-<div class="compare" id="compare">
-
-<h2>Product Comparison</h2>
-
-<table>
-
-<tr>
-<th>Product</th>
-<th>Interest Rate</th>
-<th>Minimum Balance</th>
-</tr>
-
-<tr>
-<td>Savings Account</td>
-<td>4%</td>
-<td>₹1000</td>
-</tr>
-
-<tr>
-<td>Current Account</td>
-<td>0%</td>
-<td>₹5000</td>
-</tr>
-
-<tr>
-<td>Fixed Deposit</td>
-<td>7%</td>
-<td>₹5000</td>
-</tr>
-
-</table>
-
-</div>
-
-<div class="cta">
-
-<h2>Start Your Digital Banking Today</h2>
-
-<button>Open Account</button>
-
-</div>
-
-<div class="footer">
-
-Secure NetBanking Platform
-
-</div>
-
-
-        <div class="login-modal" id="loginModal">
-
-            <div class="login-box">
-            <span class="close" onclick="closeLogin()">✖</span>
-            <h2 class="h"> Horizon NetBanking Login</h2>
-            <p class="sub">Secure access to your account</p>
-
-            <!-- Login /Admin -->
-
-            <div class="login-type">
-                <button onclick="showCustomer()">User</button>
-                <button onclick="showAdmin()">Admin</button>
+            <label>Enter Username:</label>
+            <div class="password-wrapper">
+                <input type="text" placeholder="Enter username" id="username" required>
             </div>
 
             <label>Enter PIN:</label>

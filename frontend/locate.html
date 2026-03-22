@@ -8,29 +8,51 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
     <style>
         :root {
-            --bg-color: #0c2f4f;
+            --bg-color: #002970;
             --text-color: white;
             --card-bg: white;
             --card-text: black;
-            --accent: #ffd700;
-            --button-bg: #0c5da5;
+            --accent: #d4af37;
+            --button-bg: #002970;
         }
 
         .light-mode {
             --bg-color: #f4f7f9;
-            --text-color: #071f36;
+            --text-color: #002970;
             --card-bg: #ffffff;
-            --card-text: #071f36;
-            --button-bg: #004a99;
+            --card-text: #002970;
+            --button-bg: #002970;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
         body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; }
         
-        nav { display:flex; justify:space-between; align-items:center; padding:15px 50px; background:#071f36; justify-content: space-between;}
-        .logo { font-size:24px; color:var(--accent); font-weight:bold; text-decoration: none; }
-        .nav-links { list-style:none; display:flex; gap:30px; }
-        .nav-links a { text-decoration:none; color:white; transition:0.3s; }
+       .navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:1px 20px;
+align-items:center;
+}
+
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
+}
         .nav-links a:hover { color:var(--accent); }
 
         .hero { text-align:center; padding:40px; background:linear-gradient(120deg,#0c2f4f,#1b6fa8); color: white; }
@@ -54,17 +76,23 @@
 </head>
 <body>
 
-<nav>
-    <a href="#" class="logo">🌅 Horizon Bank</a>
-    <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#map">Locate</a></li>
-        <li><a href="#branchGrid">Branches</a></li>
-    </ul>
-</nav>
+   <div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
+
+
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="#map">Locate</a>
+<a href="#branchGrid">Branches</a>
+<a href="index.html" class="login">Login</a>
+</div>
+
+</div>
 
 <section class="hero">
-    <h1>Branch & ATM Locator</h1>
+    <h1 syle="background-color=#002970;">Branch & ATM Locator</h1>
     <p>Premium banking services at your fingertips</p>
 </section>
 
@@ -109,7 +137,8 @@
         {name:"Tirupati Branch", lat:13.6288, lng:79.4192, time:"09:30-16:00", type:"Branch", services:["Deposit"]},
         {name:"ATM Guntur", lat:16.3120, lng:80.4400, time:"00:00-23:59", type:"ATM", services:["Withdrawal"]},
         {name:"ATM Vijayawada", lat:16.5200, lng:80.6400, time:"00:00-23:59", type:"ATM", services:["Withdrawal"]},
-        {name:"ATM Vizag", lat:17.7000, lng:83.2200, time:"00:00-23:59", type:"ATM", services:["Withdrawal"]}
+        {name:"ATM Vizag", lat:17.7000, lng:83.2200, time:"00:00-23:59", type:"ATM", services:["Withdrawal"]},
+        {name:"IIIT Nuzvid Branch", lat:16.7885, lng:80.8453, time:"09:00-17:00", type:"Campus", services:["Loan","Deposit"]}
     ];
 
     // 3. Load Markers

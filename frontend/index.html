@@ -345,6 +345,7 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 Horizon Bank Ltd. @All Rights Reserved. Registered with DICGC.</p>
+            <p class="cookie-manage"><a href="#" id="openCookieSettings">Cookie Setup</a></p>
         </div>
     </footer>
 
@@ -450,7 +451,61 @@
         </div>
     </div>
 
+    <!-- Cookie Consent (Frontend only) -->
+    <div id="cookieConsent" class="cookie-consent" hidden aria-hidden="true">
+        <div class="cookie-consent__content">
+            <div class="cookie-consent__text">
+                <h3>About Cookies on Horizon Bank Website</h3>
+                <p>
+                    This website stores cookies on your device. These cookies are used to enhance your browsing
+                    experience, for analytics on how our website is used, and to assist in our marketing and promotional
+                    efforts. See our <a href="privacypol.html">Privacy Policy</a>.
+                </p>
+            </div>
+            <div class="cookie-consent__actions">
+                <button type="button" class="cookie-btn cookie-btn--primary" data-cookie-action="accept_all">Accept All</button>
+                <button type="button" class="cookie-btn cookie-btn--ghost" data-cookie-action="necessary_only">Allow Only Necessary</button>
+                <button type="button" class="cookie-btn cookie-btn--outline" data-cookie-action="settings">More Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cookieSettings" class="cookie-settings" hidden aria-hidden="true">
+        <div class="cookie-settings__backdrop" data-cookie-action="close_settings"></div>
+        <div class="cookie-settings__panel" role="dialog" aria-modal="true" aria-labelledby="cookieSettingsTitle">
+            <div class="cookie-settings__header">
+                <h3 id="cookieSettingsTitle">Cookie Preferences</h3>
+                <button type="button" class="cookie-settings__close" aria-label="Close" data-cookie-action="close_settings">✖</button>
+            </div>
+            <p class="cookie-settings__desc">
+                Choose which cookies you allow. Necessary cookies are always enabled to keep the site secure and working.
+            </p>
+            <div class="cookie-settings__options">
+                <label class="cookie-toggle cookie-toggle--locked">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-toggle__label">Necessary (Always On)</span>
+                </label>
+                <label class="cookie-toggle">
+                    <input id="cookieAnalytics" type="checkbox">
+                    <span class="cookie-toggle__label">Analytics</span>
+                </label>
+                <label class="cookie-toggle">
+                    <input id="cookieMarketing" type="checkbox">
+                    <span class="cookie-toggle__label">Marketing</span>
+                </label>
+            </div>
+            <div class="cookie-settings__footer">
+                <a class="cookie-settings__policy" href="privacypol.html">Read Privacy Policy</a>
+                <div class="cookie-settings__footerActions">
+                    <button type="button" class="cookie-btn cookie-btn--ghost" data-cookie-action="reject_optional">Allow Only Necessary</button>
+                    <button type="button" class="cookie-btn cookie-btn--primary" data-cookie-action="save_settings">Save Preferences</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/index.js"></script>
+    <script src="js/cookieConsent.js"></script>
 
 </body>
 </html>

@@ -1,308 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<title>Manohar Banking</title>
-
-<link rel="stylesheet" href="css/index.css">
-
+    <meta charset="UTF-8">
+    <title>Horizon Bank | Professional Digital Banking</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
 </head>
-
 <body>
 
-<!-- 
-##NAVBAR
-
-<nav class="navbar">
-
-<div class="logo">
-🏦 Manohar Banking
-</div>
-
-<div class="nav-buttons">
-
-<a herf="about.html">About Us </a>
-
-<button class="dark-btn" onclick="toggleDarkMode()">🌙</button>
-
-<button class="login-btn" onclick="openLogin()">Login</button>
-
-</div>
-
-</nav> -->
-<nav class="bank-navbar">
-
-<div class="bank-logo">
-👻 Manohar Bank
-</div>
-
-<ul class="bank-nav-links">
-
-<li><a href="#">Resources</a></li>
-<li><a href="#">About us </a></li>
-<li><a href="#">Contact us </a></li>
-<li><a href="#">🌏location</a></li>
-
-<li><a href="#">Support</a></li>
-
-<li>
-<button class="login-btn" onclick="openLogin()">Login</button>
-</li>
-<li>
-<img style="width:25px;background:navy"  src="css/menu1.gif">
-</li>
-<li>
-<div class="menu-toggle" onclick="toggleMenu()">
-☰abc
-</div>
-</li>
-</ul>
-
-
-
-</nav>
-<marquee behavior="scroll" direction="left" scrollamount="6"
-style="background:white; width:100%; padding:3px; font-weight:bold;">
-Welcome to Manohar Bank – Your Trusted NetBanking Platform
-</marquee>
-
-<!--add vedio here -->
-
-<div class="hero">
-
-<video autoplay muted loop class="hero-video">
-
-<source src="indexvedio1.mp4" type="video/mp4">
-
-</video>
-
-<div class="hero-text">
-
-<h1>Experience Secure Banking</h1>
-
-<p>
-India's trusted digital banking platform for secure and seamless transactions.
-</p>
-
-</div>
-
-</div>
-<div>
-    <section class="digital-showcase">
-    <div class="showcase-header">
-        <h1>The best of digital banking is now <span>open</span></h1>
-        <p>Get the <strong>open</strong> app by Manohar Bank for a superior experience – <a href="#">Explore More</a></p>
+    <div class="news-ticker">
+    <div class="ticker-text">
+        ⚡ IMPORTANT: Banks never ask for OTP or PIN over phone calls. Stay alert, stay secure. Contact: 1800 2345 1235 
+        | 📈 New FD rates increased to 7.5% p.a.|<a href="cyber.html">Stay aware about the cyber attacks</a>
     </div>
-
-    <div class="showcase-content">
-        <div class="side-features left">
-            <div class="feature-item">
-                <div class="icon-circle">💸</div>
-                <p>Easy overseas money transfer</p>
-            </div>
-            <div class="feature-item">
-                <div class="icon-circle">🧾</div>
-                <p>One-stop bill pay</p>
-            </div>
-            <div class="feature-item">
-                <div class="icon-circle">📈</div>
-                <p>Accounts, Investments & more</p>
-            </div>
+</div>
+    <nav class="bank-navbar">
+        <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+        <div id="logoSplash">
+            <img src="css/newbanklogo3.png">
         </div>
 
-        <div class="phone-display">
-            
-            <!--<video src="aivedio1.mp4" alt="Banking App" class="main-phone">-->
-            <img src="mobileimage.png" alt="Banking App" class="main-phone"></img>
-            
+        <div>
+            <ul class="bank-nav-links">
+            <li><a href="personal.html" class="nav-item">Personal</a></li>
+            <li><a href="business.html" class="nav-item">Business</a></li>
+            <li><a href="loans.html" class="nav-item">Loans </a></li>
+            <li><a href="aboutus.html" class="nav-item">About us</a></li>
+            <li><a href="contact.html" class="nav-item">Contact</a></li>
+            <li><a href="locate.html" class="nav-item">Locate</a></li>
+            </ul>
         </div>
+        <div class="nav-actions">
         
-
-        <div class="side-features right">
-            <div class="feature-item">
-                <div class="icon-circle">🎯</div>
-                <p>Track all card payments</p>
-            </div>
-            <div class="feature-item">
-                <div class="icon-circle">💰</div>
-                <p>Personal Loans on-the-go</p>
-            </div>
-            <div class="feature-item">
-                <div class="icon-circle">⚡</div>
-                <p>Instant FD opening & more</p>
+        <button class="login-btn" onclick="openLogin()">Login🔒</i></button>
+        <div class="menu-icon" onclick="toggleAccessibilityMenu()">
+            <div class="circle-menu">
+                <i class="fas fa-universal-access"></i>
             </div>
         </div>
+        </div>
+    </nav>
 
+    <div id="accMenu" class="acc-drawer">
+        <h3>Accessibilities</h3>
+            <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Dark Mode</button>
+            <button onclick="changeFontSize('plus')"><i class="fas fa-plus"></i> Increase Text</button>
+            <button onclick="changeFontSize('minus')"><i class="fas fa-minus"></i> Decrease Text</button>
+            <button><i class="fas fa-envelope" href=""></i> Email Support</button>
     </div>
-</section>
-</div>
-
-<!-- FEATURES -->
-
-<div class="features">
-
-<div class="feature-card">
-
-<h3>🛡 Bank-Grade Security</h3>
-
-<p>256-bit encryption protecting your transactions</p>
-
-</div>
-
-
-<div class="feature-card">
-
-<h3>⚡ Instant Transfers</h3>
-
-<p>Transfer funds anytime with zero downtime</p>
-
-</div>
-
-
-<div class="feature-card">
-
-<h3>👥 10L+ Customers</h3>
-
-<p>Millions trust our secure banking services</p>
-
-</div>
-
-</div>
 
 
 
-<section class="impact-banner">
-    <div class="content-wrapper">
-        <div class="text-section">
-            <h1 class="main-title">Open to the progress of all</h1>
-            <p class="subtitle">Committed to our responsibility towards the society.</p>
+    <section class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="indexai.mp4" type="video/mp4">
+        </video>
+        <div class="hero-text">
+            <h1 class="reveal-text">Experience Secure <br><span>Digital Banking</span></h1>
+            <p>💰India's trusted platform for seamless transactions.</p>
+            <p style="margin-bottom: 30px;">💰Institutional grade security.</p>
 
-            <div class="stats-container">
-                <div class="stat-card">
-                    <h2>2.05M+</h2>
-                    <p>Households Across India</p>
+            <a href="registration.html">
+                <button class="cta-main">
+                    Open Digital A/C Now
+                </button>
+            </a>
+        </div>
+    </section>
+
+
+    <section class="digital-showcase">
+        <div class="showcase-header">
+            <h1>India's Safest Digital banking is now <span>open</span></h1>
+            <p>Get the <strong>open</strong> app by Horizon Bank for a superior experience ➤ <a onclick="openLogin()"><u style="color:yellow">Explore More</u></a></p>
+        </div>
+
+        <div class="showcase-content">
+            <div class="side-features left">
+                <div class="feature-item">
+                    <div class="icon-circle">💸</div>
+                    <p>Easy overseas money transfer</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon-circle">🧾</div>
+                    <p>One-stop bill pay</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon-circle">📈</div>
+                    <p>Accounts, Investments & more</p>
+                </div>
+            </div>
+
+            <div class="phone-display">
+                <img src="indexpageimage2.png" alt="Banking App" class="main-phone"></img>   
+            </div>
+            
+
+            <div class="side-features right">
+                <div class="feature-item">
+                    <div class="icon-circle">🎯</div>
+                    <p>Track all payments</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon-circle">💰</div>
+                    <p>Personal Loans on-the-go</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon-circle">⚡</div>
+                    <p>Create Instant digital A/C</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="products-section">
+        <h2 class="section-title">⚡OUR PRODUCTS </h2>
+        <div class="products-container">
+            <div class="product-card">
+                <img src="css/propertyimage.jpg" alt="Property Loans">
+                <div class="card-content">
+                    <h3>Property Loans</h3>
+                    <p class="subtitle">A house is made of bricks and beams-a home is made of hopes and dreams.</p>
+                    <div class="card-footer">
+                        <span class="rate">11.00% P.A. ONWARDS</span>
+                        <a href="personal.html" class="arrow-btn">➤</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="css/cropimage.jpg" alt="Crop Loan">
+                <div class="card-content">
+                    <h3>Crop Loan</h3>
+                    <p class="subtitle">Timely credit for a bountiful harvest-Fueling the backbone of the economy.</p>
+                    <div class="card-footer">
+                        <span class="rate">7.00% INTEREST</span>
+                        <a href="loans.html" class="arrow-btn">➤</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="css/education.jpg" alt="Education Loans">
+                <div class="card-content">
+                    <h3>Education Loans</h3>
+                    <p class="subtitle">Gateway to your educational dreams-Empowering through accessible education.</p>
+                    <div class="card-footer">
+                        <span class="rate">9.25% P.A. ONWARDS</span>
+                        <a href="personal.html" class="arrow-btn">➤</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="css/goldimage.jpg" alt="Gold Loan">
+                <div class="card-content">
+                    <h3>Gold Loan</h3>
+                    <p class="subtitle">Celebrate life with the power of gold-Secure, swift, and simple—your gold, our trust</p>
+                    <div class="card-footer">
+                        <span class="rate">9.75% P.A.</span>
+                        <a href="loans.html" class="arrow-btn">➤</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="impact-banner">
+        <div class="content-wrapper">
+            <div class="text-section">
+                <h3 class="main-title"  style="margin-bottom:0px;">Committed to our responsibility towards the society.</h3>
+                <p class="subtitle" style="margin-bottom:30px;">Open to the progress of all</p>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>2.05 M+</h3>
+                        <p style="color: rgb(198, 198, 214);">Households Across India- Empowering families nationwide with secure and innovative financial solutions.</p>
+                    </div>
+                    <br>
+                    <div class="stat-card">
+                        <h3>100Cr+</h3>
+                        <p style="color: rgb(215, 215, 231);">National Cancer Grid (NCG)-Proudly contributing ₹100Cr+ towards healthcare initiatives like NCG</p>
+                    </div>
+                    <br>
                 </div>
 
-                <div class="stat-card">
-                    <h2>100Cr+</h2>
-                    <p>National Cancer Grid (NCG)</p>
+                <button class="know-more-btn"><a href="aboutus.html" style="color:black;text-decoration: none;">Known More</a> </button>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="netbanking-services">
+        <h2 class="services-title">Services Offered by Net Banking</h2>
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-header">
+                        Fund Transfers
+                    </div>
+                    <div class="service-body">
+                        <span class="tag">BEST FOR</span>
+                        <p class="service-desc">Fast and secure money transfers</p>
+                        <ul>
+                            <li>NEFT / RTGS / IMPS Transfers</li>
+                            <li>24x7 availability</li>
+                            <li>Schedule future payments</li>
+                        </ul>
+                        <a href="#" class="service-link">VIEW DETAILS</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-header">
+                        Bill Payments
+                    </div>
+                    <div class="service-body">
+                        <span class="tag">BEST FOR</span>
+                        <p class="service-desc">Hassle-free bill management</p>
+                        <ul>
+                        <li>Electricity and water bills</li>
+                        <li>Recharge mobile & DTH</li>
+                        <li>Auto-pay recurring bills</li>
+                        </ul>
+                        <a href="#" class="service-link">VIEW DETAILS</a>
+                    </div>
                 </div>
 
-                <!-- <div class="stat-card">
-                    <h2>3.27M+</h2>
-                    <p>Trees Planted</p>
-                </div> -->
+                <div class="service-card">
+                    <div class="service-header">
+                    Card Services
+                    </div>
+
+                    <div class="service-body">
+                        <span class="tag">BEST FOR</span>
+                        <p class="service-desc">Smart card management</p>
+                        <ul>
+                            <li>Check statements</li>
+                            <li>Pay credit card bills</li>
+                            <li>Redeem reward points</li>
+                        </ul>
+                        <a href="#" class="service-link">VIEW DETAILS</a>
+
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                    Exclusive Offers
+                    </div>
+                    <div class="service-body">
+                        <span class="tag">BEST FOR</span>
+                        <p class="service-desc">Special banking offers</p>
+                        <ul>
+                            <li>Online shopping deals</li>
+                            <li>Partner merchant discounts</li>
+                            <li>Cashback rewards</li>
+                        </ul>
+                        <a href="#" class="service-link">VIEW DETAILS</a>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+    
+    <section id="faq" class="section3">
+        <h2 class="section-title3">Frequently Asked Question(FAQ's)</h2>
+        <div class="grid" style="grid-template-columns: 2fr 1fr;">
+            <div>
+                <details>
+                    <summary> How secure is  Horizon NetBanking?</summary>
+                    <p> Netbanking is an online banking platform that allows customers to access banking services securely anytime</p>
+                </details>
+                <details>
+                    <summary> Why should people choose your bank ?</summary>
+                    <p>It provides fast fund transfers, bill payments, account monitoring and secure banking.</p>
+                </details>
+                 <details>
+                    <summary> What is the eligibility criteria for this bank?</summary>
+                    <p>Any customer with a valid bank account and registered mobile number can activate internet banking.</p>
+                </details>
+                <details>
+                    <summary>What are the features and benefits?</summary>
+                    <p>Balance enquiry, fund transfer, bill payment, card management and many more banking services</p>
+                </details>
+                   <details>
+                    <summary>   Can I increase my loan limit mid-tenure? </summary>
+                    <p> Yes, through our 'Top-Up' facility available for users with a credit score above 750.</p>
+                </details>
+            </div>
+            <div class="card" style="background:rgb(209, 236, 252);">
+                <h2 style="color:darkblue">Need Help?</h2>
+                <p style="color:lightslategray">Our Customer Care Services  are available 24/7.</p>
+                <h3 style="color:rgb(60, 59, 59)" ><b>Email :</b>horizonbank@gmail.in</h3>
+                <h3 style="color:rgb(44, 42, 42)" ><b>Contact us:</b>1800-1422-243</h3>
+            </div>
+        </div>
+    </section>
+
+
+
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Useful Links</h4>
+                <ul>
+                    <li>Interest Rates</li>
+                    <li>Claim Form</li>
+                    <li><a href="complaintforms.html" style="color:white;text-decoration: none">Complaint Form</a></li>
+                    <li>Grievance Redressal</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Our Company</h4>
+                <ul>
+                    <li><a href="aboutus.html" style="color:white;text-decoration: none;">About Us</a></li>
+                    <li>Investor Relations</li>
+                    <li>Regulatory Disclosure</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacypol.html" style="color:white;text-decoration: none">Terms & Conditions</a></li>
+                    <li>Security Tips</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                </div>
+                <div class="app-badges">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Play Store">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Horizon Bank Ltd. @All Rights Reserved. Registered with DICGC.</p>
+        </div>
+    </footer>
+
+
+
+    <!-- Login Box opening  -->
+
+
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+        <span class="close" onclick="closeLogin()">✖</span>
+        <h2 class="h">Welcome to Horizon</h2>
+        <p class="sub" >Your Money-Our Security🔒 </p>
+
+        <!-- Login /Admin -->
+
+        <div class="login-type">
+            <button onclick="showCustomer()">Customer</button>
+            <button onclick="showAdmin()">Admin</button>
+        </div>
+
+        <!-- User Login settings -->
+
+        <form id="customerLogin" autocomplete="off">
+
+            <label>Enter Username:</label>
+            <div class="password-wrapper">
+                <input type="text" placeholder="Enter username" id="username" required>
             </div>
 
-            <button class="know-more-btn">Know More</button>
+            <label>Enter PIN:</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter PIN" maxlength="4" required>
+                <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+            </div>
+            <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin</a>
+            <br>
+            <br>
+
+            <label>Captcha</label>
+            <div class="captcha-box">
+                <span id="captchaText">AE2E4</span>
+                <button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
+                <input type="text" placeholder="Enter Captcha" id="captchaInput">
+            </div>
+
+            <div id="lockoutMessage" style="
+                display:none;
+                background:rgba(255,0,0,0.15);
+                border:1px solid red;
+                border-radius:8px;
+                padding:12px;
+                margin-bottom:10px;
+                text-align:center;
+                font-size:13px;
+                color:#ff4444;
+            "></div>
+
+            <div class="btn-group">
+                <button type="submit" class="login-submit">Secure Login</button>
+                <button type="reset" class="reset-btn">Reset</button>
+            </div>
+
+            <div class="signup-link">
+                Don't have an account? <a href="registration.html">Create New Account</a>
+            </div>
+
+            </form>
+
+            <!-- Admin login Page -->
+
+            <form id="adminLogin" style="display:none;">
+
+                <div class="password-wrapper">
+                    <label>Admin Bank ID:</label>
+                    <input type="text" placeholder="Enter Admin ID" id="adminId">
+                </div>
+
+                <label>Enter Admin Password:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter Password">
+                    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+                </div>
+
+                <div class="password-wrapper">
+                    <label> Enter Branch Code:</label>
+                    <input type="text" placeholder="Enter branch code">
+                </div>
+                
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText2">AG125</span>
+                    <button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
+                    <input type="text" placeholder="Enter Captcha" id="captchaInput">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="login-submit">Secure Access</button>
+                    <button type="reset" class="reset-btn">Reset</button>
+                </div>
+                
+
+            </form>
         </div>
     </div>
-</section>
 
-<!-- INFO -->
-
-<div class="info">
-
-<p>➤ IFSC Code: MNHR0001234 | Branch: Main Branch</p>
-
-<p>➤ Customer Support: 1800-123-4567 (Toll Free)</p>
-
-</div>
-
-<!-- LOGIN POPUP  -->
- <!-- <div class="login-modal" id="loginModal"> 
-    <div class="login-box">
-         <span class="close" onclick="closeLogin()">✖</span> 
-         <h2>NetBanking Login</h2>
-          <p class="sub">Secure access to your account</p>
-         
-           <form> 
-            <label>Username</label>
-             <input type="text" placeholder="Enter username">
-              <label>PIN</label> 
-             <input type="password" placeholder="Enter PIN">
-              <button class="login-submit">Secure Login</button> 
-            </form> 
-        </div>
-     </div> -->
-
-     <!-- LOGIN POPUP -->
-<div class="login-modal" id="loginModal">
-
-<div class="login-box">
-
-<span class="close" onclick="closeLogin()">✖</span>
-
-<h2 class="h">NetBanking Login</h2>
-<p class="sub">Secure access to your account</p>
-
-<!-- LOGIN TYPE -->
-<div class="login-type">
-<button onclick="showCustomer()">User</button>
-<button onclick="showAdmin()">Admin</button>
-</div>
-
-<!-- CUSTOMER LOGIN -->
-<form id="customerLogin">
-
-<label>Username</label>
-<input type="text" placeholder="Enter username">
-
-<label>PIN</label>
-<input type="password" placeholder="Enter PIN">
-<a href="registation.html" class="forgetpin">Forgot Pin</a>
-<br>
-<br>
-
-<label>Captcha</label>
-
-<div class="captcha-box">
-
-<span id="captchaText">abcs</span>
-
-<button type="button"  onclick="generateCaptcha()">🔄</button> 
-
-<input type="text" placeholder="Enter Captcha">
-
-</div>
-
-<button class="login-submit">Secure Login</button>
-
-</form>
-
-
-<!-- ADMIN LOGIN -->
-<form id="adminLogin" style="display:none;">
-
-<label>Admin ID</label>
-<input type="text" placeholder="Enter Admin ID">
-
-<label>Password</label>
-<input type="password" placeholder="Enter Password">
-
-<label>Bank ID </label>
-<input type="text" placeholder="Enter OTP">
-
-<label>Captcha</label>
-<div class="captcha-box">
-<span id="captchaText2">X4P8</span>
-<input type="text" placeholder="Enter Captcha">
-</div> 
-
-
-<button class="login-submit">Admin Login</button>
-
-</form>
-
-</div>
-</div>
-
-
-
-</div>
-<script src="js/index.js"></script>
-
+    <script src="js/index.js"></script>
 
 </body>
 </html>

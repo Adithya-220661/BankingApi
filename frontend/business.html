@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Bank | Business & Corporate Banking</title>
+    <style>
+        :root {
+            --navy: #0b2a4a;
+            --dark-blue: #003366;
+            --royal-blue: #1e6a8d;
+            --gold: #d4af37;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background:whitesmoke;
+            color: #1b2b3a;
+            line-height: 1.6;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--navy);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            z-index:200;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .logo { 
+            font-size: 28px; 
+            font-weight: 800; 
+            color:gold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; }
+
+        .navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:1px 20px;
+align-items:center;
+}
+
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
+}
+        .nav a:hover { 
+            color:#33b6f2; }
+
+        .login-btn {
+            background:gold;
+            color:darkblue;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* --- HERO --- */
+
+        .hero1 {
+            background:url("css/businessimage.png");
+            background-size: cover;
+            background-position: center;
+            color:gold;
+            padding: 120px 10%;
+            text-align: center;
+        }
+
+        .hero1 h1 { 
+            font-size:52px; 
+            margin-bottom: 20px;
+             border-bottom: 4px solid white; 
+             display: inline-block; 
+             padding-bottom: 10px; 
+            }
+        .hero1 p { 
+            font-size: 18px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            opacity: 0.9;
+            color:white;
+        }
+
+        .service-row {
+            display: flex;
+            gap: 50px;
+            padding: 80px 10%;
+            align-items: center;
+            background:#1e6a8d;
+        }
+
+        .service-row:nth-child(even) { 
+            flex-direction: row-reverse; 
+            background:white; 
+        }
+
+        .service-text { 
+            flex: 1; 
+        
+        }
+        .service-text h2 { 
+            font-size: 32px; 
+            color:gold; 
+            margin-bottom: 20px;
+            position: relative; 
+            }
+        .service-text h2::after { 
+            content: ''; 
+            display: block;
+             width: 50px; 
+             height: 3px; 
+             background:rgb(197, 149, 29); 
+             margin-top: 10px; }
+        
+        .service-text p { 
+            font-size: 16px; 
+            color:#1b2b3a; 
+            margin-bottom: 25px; 
+            text-align: justify; 
+
+        }
+
+        .service-text button {
+            padding: 12px 30px;
+            border: 2px  solid #1b2b3a;
+            background:gold;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .service-text button:hover { 
+            background:#1e6a8d; 
+            color:black; }
+
+        .service-img {
+            flex: 1;
+            height: 350px;
+            background:url(css/cropimage.jpg);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 20px 20px 0px gold;
+            overflow: hidden;
+        }
+
+        .service-img img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+
+        /* --- STATS --- */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background:#1e6a8d;
+            color: var(--gold);
+            padding: 60px 10%;
+            text-align: center;
+        }
+        .stat h2 { 
+            font-size: 42px; 
+            margin: 0; 
+            color:rgb(44, 43, 43); 
+        }
+        .stat p { 
+            font-size: 14px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+            color:gold;
+         }
+
+        /* --- CALCULATOR --- */
+        .tool { 
+            padding: 80px 10%; 
+            text-align: center; 
+            background: var(--white); 
+        }
+        .calculator-card {
+            background:darkblue;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+        }
+        .tool input { 
+            padding: 12px; 
+            margin: 10px; 
+            width:70%; 
+            border-radius: 6px; 
+            border: 1px solid #d4af37; 
+            align-items: center;
+        }
+        
+    
+        .footer {
+            background:#0b2a4a;
+            color: white;
+            padding: 60px 10% 20px 10%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 { 
+            color:tomato; 
+            margin-bottom: 20px; 
+            font-size: 18px; 
+            text-transform: uppercase; 
+        }
+        .footer-col p, .footer-col li { 
+            font-size: 14px; 
+            color: #bdc3c7; 
+            list-style: none; 
+            margin-bottom: 10px; 
+        }
+        .footer-col a { 
+            color: #bdc3c7; 
+            text-decoration: none; 
+        }
+        .footer-col a:hover { 
+            color:#33b6f2; 
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+    </style>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
+
+<div><b></b></div>
+
+<div class="nav-links">
+<a href="index.html">Home</a>
+            <a href="#accounts">Accounts</a>
+            <a href="#loans">Loans</a> 
+            <a href="#investments">Investments</a> 
+            <a href="#insurance">Insurance</a>
+            <a href="#tool">Calculator</a>
+            <a href="aboutus.html">About Us</a>
+            <button class="login-btn" onclick="openLogin()">Login🔒 <i class="fas fa-lock"></i></button>
+
+</div>
+</div>
+
+</div>
+    <div class="hero1">
+        <h1>Premier Business Services</h1>
+        <p>Empowering your enterprise with the gold standard of digital banking. From local startups to global corporations, we scale with you.</p>
+    </div>
+
+    <div class="service-row" id="accounts">
+        <div class="service-text">
+            <h2>Business Current Accounts</h2>
+            <p>Horizon Bank offers a comprehensive suite of financial solutions ranging from high-yield Savings Gold accounts with 4.5% interest to specialized Youth Saver and Current Elite options tailored for every stage of life. Manage daily transactions easily with unlimited transfers, corporate debit cards, and full online banking access designed for high-volume efficiency.</p>
+            <button>Open Account</button>
+        </div>
+        <div class="service-img"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=500&q=60" alt="Accounts"></div>
+    </div>
+
+    <div class="service-row" id="loans">
+        <div class="service-text">
+            <h2>Corporate Loan Products</h2>
+            <p>Our lending portfolio features Home Loans starting at 8.4% Fixed ROI and instant Personal Credit up to ₹25 Lakhs, ensuring you have the liquidity needed for your biggest milestones. For enterprises, we provide specialized equipment financing and working capital loans with rapid 48-hour approval cycles to keep your business moving forward.</p>
+            <button>Apply Now</button>
+        </div>
+        <div class="service-img"><img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=500&q=60" alt="Loans"></div>
+    </div>
+
+    <div class="service-row" id="investments">
+        <div class="service-text">
+            <h2>Wealth Growth & Investments</h2>
+            <p>Our Investment Plans are meticulously curated to accelerate your wealth growth, offering secure Fixed Deposits with industry-leading returns and expert-managed Mutual Fund SIPs. We leverage the power of compounding and strategic asset allocation to help transform your business surplus into a lasting legacy of financial independence.</p>
+            <button>Invest Now</button>
+        </div>
+        <div class="service-img"><img src="https://images.unsplash.com/photo-1611974714024-4607a5a46a25?auto=format&fit=crop&w=500&q=60" alt="Investments"></div>
+    </div>
+
+    <div class="service-row" id="insurance">
+        <div class="service-text">
+            <h2>Comprehensive Insurance</h2>
+            <p>Our Insurance Coverage provides a robust 360-degree safety net, offering high-cover Term Life Insurance and comprehensive Health Care plans with cashless hospitalization. Protect your business assets, employees, and digital infrastructure against unpredictable turns with our tailored corporate policy riders.</p>
+            <button>Protect Now</button>
+        </div>
+        <div class="service-img"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=500&q=60" alt="Insurance"></div>
+    </div>
+
+    <div class="stats">
+        <div class="stat"><h2>250K+</h2><p>Business Clients</p></div>
+        <div class="stat"><h2>120+</h2><p>Countries Served</p></div>
+        <div class="stat"><h2>₹500B+</h2><p>Capital Disbursed</p></div>
+    </div>
+
+    <div class="tool" id="tool">
+        <h2>Smart EMI & Profit Calculator</h2>
+        <p style="max-width: 700px; margin: 0 auto 30px;">This interactive feature empowers you to compare different loan scenarios and find the perfect balance between affordable monthly outflows and long-term interest savings.</p>
+        <div class="calculator-card">
+            <input type="number" id="revenue" placeholder="Monthly Revenue">
+            <input type="number" id="expenses" placeholder="Monthly Expenses">
+            <button class="login-btn" style="padding: 12px 25px;" onclick="profit()">Calculate Net</button>
+            <h3 id="result" style="color: var(--navy); margin-top: 20px;"></h3>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>About Horizon</h4>
+                <p>A global leader in corporate financial services, committed to providing secure, innovative, and transparent banking solutions since 1998.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#accounts">Current Accounts</a></li>
+                    <li><a href="#loans">Term Loans</a></li>
+                    <li><a href="#investments">Fixed Deposits</a></li>
+                    <li><a href="#insurance">Asset Insurance</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">24/7 Business Desk</a></li>
+                    <li><a href="#">Branch Locator</a></li>
+                    <li><a href="#">Report Fraud</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>📧 support@horizonbank.com</p>
+                <p>📞 1800-HORIZON-CORP</p>
+                <p>📍 Visakhapatnam, AP, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Horizon International Bank. All Rights Reserved. Member FDIC. Secure 256-bit SSL Banking.
+        </div>
+    </footer>
+
+    
+    <!-- Login Box opening  -->
+
+
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+        <span class="close" onclick="closeLogin()">✖</span>
+        <h2 class="h">Welcome to Horizon</h2>
+        <p class="sub" >Your Money-Our Security </p>
+
+        <!-- Login /Admin -->
+
+        <div class="login-type">
+            <button onclick="showCustomer()">Customer</button>
+            <button onclick="showAdmin()">Admin</button>
+        </div>
+
+        <!-- User Login settings -->
+
+        <form id="customerLogin" autocomplete="off">
+
+            <label>Enter Username:</label>
+            <div class="password-wrapper">
+                <input type="text" placeholder="Enter username" id="username" required>
+            </div>
+
+            <label>Enter PIN:</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter PIN" maxlength="4" required>
+                <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+            </div>
+            <a href="forgetpassword.html" class="forgetpin" style="color:yellowgreen;">Forgot Pin</a>
+            <br>
+            <br>
+
+            <label>Captcha</label>
+            <div class="captcha-box">
+                <span id="captchaText">AE2E4</span>
+                <button type="button" onclick="generateCaptcha('captchaText')">🔄</button>
+                <input type="text" placeholder="Enter Captcha" id="captchaInput">
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="login-submit">Secure Login</button>
+                <button type="reset" class="reset-btn">Reset</button>
+            </div>
+
+            <div class="signup-link">
+                Don't have an account? <a href="registration.html">Create New Account</a>
+            </div>
+
+            </form>
+
+            <!-- Admin login Page -->
+
+            <form id="adminLogin" style="display:none;">
+
+                <div class="password-wrapper">
+                    <label>Admin Bank ID:</label>
+                    <input type="text" placeholder="Enter Admin ID" id="adminId">
+                </div>
+
+                <label>Enter Admin Password:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter Password">
+                    <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+                </div>
+
+                <div class="password-wrapper">
+                    <label> Enter Branch Code:</label>
+                    <input type="text" placeholder="Enter branch code">
+                </div>
+                
+                <label>Captcha</label>
+                <div class="captcha-box">
+                    <span id="captchaText2">AG125</span>
+                    <button type="button" onclick="generateCaptcha('captchaText2')">🔄</button>
+                    <input type="text" placeholder="Enter Captcha" id="captchaInput">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="login-submit">Secure Access</button>
+                    <button type="reset" class="reset-btn">Reset</button>
+                </div>
+                
+
+            </form>
+        </div>
+    </div>
+
+
+
+<script>
+    function profit(){
+        let rev = document.getElementById("revenue").value;
+        let exp = document.getElementById("expenses").value;
+        if(rev && exp) {
+            document.getElementById("result").innerText = "Monthly Profit Estimate: ₹ " + (rev - exp).toLocaleString();
+        }
+    }
+
+    
+        //login js code
+
+
+
+        // OPEN LOGIN POPUP
+        function openLogin(){
+            document.getElementById("loginModal").style.display="flex";
+        }
+
+        // CLOSE LOGIN POPUP
+        function closeLogin(){
+            document.getElementById("loginModal").style.display="none";
+        }
+
+
+
+        // SWITCH TO CUSTOMER LOGIN
+        function showCustomer(){
+            document.getElementById("customerLogin").style.display="block";
+            document.getElementById("adminLogin").style.display="none";
+        }
+
+        // SWITCH TO ADMIN LOGIN
+        function showAdmin(){
+            document.getElementById("customerLogin").style.display="none";
+            document.getElementById("adminLogin").style.display="block";
+        }
+
+        // REDIRECT AFTER LOGIN
+        document.addEventListener("DOMContentLoaded", function(){
+
+        const customerForm = document.getElementById("customerLogin");
+        const adminForm = document.getElementById("adminLogin");
+
+        // CUSTOMER REDIRECT
+        if(customerForm){
+        customerForm.addEventListener("submit", async function(e){
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const pin      = document.getElementById('password').value.trim();
+        const captchaInput = document.getElementById('captchaInput').value.trim();
+        const captchaText = document.getElementById('captchaText').innerText.trim();
+
+        // Basic validation
+        if(!username && !pin){
+        alert('⚠️ Please enter username and PIN.');
+        return;
+        }
+        if(!username){
+        alert('⚠️ Please enter your username.');
+        return;
+        }
+        if(!pin){
+        alert('⚠️ Please enter your PIN.');
+        return;
+        }
+        if(pin.length < 4){
+        alert('⚠️ PIN must be 4 digits.');
+        return;
+        }
+
+        if(captchaInput !== captchaText){
+            alert('❌ Invalid Captcha! Please try again.');
+            generateCaptcha('captchaText');
+            return;
+        }
+
+        try {
+        const res  = await fetch('http://localhost:5000/api/auth/login', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ username, pin })
+        });
+        const data = await res.json();
+
+        if(data.success){
+            // ✅ Found in database → go to dashboard
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            alert(`Welcome back, ${data.user.fullName}!`);
+            window.location.href = 'dashboard.html';
+
+        } else {
+            // ❌ Not found → show message
+            const goRegister = window.confirm(
+            '❌ ' + data.message + '\n\nDo you want to create a new account?'
+            );
+            if(goRegister){
+            window.location.href = 'registration.html';
+            }
+        }
+
+        } catch(err) {
+        alert('❌ Cannot connect to server. Make sure backend is running on port 5000.');
+        }
+
+        });
+        }
+
+        // ADMIN REDIRECT
+        if(adminForm){
+        adminForm.addEventListener("submit", async function(e){
+        e.preventDefault();
+        const adminId  = document.getElementById('adminId') ? document.getElementById('adminId').value 
+                        : document.querySelector('#adminLogin input[type="text"]').value;
+        const password = document.querySelector('#adminLogin input[type="password"]').value;
+        const bankId   = document.querySelector('#adminLogin input[placeholder="Enter branch code"]').value;
+
+
+
+        try {
+        const res  = await fetch('http://localhost:5000/api/auth/admin-login', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ adminId, password, bankId })
+        });
+        const data = await res.json();
+
+        if(data.success){
+            localStorage.setItem('token', data.token);
+            // ✅ Force save role as admin
+            const adminUser = { ...data.user, role: 'admin' };
+            localStorage.setItem('user', JSON.stringify(adminUser));
+            alert(`✅ Welcome, ${data.user.fullName}! Admin access granted.`);
+            window.location.href = 'admin.html';
+        } else {
+        if(data.message === 'Invalid username or PIN.'){
+            const confirm = window.confirm(
+            'Account not found! Do you want to create a new account?'
+            );
+            if(confirm){
+            window.location.href = 'registration.html';
+            }
+        } else {
+            alert(data.message);
+        }
+        }
+        } catch(err) {
+        alert('Backend not running! Start server first.');
+        }
+
+        });
+        }
+
+
+        });
+
+
+        // =======================
+        // RANDOM CAPTCHA GENERATOR
+        // =======================
+        function generateCaptcha(targetId){
+
+            let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let captcha = "";
+
+            for(let i=0;i<5;i++){
+                captcha += chars.charAt(Math.floor(Math.random()*chars.length));
+            }
+
+            document.getElementById(targetId).innerText = captcha;
+        }
+
+        document.addEventListener("DOMContentLoaded", function(){
+            generateCaptcha("captchaText");
+            generateCaptcha("captchaText2");
+        });
+
+        // Card hover glow
+
+        document.querySelectorAll(".service-card").forEach(card => {
+
+        card.addEventListener("mouseenter", () => {
+        card.style.transform="translateY(-12px)";
+        });
+
+        card.addEventListener("mouseleave", () => {
+        card.style.transform="translateY(0)";
+        });
+
+        });
+
+
+
+        // Clear form on page load (after refresh)
+        window.onload = function() {
+            document.getElementById("customerLogin").reset();
+            document.getElementById("adminLogin").reset();
+            generateCaptcha("captchaText");
+            generateCaptcha("captchaText2");
+        };
+
+        function togglePassword() {
+
+            let pass = event.target.previousElementSibling; // input before icon
+            let eye = event.target;
+
+            if (pass.type === "password") {
+                pass.type = "text";
+                eye.innerText = "🙉";   // open eyes
+            } else {
+                pass.type = "password";
+                eye.innerText = "🙈";   // closed eyes
+            }
+        }
+
+
+
+       
+    
+</script>
+
+</body>
+</html>

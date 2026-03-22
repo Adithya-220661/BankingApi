@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Bank | Premium Digital Lending</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0a2540;
+            --accent: #635bff;
+            --gold: #ffcc00;
+            --white: #ffffff;
+            --bg: #f6f9fc;
+            --glass: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        /* Dark Mode Variables */
+        body.dark {
+            --bg: #05192d;
+            --white: #0a2540;
+            --text: #e6ebf1;
+            --glass: rgba(10, 37, 64, 0.9);
+        }
+
+        * { 
+            box-sizing:border-box; 
+            transition: all 0.3s ease; 
+        }
+        
+        body { 
+            margin: 0; 
+            font-family: 'Inter', 'Segoe UI', sans-serif; 
+            background:whitesmoke; 
+            color:#163e66;
+            overflow-x: hidden;
+        }
+
+        #progress-container {
+            position:fixed; 
+            top: 0; 
+            left: 0; 
+            width:100%; 
+            height:40px; 
+            z-index:200;
+
+        }
+        #progress-bar { 
+            height: 100%; 
+            width: 0%; 
+            background: var(--gold); 
+        }
+
+        .navbar {
+            background:#002970;
+            padding: 15px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items:center;
+            position: sticky; 
+            top:0px; 
+            z-index:200;
+            height:90px;
+        }
+        .logo-img { 
+            height: 45px; 
+            filter: brightness(0) invert(1); 
+        }
+        .nav-links a { 
+            color: white; 
+            text-decoration: none; 
+            margin: 0 15px; 
+            font-weight: 700; 
+        }
+        .nav-links a:hover { 
+            color:#7fbbfa;
+        }
+        
+        .login-btn {
+            background:gold;
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .hero2 {
+            background:white;
+            color:#002970;
+            padding: 80px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+        .hero-content2#002970 { 
+            flex: 1; 
+        }
+        .hero-content2 h1 { 
+            font-size: 3.5rem; 
+            line-height: 1.1; 
+            margin-bottom: 20px; 
+
+        }
+        .hero-content2 span { 
+            color:gold; 
+        }
+        
+        .slider2 { 
+            flex: 1; 
+            overflow: hidden; 
+            border-radius:10px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); 
+        }
+        .slide-track2 { 
+            display: flex; 
+            animation: scroll 20s linear infinite; 
+        }
+        .slide-track2 img { 
+            width: 800px; 
+            height: 300px; 
+            object-fit: cover; 
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+
+
+        .loan-types {
+            background:#0a2540;
+            color: gold;
+        }
+
+        .loan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin-bottom:0px;
+        }
+
+        .loan-card {
+            background:white;
+            color: #05192d;
+            padding: 18px 20px;
+            border-radius: 12px;
+            box-shadow:bal;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .loan-card i {
+            color:tomato;
+        }
+
+        .loan-card:hover {
+            transform: translateX(5px) scale(1.02);
+            background:gold;
+            color:black;
+        }
+
+        .loan-card:hover i {
+            color: black;
+        }
+
+        .hero {
+            background:#0a2540;
+            height:250px;
+            align-content:top;
+            justify-items: center;
+            font-size: 30px;
+            margin-bottom:0px;
+           
+            color: gold;
+        }
+
+        /* EMI SECTION */
+
+        .emi-section {
+            margin-top:-180px;
+            padding:40px;
+            display:flex;
+            justify-content:center;
+        }
+
+        .emi-container {
+            background:white;
+            padding:40px;
+            border-radius:15px;
+            width:900px;
+            display:flex;
+            gap:40px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .slider-group {
+            flex:1;
+            margin-top: 30px;
+        }
+
+        .slider-group label {
+            display:block;
+            margin:15px 0 5px;
+        }
+
+        .slider-group input {
+            width:100%;
+        }
+
+        .result-box {
+            flex:1;
+            background:#dce7f8;
+            padding:30px;
+            border-radius:10px;
+            text-align:center;
+            font-size: x-large;
+            color: #05192d;
+        }
+
+        .result-box h1 {
+            color:var(--accent);
+            font-size:2.5rem;
+        }
+
+        .apply-btn {
+            background:#0a2540;
+            color:white;
+            padding:12px 20px;
+            font-weight: 400;
+            border:none;
+            border-radius:8px;
+            width:100%;
+            margin-top:20px;
+            cursor:pointer;
+        }
+
+        /* Section Global */
+
+        .section { 
+            padding: 80px 8%; 
+            background:#0a2540 ;
+            
+            
+        }
+        .section-title { 
+            font-size:50px; 
+            text-align: center; 
+            margin-bottom: 50px; 
+            position: relative;
+            color:gold;
+        }
+        .section-title::after { 
+            content: ''; 
+            display: block; 
+            width: 60px; 
+            height: 4px; 
+            background:gold; 
+            margin: 10px auto; 
+            border-radius: 2px;
+        }
+
+        /* Comparison Table - Modern Look */
+        .table-container { 
+            background:whitesmoke; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow:#16293c; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse;
+            border-color: #05192d;
+        }
+        th { 
+            background: #f8f9fb; 
+            padding: 20px; 
+            text-align: left; 
+            color:black; 
+            font-weight: 800;
+            font-size:20px;
+        }
+        td { 
+            padding: 20px; 
+            border-top: 1px solid #eee; 
+        }
+        tr:hover { 
+            background: #f1f4f8; 
+        }
+
+        /* Modern Grid & Cards */
+
+         .section1 { 
+            padding: 40px 8%;  
+            background: ;  
+        }
+        .section1-title { 
+            font-size:50px; 
+            text-align: center; 
+            margin-bottom:20px; 
+            position: relative; 
+        }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 30px; 
+           
+        }
+        .card {
+            background:#002970;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow:#16293c;
+            border: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+            color:whitesmoke;
+        }
+        .card i { 
+            font-size: 2.5rem; 
+            color:gold; 
+            margin-bottom: 20px; 
+        }
+        .card:hover { 
+            transform: translateY(-10px); 
+            border-color: var(--accent); 
+        }
+
+        /* FAQ css */
+
+
+
+        .faq-section{
+        width:85%;
+        margin:60px auto;
+        background: transparent;
+
+        }
+
+        .faq-heading{
+        text-align:left;
+        font-size:30px;
+        color:#003366;
+        margin-bottom:30px;
+        font-weight:800;
+        }
+
+        .faq-box{
+        background: transparent;
+        border-radius:0px 0px 60px px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.1);
+        overflow:hidden;
+        }
+
+        .faq-item{
+        border-bottom:1px solid #003366;
+        }
+
+        .faq-question{
+        width:100%;
+        background:whitesmoke;
+        border:none;
+        padding:20px 25px;
+        font-size:18px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        cursor:pointer;
+        font-weight:500;
+        transition:0.3s;
+        }
+
+        .faq-question:hover{
+        background:#00c3ff;
+        }
+
+        .icon{
+        font-size:20px;
+        color:black;
+        transition:0.3s;
+        }
+
+        .faq-answer{
+        max-height:0;
+        overflow:hidden;
+        padding:0 25px;
+        color:#555;
+        line-height:1.6;
+        transition:max-height 0.4s ease;
+        background:whitesmoke;
+        }
+
+        .faq-answer p{
+        margin:15px 0;
+        color:#000;
+        }
+
+        .faq-item.active .faq-answer{
+        padding:15px 25px;
+        }
+
+                
+
+        /* Dark Mode Toggle */
+
+        .theme-toggle {
+            position: fixed; bottom: 30px; right: 30px; 
+            background: var(--primary); color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        footer { 
+            background: #05192d; 
+            color: #8494a5; 
+            padding: 50px 8%; 
+            text-align: center; 
+        }
+    </style>
+</head>
+<body id="top">
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="theme-toggle" onclick="toggleMode()"><i class="fas fa-moon"></i></div>
+
+    <nav class="navbar">
+        <div class="logo"><img src="css/newbanklogo3.png" class="logo-img"></div>
+        <div class="nav-links">
+            <a href="#top">Home</a>
+            <a href="#compare">Loans</a>
+            <a href="#com">Compare</a>
+            <a href="#emi">Calculator</a>
+            <a href="#faq">Support</a>
+            <button class="login-btn">Online Banking <i class="fas fa-lock"></i></button>
+        </div>
+    </nav>
+
+    <header class="hero2">
+        <div class="hero-content2">
+            <h1>Fast-Track Your <br><span>Financial Dreams</span></h1>
+            <p>From dream homes to global startups, get the capital you need in under 24 hours with Nexus Prime Lending.</p>
+            <button class="login-btn" style="padding:15px 40px; font-size:1.1rem">Apply for Loan Now</button>
+        </div>
+        <div class="slider2">
+            <div class="slide-track2">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80" alt="Home">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80" alt="Office">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=400&q=80" alt="Docs">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80" alt="Home">
+            </div>
+        </div>
+    </header>
+
+    <section class="loan-types section">
+        <h1 class="section-title"> Types of Loans</h1>
+
+        <div class="loan-grid">
+            <div class="loan-card">Personal Loan <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Home Loan <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Car Loan <i class="fas fa-arrow-right"></i></div>
+
+            <div class="loan-card">Education Loan <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Loan Against Securities <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Loan Against Shares <i class="fas fa-arrow-right"></i></div>
+
+            <div class="loan-card">Loan Against Mutual Funds <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Loan Against Property <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Gold Loan <i class="fas fa-arrow-right"></i></div>
+
+            <div class="loan-card">Two Wheeler Loan <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Cardless EMI <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Consumer EMI <i class="fas fa-arrow-right"></i></div>
+
+            <div class="loan-card">Kisan Credit Loan <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Smart Loan <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">EMI on Debit Card <i class="fas fa-arrow-right"></i></div>
+
+            <div class="loan-card">Loan Against Credit Card <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Govt Sponsored Schemes <i class="fas fa-arrow-right"></i></div>
+            <div class="loan-card">Tractor Loan <i class="fas fa-arrow-right"></i></div>
+        </div>
+    </section>
+
+     <div class="hero">
+        <h2>Instant EMI calculator</h2>
+    </div>
+
+
+    <section class="emi-section">
+        <div class="emi-container">
+            <div class="slider-group">
+
+                <label>Loan Amount: $<span id="amountVal">50000</span></label>
+                <input type="range" min="1000" max="100000" value="50000" id="amount">
+
+                <label>Interest Rate: <span id="rateVal">8</span>%</label>
+                <input type="range" min="1" max="15" value="8" id="rate">
+
+                <label>Tenure: <span id="timeVal">5</span> Years</label>
+                <input type="range" min="1" max="30" value="5" id="time">
+
+            </div>
+
+            <div class="result-box">
+                <p>Estimated Monthly Payment</p>
+                <h1 id="emi">$0</h1>
+                <p>Total Repayment: $<span id="total">0</span></p>
+
+                <button class="apply-btn"><a href="registration.html" style="color:white;text-decoration:none;">Start Full Application</a></button>
+            </div>
+
+        </div>
+    </section>
+
+    
+    <section id="compare" class="section" >
+            <h2 class="section-title" style="margin-top: 0px;">Smart Loan Comparison</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Loan Category</th>
+                            <th>Interest Rate</th>
+                            <th>Max Limit</th>
+                            <th>Approval Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Home Loan</strong></td><td>7.25% - 8.5%</td><td>Up to ₹10 Cr</td><td>3 Days</td></tr>
+                        <tr><td><strong>Luxury Car Loan</strong></td><td>8.10% Fixed</td><td>90% On-road</td><td>Instant</td></tr>
+                        <tr><td><strong>Business Growth</strong></td><td>9.5% Variable</td><td>₹5 Cr</td><td>48 Hours</td></tr>
+                        <tr><td><strong>Personal Credit</strong></td><td>11.0% +</td><td>₹40 Lakhs</td><td>2 Hours</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+    <section class="section1">
+        <h4 class="section1-title">Why Choose Horizon ?🤔</h4>
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-bolt"></i>
+                <h3>Paperless Approval</h3>
+                <p>100% Digital documentation via secure encrypted portals.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-percent"></i>
+                <h3>No Hidden Fees</h3>
+                <p>Zero foreclosure charges and transparent processing fees.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-shield-halved"></i>
+                <h3>Secure Lending</h3>
+                <p>Protected by multi-layer biometric authentication.</p>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="faq-section">
+        <h2 class="faq-heading">Frequently Asked Questions (FAQs)👇</h2>
+        <div class="faq-box">
+            <div class="faq-item">
+            <button class="faq-question">
+               How is the interest rate calculated?
+                <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+               We use a daily reducing balance method, ensuring you pay interest only on the outstanding principal.
+            </div>
+        </div>
+
+        <div class="faq-item">
+        <button class="faq-question">
+          Can I increase my loan limit mid-tenure? 
+            <span class="icon">+</span>
+        </button>
+
+        <div class="faq-answer">
+            Yes, through our 'Top-Up' facility available for users with a credit score above 750.
+        </div>
+        </div>
+
+
+        <div class="faq-item">
+            <button class="faq-question">
+               How is the interest rate calculated?
+                <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+                Any customer with a valid bank account and registered mobile number can activate internet banking.
+            </div>
+        </div>
+
+
+        <div class="faq-item">
+            <button class="faq-question">
+                What are the features and benefits?
+                <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+                Balance enquiry, fund transfer, bill payment, card management and many more banking services.
+            </div>
+        </div>
+
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How do I get access to Internet Banking?
+            <span class="icon">+</span>
+            </button>
+
+            <div class="faq-answer">
+                You can create or open account through the bank website or visit the nearest branch.
+            </div>
+        </div>
+        </div>
+    </section>
+
+<footer>
+    <p>&copy; 2026 Nexus Global Bank | Empowering Your Ambitions</p>
+    <div style="margin-top:20px; font-size: 0.8rem;">
+        Privacy Policy | Terms of Service | Regulatory Disclosures
+    </div>
+</footer>
+
+<script>
+    // THEME TOGGLE
+    function toggleMode() {
+        const body = document.body;
+        const icon = document.querySelector('.theme-toggle i');
+        body.classList.toggle("dark");
+        if(body.classList.contains("dark")) {
+            icon.classList.replace("fa-moon", "fa-sun");
+        } else {
+            icon.classList.replace("fa-sun", "fa-moon");
+        }
+    }
+
+  
+   
+    // SCROLL PROGRESS & ANIMATIONS
+    window.onscroll = function() {
+        let winScroll = document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById("progress-bar").style.width = scrolled + "%";
+        
+        // Sticky Navbar shadow
+        const nav = document.querySelector('.navbar');
+        if (winScroll > 50) nav.style.boxShadow = "0 10px 30px rgba(0,0,0,0.2)";
+        else nav.style.boxShadow = "none";
+    };
+    const amount = document.getElementById("amount");
+const rate = document.getElementById("rate");
+const time = document.getElementById("time");
+
+function calculateEMI() {
+
+    let P = amount.value;
+    let R = rate.value / 100 / 12;
+    let N = time.value * 12;
+
+    let emi = (P * R * Math.pow(1+R,N)) / (Math.pow(1+R,N)-1);
+    let total = emi * N;
+
+    document.getElementById("emi").innerText = "$" + emi.toFixed(2);
+    document.getElementById("total").innerText = total.toFixed(0);
+
+    document.getElementById("amountVal").innerText = P;
+    document.getElementById("rateVal").innerText = rate.value;
+    document.getElementById("timeVal").innerText = time.value;
+}
+
+amount.oninput = calculateEMI;
+rate.oninput = calculateEMI;
+time.oninput = calculateEMI;
+
+calculateEMI();
+
+</script>
+
+</body>
+</html>

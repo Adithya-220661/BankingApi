@@ -45,7 +45,7 @@
   <button class="sidebar-toggle" id="sidebarToggle">☰</button>
 
   <div class="sidebar" id="sidebar">
-    <h2>🏦 Mini NetBank</h2>
+    <h2>🏦 Horizon Bank</h2>
     <a href="dashboard.html" class="sidebar-link" data-icon="📈">
       <span class="link-icon">📈</span>
       <span class="link-text">Dashboard</span>
@@ -58,9 +58,9 @@
       <span class="link-icon">⏳</span>
       <span class="link-text">Transactions</span>
     </a>
-    <a href="admin.html" class="sidebar-link" data-icon="🔐">
-      <span class="link-icon">🔐</span>
-      <span class="link-text">Admin Dashboard</span>
+    <a href="admin.html" class="sidebar-link" id="adminLink" style="display:none">
+      <span>🔐</span>
+      <span>Admin</span>
     </a>
     <a href="index.html" class="sidebar-link" data-icon="🚪">
       <span class="link-icon">🚪</span>
@@ -77,79 +77,65 @@
     <div class="history-container">
       <div class="history-header">
         <h2>📊 Your Transaction Records</h2>
-        <p class="history-subtitle">View and manage all your banking transactions</p>
+        <p class="history-subtitle">
+          View and manage all your banking transactions
+        </p>
       </div>
 
+      <!-- Filters -->
       <div class="history-filters">
-        <div class="filter-group">
-          <label for="dateFilter">📅 Date Range:</label>
-          <select id="dateFilter">
-            <option value="all">All Time</option>
-            <option value="today">Today</option>
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-            <option value="year">This Year</option>
-          </select>
-        </div>
-
         <div class="filter-group">
           <label for="typeFilter">🔍 Transaction Type:</label>
           <select id="typeFilter">
             <option value="all">All Types</option>
-            <option value="credit">Credits</option>
-            <option value="debit">Debits</option>
-            <option value="transfer">Transfers</option>
+            <option value="deposit">Deposits</option>
+            <option value="withdrawal">Withdrawals</option>
+            <option value="transfer_sent">Transfers Sent</option>
+            <option value="transfer_received">Transfers Received</option>
           </select>
         </div>
 
-        <div class="filter-group">
-          <label for="statusFilter">📋 Status:</label>
-          <select id="statusFilter">
-            <option value="all">All Status</option>
-            <option value="success">Successful</option>
-            <option value="pending">Pending</option>
-            <option value="failed">Failed</option>
-          </select>
-        </div>
-
-        <button class="filter-btn" onclick="applyFilters()">🔍 Apply Filters</button>
-        <button class="export-btn" onclick="exportHistory()">📥 Export</button>
+        <button class="filter-btn" onclick="applyFilters()">
+          🔍 Apply Filters
+        </button>
+        <button class="export-btn" onclick="exportHistory()">
+          📥 Export CSV
+        </button>
       </div>
 
+      <!-- Stats -->
       <div class="history-stats">
         <div class="stat-card">
           <div class="stat-icon">💰</div>
           <div class="stat-info">
             <h3>Total Transactions</h3>
-            <p id="totalTransactions">24</p>
+            <p id="totalTransactions">0</p>
           </div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon">📈</div>
           <div class="stat-info">
             <h3>Total Credits</h3>
-            <p id="totalCredits">₹85,000</p>
+            <p id="totalCredits">₹0</p>
           </div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon">📉</div>
           <div class="stat-info">
             <h3>Total Debits</h3>
-            <p id="totalDebits">₹12,450</p>
+            <p id="totalDebits">₹0</p>
           </div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon">⚡</div>
           <div class="stat-info">
             <h3>Success Rate</h3>
-            <p id="successRate">98.5%</p>
+            <p id="successRate">0%</p>
           </div>
         </div>
       </div>
 
+      <!-- Table -->
       <div class="history-table-container">
         <table id="historyTable">
           <thead>
@@ -157,124 +143,49 @@
               <th>📅 Date & Time</th>
               <th>🔄 Type</th>
               <th>👤 Description</th>
-              <th>📊 Reference</th>
               <th>💰 Amount</th>
+              <th>💳 Balance After</th>
               <th>📋 Status</th>
               <th>⚙️ Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="transaction-row credit">
-              <td>2026-03-10 14:30:25</td>
-              <td><span class="txn-type credit">Credit</span></td>
-              <td>Salary Credit - TechCorp Inc</td>
-              <td>SAL20260310</td>
-              <td class="amount credit">+₹50,000.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('SAL20260310')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row debit">
-              <td>2026-03-09 11:15:42</td>
-              <td><span class="txn-type debit">Debit</span></td>
-              <td>Grocery Shopping - BigMart</td>
-              <td>TXN20260309</td>
-              <td class="amount debit">-₹2,450.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('TXN20260309')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row transfer">
-              <td>2026-03-08 16:22:18</td>
-              <td><span class="txn-type transfer">Transfer</span></td>
-              <td>Money Transfer to Rahul Kumar</td>
-              <td>TRF20260308</td>
-              <td class="amount debit">-₹5,000.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('TRF20260308')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row credit">
-              <td>2026-03-07 09:45:33</td>
-              <td><span class="txn-type credit">Credit</span></td>
-              <td>Freelance Payment - Design Project</td>
-              <td>FRE20260307</td>
-              <td class="amount credit">+₹15,000.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('FRE20260307')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row debit">
-              <td>2026-03-06 13:20:15</td>
-              <td><span class="txn-type debit">Debit</span></td>
-              <td>Electricity Bill Payment</td>
-              <td>BIL20260306</td>
-              <td class="amount debit">-₹3,200.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('BIL20260306')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row debit">
-              <td>2026-03-05 18:10:08</td>
-              <td><span class="txn-type debit">Debit</span></td>
-              <td>Online Shopping - Amazon</td>
-              <td>SHOP20260305</td>
-              <td class="amount debit">-₹1,850.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('SHOP20260305')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row credit">
-              <td>2026-03-04 10:30:45</td>
-              <td><span class="txn-type credit">Credit</span></td>
-              <td>Interest Credit</td>
-              <td>INT20260304</td>
-              <td class="amount credit">+₹250.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('INT20260304')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row transfer">
-              <td>2026-03-03 15:45:22</td>
-              <td><span class="txn-type transfer">Transfer</span></td>
-              <td>Money Transfer to Anita Sharma</td>
-              <td>TRF20260303</td>
-              <td class="amount debit">-₹2,000.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('TRF20260303')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row debit">
-              <td>2026-03-02 12:15:30</td>
-              <td><span class="txn-type debit">Debit</span></td>
-              <td>Restaurant - Pizza Palace</td>
-              <td>FOOD20260302</td>
-              <td class="amount debit">-₹750.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('FOOD20260302')">👁️ View</button></td>
-            </tr>
-
-            <tr class="transaction-row credit">
-              <td>2026-03-01 08:00:00</td>
-              <td><span class="txn-type credit">Credit</span></td>
-              <td>Monthly Salary - TechCorp Inc</td>
-              <td>SAL20260301</td>
-              <td class="amount credit">+₹50,000.00</td>
-              <td><span class="status success">✓ Success</span></td>
-              <td><button class="action-btn" onclick="viewDetails('SAL20260301')">👁️ View</button></td>
+          <tbody id="historyBody">
+            <tr>
+              <td colspan="7" style="text-align:center; color:#64748b; padding:20px;">
+                Loading transactions...
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- Pagination — NO onclick here, attached in history.js -->
       <div class="pagination">
-        <button class="page-btn" onclick="changePage('prev')" id="prevBtn">⬅️ Previous</button>
-        <span class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">3</span></span>
-        <button class="page-btn" onclick="changePage('next')" id="nextBtn">Next ➡️</button>
+        <button class="page-btn" id="prevBtn">
+          ⬅️ Previous
+        </button>
+        <span class="page-info">
+          Page <span id="currentPage">1</span>
+          of <span id="totalPages">1</span>
+        </span>
+        <!-- Next button  -->
+         <button class="page-btn" id="nextBtn">
+         Next ➡️
+        </button>
       </div>
+
     </div>
   </div>
 
   <script src="js/history.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const adminLink = document.getElementById('adminLink');
+      if(adminLink && user.role === 'admin'){
+        adminLink.style.display = 'flex';
+      }
+    });
+  </script>
 </body>
 </html>

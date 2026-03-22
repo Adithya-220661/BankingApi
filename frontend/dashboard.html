@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +23,9 @@
       <span class="link-icon">⏳</span>
       <span class="link-text">Transactions</span>
     </a>
-    <a href="admin.html" class="sidebar-link" data-icon="🔐">
-      <span class="link-icon">🔐</span>
-      <span class="link-text">Admin Dashboard</span>
+    <a href="admin.html" class="sidebar-link" id="adminLink" style="display:none">
+      <span>🔐</span>
+      <span>Admin</span>
     </a>
     <a href="index.html" class="sidebar-link" data-icon="🚪">
       <span class="link-icon">🚪</span>
@@ -35,7 +36,22 @@
   <div class="main">
     <header class="page-header">
       <h1 id="welcomeHeader">Welcome, User</h1>
-      <button id="modeToggle">🌙 Dark Mode</button>
+      <div class="header-actions">
+        <div class="notif-wrapper">
+          <button id="notifBtn" class="notif-btn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" title="Notifications">
+            🔔
+            <span id="notifBadge" class="notif-badge" hidden>0</span>
+          </button>
+          <div id="notifPanel" class="notif-panel" hidden>
+            <div class="notif-panel__header">
+              <span class="notif-panel__title">Notifications</span>
+              <button type="button" id="notifMarkRead" class="notif-panel__action">Mark all read</button>
+            </div>
+            <ul id="notifList" class="notif-list"></ul>
+          </div>
+        </div>
+        <button id="modeToggle">🌙 Dark Mode</button>
+      </div>
     </header>
 
     <section class="stats-cards" id="statsContainer">
@@ -61,5 +77,27 @@
   </div>
 
   <script src="js/dasboard.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const adminLink = document.getElementById('adminLink');
+      if(adminLink && user.role === 'admin'){
+        adminLink.style.display = 'flex';
+      }
+    });
+  </script>
+
+  <!-- Logout Confirmation (Frontend only) -->
+  <div id="logoutConfirm" class="confirm-modal" hidden aria-hidden="true">
+    <div class="confirm-modal__backdrop" data-confirm-action="cancel"></div>
+    <div class="confirm-modal__panel" role="dialog" aria-modal="true" aria-labelledby="logoutConfirmTitle">
+      <h3 id="logoutConfirmTitle" class="confirm-modal__title">Logout</h3>
+      <p class="confirm-modal__desc">Are you sure you want to logout?</p>
+      <div class="confirm-modal__actions">
+        <button type="button" class="confirm-btn confirm-btn--ghost" data-confirm-action="cancel">Cancel</button>
+        <button type="button" class="confirm-btn confirm-btn--danger" data-confirm-action="logout">Yes, Logout</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

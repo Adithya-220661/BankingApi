@@ -1,10 +1,15 @@
-const User       = require('../models/User');
-const OtpSession = require('../models/OtpSession');
+const User          = require('../models/User');
+const OtpSession    = require('../models/OtpSession');
 const generateToken = require('../utils/generateToken');
-const axios      = require('axios');
+const axios         = require('axios');
+
+// ── Lockout config ─────────────────────────────────────────────
+const loginAttempts = {}; // in-memory store for wrong username attempts
+const MAX_ATTEMPTS  = 3;
+const LOCK_DURATION = 3 * 60 * 1000; // 3 minutes in milliseconds
 
 // ════════════════════════════════════════════════════════════
-//  TWILIO SMS SENDER — generates OUR OTP, sends via Twilio SMS
+//  TWILIO SMS SENDER
 // ════════════════════════════════════════════════════════════
 const sendSMS = async (phone, otp) => {
   try {
@@ -12,90 +17,142 @@ const sendSMS = async (phone, otp) => {
       process.env.TWILIO_ACCOUNT_SID,
       process.env.TWILIO_AUTH_TOKEN
     );
-    await client.messages.create({
-      body: `Your Horizon Bank OTP is: ${otp}. Valid for 5 minutes. Do not share with anyone.`,
-      from: process.env.TWILIO_PHONE,
-      to: `+91${phone}`
-    });
-    console.log(`✅ OTP SMS sent to ${phone}: ${otp}`);
+    // ✅ Twilio Verify — no phone number needed!
+    await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SID)
+      .verifications.create({
+        to:      `+91${phone}`,
+        channel: 'sms'
+      });
+    console.log(`✅ Twilio Verify OTP sent to ${phone}`);
   } catch(err) {
-    console.log('❌ Twilio SMS Error:', err.message);
+    console.log('❌ Twilio Verify Error:', err.message);
   }
 };
 
+const verifyTwilioOTP = async (phone, otp) => {
+  try {
+    const client = require('twilio')(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    );
+    const result = await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SID)
+      .verificationChecks.create({
+        to:   `+91${phone}`,
+        code: otp
+      });
+    return result.status === 'approved';
+  } catch(err) {
+    console.log('❌ Verify Check Error:', err.message);
+    return false;
+  }
+};
 // ════════════════════════════════════════════════════════════
-//  REGISTRATION — matches your 5-step registration.html form
+//  SEND OTP
 // ════════════════════════════════════════════════════════════
-
-// STEP 1 — Send OTP
-// POST /api/auth/send-otp
-// Body: { phone }
 const sendOtp = async (req, res) => {
   try {
     const { phone } = req.body;
+
+    // ── Validate phone ────────────────────────────────────────
     if (!phone || phone.length !== 10) {
-      return res.status(400).json({ success: false, message: 'Valid 10-digit phone number required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Valid 10-digit phone number required.'
+      });
     }
 
+    // ── Check if already registered ───────────────────────────
     const existing = await User.findOne({ phone });
     if (existing) {
-      return res.status(409).json({ success: false, message: 'This phone number is already registered.' });
+      return res.status(409).json({
+        success: false,
+        message: 'This phone number is already registered.'
+      });
     }
 
-    // Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Save OTP session in database
-    await OtpSession.findOneAndUpdate(
-      { phone },
-      { otp, createdAt: new Date() },
-      { upsert: true, returnDocument: 'after' }
+    // ── Send OTP via Twilio Verify ────────────────────────────
+    const client = require('twilio')(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
     );
+    await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SID)
+      .verifications.create({
+        to:      `+91${phone}`,
+        channel: 'sms'
+      });
 
-    // Send OTP via Twilio SMS
-    await sendSMS(phone, otp);
+    console.log(`✅ Twilio Verify OTP sent to +91${phone}`);
 
     res.status(200).json({
       success: true,
       message: 'OTP sent to your phone number.',
-      otp_dev: otp, // remove in production
     });
 
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Server error.', error: err.message });
+    console.log('SEND OTP ERROR:', err.message);
+    res.status(500).json({
+      success: false,
+      message: 'Server error.',
+      error:   err.message
+    });
   }
 };
 
-// STEP 1 — Verify OTP (checks against database)
-// POST /api/auth/verify-otp
-// Body: { phone, otp }
+// ════════════════════════════════════════════════════════════
+//  VERIFY OTP
+// ════════════════════════════════════════════════════════════
 const verifyOtp = async (req, res) => {
   try {
     const { phone, otp } = req.body;
+
+    // ── Validate inputs ───────────────────────────────────────
     if (!phone || !otp) {
-      return res.status(400).json({ success: false, message: 'Phone and OTP are required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Phone and OTP are required.'
+      });
     }
 
-    // Verify against database
-    const session = await OtpSession.findOne({ phone });
-    if (!session) {
-      return res.status(400).json({ success: false, message: 'OTP expired or not sent. Please resend.' });
-    }
-    if (session.otp !== otp) {
-      return res.status(400).json({ success: false, message: 'Incorrect OTP. Please try again.' });
+    if (otp.length !== 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'OTP must be 6 digits.'
+      });
     }
 
-    // OTP verified — clean up
-    await OtpSession.deleteOne({ phone });
+    // ── Verify through Twilio Verify ──────────────────────────
+    const isValid = await verifyTwilioOTP(phone, otp);
 
-    res.status(200).json({ success: true, message: 'OTP verified successfully.' });
+    if (!isValid) {
+      return res.status(400).json({
+        success: false,
+        message: 'Incorrect OTP. Please try again.'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'OTP verified successfully.'
+    });
+
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Server error.', error: err.message });
+    console.log('VERIFY OTP ERROR:', err.message);
+    res.status(500).json({
+      success: false,
+      message: 'Server error.',
+      error:   err.message
+    });
   }
 };
+  
+    
 
-// STEPS 2-5 — Complete Registration
-// POST /api/auth/register
+// ════════════════════════════════════════════════════════════
+//  REGISTER
+// ════════════════════════════════════════════════════════════
 const register = async (req, res) => {
   try {
     const {
@@ -162,6 +219,90 @@ const register = async (req, res) => {
 };
 
 // ════════════════════════════════════════════════════════════
+//  HELPER — handle failed attempt
+// ════════════════════════════════════════════════════════════
+const handleFailedAttempt = async (username, user, res) => {
+
+  if (user) {
+    // ── User exists → store in DATABASE ──────────────────────
+    await User.findOneAndUpdate(
+      { _id: user._id },
+      { $inc: { loginAttempts: 1 } },
+      { returnDocument: 'after' }
+    );
+    const updated = await User.findById(user._id).select('+loginAttempts +lockUntil');
+    console.log(`❌ Login failed for ${username}`);
+    console.log(`📊 loginAttempts: ${updated.loginAttempts}`);
+    console.log(`📊 attemptsLeft: ${MAX_ATTEMPTS - updated.loginAttempts}`);
+
+    const attemptsLeft = MAX_ATTEMPTS - updated.loginAttempts;
+
+    if (updated.loginAttempts >= MAX_ATTEMPTS) {
+      // Lock the account
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { lockUntil: new Date(Date.now() + LOCK_DURATION) }
+      );
+
+      // ✅ Calculate exact remaining seconds from lockUntil
+      const remainingSec = Math.ceil(LOCK_DURATION  / 1000);
+
+      return res.status(403).json({
+        success:      false,
+        locked:       true,
+        message:      '🔒 Account locked for 3 minutes due to too many failed attempts.',
+        remainingSec,
+      });
+    }
+
+   
+    const warningMsg = attemptsLeft === 1
+      ? '⚠️ Only 1 attempt remaining before account is locked for 3 minutes!'
+      : `❌ Invalid username or PIN. ${attemptsLeft} attempts remaining.`;
+
+    return res.status(401).json({
+      success:      false,
+      message:      warningMsg,
+      attemptsLeft,
+    });
+
+  } else {
+    // ── User not found → store in MEMORY ─────────────────────
+    if (!loginAttempts[username]) {
+      loginAttempts[username] = { count: 0, lockUntil: null };
+    }
+
+    const record = loginAttempts[username];
+    record.count += 1;
+    const attemptsLeft = MAX_ATTEMPTS - record.count;
+
+    if (record.count >= MAX_ATTEMPTS) {
+      record.lockUntil = Date.now() + LOCK_DURATION;
+
+      // ✅ Calculate exact remaining seconds
+      const remainingSec = Math.ceil((record.lockUntil - Date.now()) / 1000);
+
+      return res.status(403).json({
+        success:      false,
+        locked:       true,
+        message:      '🔒 Too many failed attempts. Locked for 3 minutes.',
+        remainingSec,
+      });
+    }
+
+    const warningMsg = attemptsLeft === 1
+      ? '⚠️ Only 1 attempt remaining before account is locked for 3 minutes!'
+      : `❌ Invalid username or PIN. ${attemptsLeft} attempts remaining.`;
+
+    return res.status(401).json({
+      success:      false,
+      message:      warningMsg,
+      attemptsLeft,
+    });
+  }
+};
+
+// ════════════════════════════════════════════════════════════
 //  USER LOGIN
 // ════════════════════════════════════════════════════════════
 const userLogin = async (req, res) => {
@@ -171,22 +312,90 @@ const userLogin = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Username and PIN are required.' });
     }
 
-    const user = await User.findOne({ username }).select('+pin');
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid username or PIN.' });
-    }
-    if (!user.isActive) {
-      return res.status(403).json({ success: false, message: 'Account locked. Please contact Horizon Bank support.' });
+    // ── Check in-memory lockout first (wrong username attempts) ──
+    if (loginAttempts[username]) {
+      const record = loginAttempts[username];
+
+      if (record.lockUntil && record.lockUntil > Date.now()) {
+        // ✅ Calculate REMAINING seconds — not from start!
+        const remainingSec = Math.ceil((record.lockUntil - Date.now()) / 1000);
+        return res.status(403).json({
+          success:      false,
+          locked:       true,
+          message:      '🔒 Account temporarily locked. Please try again later.',
+          remainingSec, // ← exact remaining time
+        });
+      }
+
+      // Reset if expired
+      if (record.lockUntil && record.lockUntil <= Date.now()) {
+        delete loginAttempts[username];
+      }
     }
 
-    const isPinMatch = await user.comparePin(pin);
-    if (!isPinMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid username or PIN.' });
+    const user = await User.findOne({ username }).select('+pin +loginAttempts +lockUntil');
+
+    // ── Check DB lockout (wrong PIN attempts) ─────────────────
+    if (user) {
+
+      if (user.lockUntil && user.lockUntil > Date.now()) {
+        // ✅ Calculate REMAINING seconds from lockUntil — not from start!
+        const remainingSec = Math.ceil((user.lockUntil - Date.now()) / 1000);
+        return res.status(403).json({
+          success:      false,
+          locked:       true,
+          message:      '🔒 Account temporarily locked due to too many failed attempts.',
+          remainingSec, // ← exact remaining time
+        });
+      }
+
+      // Reset DB lockout if expired
+      if (user.lockUntil && user.lockUntil <= Date.now()) {
+       await User.findOneAndUpdate(
+        { _id: user._id },
+        { loginAttempts: 0, lockUntil: null }
+        );
+        user.loginAttempts = 0;
+        user.lockUntil     = null;
+      }
+
+      if (!user.isActive) {
+        return res.status(403).json({
+          success: false,
+          message: 'Account locked. Please contact Horizon Bank support.'
+        });
+      }
+    }
+    // ── Check DB lockout BEFORE PIN ──────────────────────────
+      if (user && user.lockUntil && user.lockUntil > Date.now()) {
+        const remainingSec = Math.ceil((user.lockUntil - Date.now()) / 1000);
+        return res.status(403).json({
+          success:      false,
+          locked:       true,
+          message:      '🔒 Account temporarily locked. Please wait.',
+          remainingSec,
+        });
+      }
+
+    // ── Wrong username OR wrong PIN → reduce attempts ─────────
+    if (!user || !(await user.comparePin(pin))) {
+      return handleFailedAttempt(username, user, res);
+    }
+
+    // ── Login successful → reset ALL attempts ─────────────────
+    await User.findOneAndUpdate(
+        { _id: user._id },
+        { loginAttempts: 0, lockUntil: null }
+    );
+
+    // Also clear memory attempts if any
+    if (loginAttempts[username]) {
+      delete loginAttempts[username];
     }
 
     const token = generateToken(user._id);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: `Welcome back, ${user.fullName}!`,
       token,
@@ -202,6 +411,7 @@ const userLogin = async (req, res) => {
       },
       redirect: 'dashboard.html',
     });
+
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error.', error: err.message });
   }
@@ -250,7 +460,9 @@ const adminLogin = async (req, res) => {
   }
 };
 
-// GET /api/auth/me
+// ════════════════════════════════════════════════════════════
+//  GET ME
+// ════════════════════════════════════════════════════════════
 const getMe = async (req, res) => {
   try {
     const user = req.user;
@@ -285,7 +497,7 @@ const forgotPin = async (req, res) => {
   try {
     const { phone } = req.body;
 
-    if(!phone || phone.length !== 10){
+    if (!phone || phone.length !== 10) {
       return res.status(400).json({
         success: false,
         message: 'Valid 10-digit phone number required.'
@@ -293,30 +505,27 @@ const forgotPin = async (req, res) => {
     }
 
     const user = await User.findOne({ phone });
-    if(!user){
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: 'No account found with this phone number.'
       });
     }
 
-    // Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Save OTP session in database
     await OtpSession.findOneAndUpdate(
       { phone },
       { otp, createdAt: new Date() },
       { upsert: true, returnDocument: 'after' }
     );
 
-    // Send OTP via Twilio SMS
     await sendSMS(phone, otp);
 
     res.status(200).json({
       success: true,
       message: 'OTP sent to your phone number.',
-      otp_dev: otp, // remove in production
+      otp_dev: otp,
     });
 
   } catch(err) {
@@ -324,61 +533,61 @@ const forgotPin = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error.',
-      error: err.message
+      error:   err.message
     });
   }
 };
 
 // ════════════════════════════════════════════════════════════
-//  RESET PIN — verifies against database
+//  RESET PIN
 // ════════════════════════════════════════════════════════════
 const resetPin = async (req, res) => {
   try {
     const { phone, otp, newPin } = req.body;
 
-    if(!phone || !otp || !newPin){
+    // ── Validate inputs ───────────────────────────────────────
+    if (!phone || !otp || !newPin) {
       return res.status(400).json({
         success: false,
         message: 'Phone, OTP and new PIN are required.'
       });
     }
 
-    if(newPin.length !== 4 || !/^\d{4}$/.test(newPin)){
+    if (newPin.length !== 4 || !/^\d{4}$/.test(newPin)) {
       return res.status(400).json({
         success: false,
         message: 'PIN must be exactly 4 digits.'
       });
     }
 
-    // Verify OTP against database
-    const session = await OtpSession.findOne({ phone });
-    if(!session){
-      return res.status(400).json({
-        success: false,
-        message: 'OTP expired. Please request again.'
-      });
-    }
-    if(session.otp !== otp){
+    // ── Verify OTP through Twilio Verify ──────────────────────
+    const isValid = await verifyTwilioOTP(phone, otp);
+    if (!isValid) {
       return res.status(400).json({
         success: false,
         message: 'Incorrect OTP. Please try again.'
       });
     }
 
-    // Delete OTP session
-    await OtpSession.deleteOne({ phone });
-
-    // Find user and update PIN
-    const user = await User.findOne({ phone }).select('+pin');
-    if(!user){
+    // ── Find user and update PIN ───────────────────────────────
+    const user = await User.findOne({ phone }).select('+pin +loginAttempts +lockUntil');
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User not found.'
       });
     }
 
-    user.pin = newPin;
+    // ✅ Reset PIN and clear ALL lockout
+    user.pin           = newPin;
+    user.loginAttempts = 0;
+    user.lockUntil     = null;
     await user.save();
+
+    // Also clear memory lockout
+    if (loginAttempts[user.username]) {
+      delete loginAttempts[user.username];
+    }
 
     res.status(200).json({
       success: true,
@@ -390,7 +599,7 @@ const resetPin = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error.',
-      error: err.message
+      error:   err.message
     });
   }
 };

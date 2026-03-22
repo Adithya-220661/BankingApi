@@ -5,6 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transaction History – Mini NetBank</title>
   <link rel="stylesheet" href="css/style1.css">
+  <style>
+    /* Keep Type/Status pills in the older flat "button" style (history.html only). */
+    #historyTable .txn-type.credit,
+    #historyTable .status.success {
+      background: #dcfce7;
+      border: none;
+    }
+
+    body.dark-mode #historyTable .txn-type.credit,
+    body.dark-mode #historyTable .status.success {
+      color: #166534 !important;
+    }
+
+    #historyTable .txn-type.debit,
+    #historyTable .status.failed {
+      background: #fef2f2;
+      border: none;
+    }
+
+    body.dark-mode #historyTable .txn-type.debit,
+    body.dark-mode #historyTable .status.failed {
+      color: #991b1b !important;
+    }
+
+    #historyTable .txn-type.transfer,
+    #historyTable .status.pending {
+      background: #fef3c7;
+      border: none;
+    }
+
+    body.dark-mode #historyTable .txn-type.transfer,
+    body.dark-mode #historyTable .status.pending {
+      color: #92400e !important;
+    }
+  </style>
 </head>
 <body>
   <button class="sidebar-toggle" id="sidebarToggle">☰</button>
@@ -124,31 +159,33 @@
         </table>
       </div>
 
-      <!-- Pagination -->
+      <!-- Pagination — NO onclick here, attached in history.js -->
       <div class="pagination">
-        <button class="page-btn" onclick="changePage('prev')" id="prevBtn">
+        <button class="page-btn" id="prevBtn">
           ⬅️ Previous
         </button>
         <span class="page-info">
-          Page <span id="currentPage">1</span> 
+          Page <span id="currentPage">1</span>
           of <span id="totalPages">1</span>
         </span>
-        <button class="page-btn" onclick="changePage('next')" id="nextBtn">
-          Next ➡️
+        <!-- Next button  -->
+         <button class="page-btn" id="nextBtn">
+         Next ➡️
         </button>
       </div>
 
     </div>
   </div>
 
-  <script src="js/history.js">
+  <script src="js/history.js"></script>
+  <script>
     window.addEventListener('DOMContentLoaded', () => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const adminLink = document.getElementById('adminLink');
-    if(adminLink && user.role === 'admin'){
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const adminLink = document.getElementById('adminLink');
+      if(adminLink && user.role === 'admin'){
         adminLink.style.display = 'flex';
-    }
-});
+      }
+    });
   </script>
 </body>
 </html>

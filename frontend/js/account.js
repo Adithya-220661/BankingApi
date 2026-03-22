@@ -1,14 +1,30 @@
 /**
  * GLOBAL VARIABLES
  */
-let kycStream = null;
-let resendTimer = null;
+let kycStream    = null;
+let resendTimer  = null;
 let resendSeconds = 30;
-let currentOTP = '';
+let currentOTP   = '';
 
-/**
- * SHARED HELPER — stores OTP for clipboard
- */
+// ════════════════════════════════════════════════════════════
+//  CAPTCHA GENERATOR — Step 4
+//  ✅ Single function — no duplicate!
+// ════════════════════════════════════════════════════════════
+function generateCaptcha() {
+    const chars   = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let captcha   = "";
+    for(let i = 0; i < 5; i++){
+        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    const el = document.getElementById('captchaCode');
+    if (el) {
+        el.innerText = captcha;
+    }
+}
+
+// ════════════════════════════════════════════════════════════
+//  SHARED HELPER — stores OTP for clipboard
+// ════════════════════════════════════════════════════════════
 function storeOTPForClipboard(otp) {
     currentOTP = otp.toString();
     navigator.clipboard.writeText(currentOTP)
@@ -16,113 +32,96 @@ function storeOTPForClipboard(otp) {
         .catch(() => console.log('❌ Clipboard copy failed'));
 }
 
-/**
- * 8. CAPTCHA GENERATOR — Step 4
- */
-function generateCaptcha() {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let captcha = "";
-    for(let i = 0; i < 5; i++){
-        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    const captchaEl = document.getElementById('captchaCode');
-    if(captchaEl){
-        captchaEl.innerText = captcha;
-    }
-}
-
-/**
- * 1. NAVIGATION & ROADMAP LOGIC
- */
+// ════════════════════════════════════════════════════════════
+//  1. NAVIGATION & ROADMAP LOGIC
+// ════════════════════════════════════════════════════════════
 function nextStep(stepNumber) {
-    const formSteps = document.querySelectorAll('.form-step');
-    formSteps.forEach(step => {
+    // Hide all steps
+    document.querySelectorAll('.form-step').forEach(step => {
         step.classList.remove('active');
     });
 
+    // Show target step
     const targetStep = document.getElementById(`step-${stepNumber}`);
-    if (targetStep) {
-        targetStep.classList.add('active');
-    }
+    if(targetStep) targetStep.classList.add('active');
 
-    const roadmapCircles = document.querySelectorAll('.roadmap .step');
-    roadmapCircles.forEach((circle, idx) => {
-        if (idx < stepNumber) {
+    // Update roadmap circles
+    document.querySelectorAll('.roadmap .step').forEach((circle, idx) => {
+        if(idx < stepNumber){
             circle.classList.add('active');
         } else {
             circle.classList.remove('active');
         }
     });
 
-    if (stepNumber === 3) {
+    // Step-specific actions
+    if(stepNumber === 3){
         startAutomatedKYC();
     } else {
         stopCamera();
     }
 
-    if (stepNumber === 4) {
+    // ✅ Generate captcha when step 4 loads
+    if(stepNumber === 4){
         setTimeout(() => generateCaptcha(), 100);
     }
 
-    if (stepNumber === 5) {
+    if(stepNumber === 5){
         generatePDFReview();
     }
 }
 
-/**
- * 2. STEP 1: SEND OTP
- */
+// ════════════════════════════════════════════════════════════
+//  2. STEP 1: SEND OTP
+// ════════════════════════════════════════════════════════════
 async function handleSendOTP() {
     const phone = document.getElementById('phone').value;
 
-    if(phone.length !== 10){
+    if (phone.length !== 10) {
         alert("Please enter a valid 10-digit number.");
         return;
     }
 
     try {
-        const res = await fetch('http://localhost:5000/api/auth/send-otp', {
+        const res  = await fetch('http://localhost:5000/api/auth/send-otp', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ phone })
         });
         const data = await res.json();
 
-        if(data.success){
+        if (data.success) {
             document.getElementById('otpWrapper').classList.remove('hidden');
 
-            if(data.otp_dev){
+            if (data.otp_dev) {
                 storeOTPForClipboard(data.otp_dev);
             }
 
             const sendBtn = document.querySelector('.send-btn');
             if(sendBtn){
-                sendBtn.disabled = true;
+                sendBtn.disabled     = true;
                 sendBtn.style.opacity = '0.5';
-                sendBtn.innerText = 'OTP Sent ✅';
+                sendBtn.innerText    = 'OTP Sent ✅';
             }
 
             alert('✅ OTP sent to your registered mobile number!');
-
         } else {
             alert('❌ ' + data.message);
         }
-    } catch(err) {
+    } catch (err) {
         alert('Backend not running! Start server first.');
     }
 }
 
-/**
- * 2b. VERIFY OTP
- */
+// ════════════════════════════════════════════════════════════
+//  2b. VERIFY OTP
+// ════════════════════════════════════════════════════════════
 async function verifyOTP() {
     const boxes = document.querySelectorAll('.otp-box');
     let enteredOtp = '';
-    boxes.forEach(box => {
-        enteredOtp += box.value;
-    });
+    boxes.forEach(box => { enteredOtp += box.value; });
 
-    if(enteredOtp.length !== 6){
+    if (enteredOtp.length !== 6) {
         alert('Please enter complete 6-digit OTP.');
         return;
     }
@@ -130,14 +129,14 @@ async function verifyOTP() {
     const phone = document.getElementById('phone').value;
 
     try {
-        const res = await fetch('http://localhost:5000/api/auth/verify-otp', {
+        const res  = await fetch('http://localhost:5000/api/auth/verify-otp', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ phone, otp: enteredOtp })
         });
         const data = await res.json();
 
-        if(data.success){
+        if (data.success) {
             alert('✅ OTP verified successfully!');
             nextStep(2);
         } else {
@@ -145,90 +144,88 @@ async function verifyOTP() {
             boxes.forEach(box => box.value = '');
             boxes[0].focus();
         }
-    } catch(err) {
+    } catch (err) {
         alert('Backend not running! Start server first.');
     }
 }
 
-/**
- * 2c. RESEND OTP
- */
+// ════════════════════════════════════════════════════════════
+//  2c. RESEND OTP
+// ════════════════════════════════════════════════════════════
 async function resendOTP() {
     const phone = document.getElementById('phone').value;
 
-    if(!phone || phone.length !== 10){
+    if (!phone || phone.length !== 10) {
         alert('Phone number not found. Please enter phone number first.');
         return;
     }
 
     const resendBtn = document.getElementById('resendBtn');
     if(resendBtn){
-        resendBtn.disabled = true;
+        resendBtn.disabled     = true;
         resendBtn.style.opacity = '0.5';
     }
 
     try {
-        const res = await fetch('http://localhost:5000/api/auth/send-otp', {
+        const res  = await fetch('http://localhost:5000/api/auth/send-otp', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ phone })
         });
         const data = await res.json();
 
-        if(data.success){
+        if (data.success) {
             const boxes = document.querySelectorAll('.otp-box');
             boxes.forEach(box => box.value = '');
             boxes[0].focus();
 
-            if(data.otp_dev){
+            if (data.otp_dev) {
                 storeOTPForClipboard(data.otp_dev);
             }
 
             alert('✅ New OTP sent to your mobile number!');
 
             resendSeconds = 30;
-            if(resendBtn) resendBtn.innerText = `Resend in ${resendSeconds}s`;
+            if (resendBtn) resendBtn.innerText = `Resend in ${resendSeconds}s`;
 
             clearInterval(resendTimer);
             resendTimer = setInterval(() => {
                 resendSeconds--;
                 if(resendBtn) resendBtn.innerText = `Resend in ${resendSeconds}s`;
-
                 if(resendSeconds <= 0){
                     clearInterval(resendTimer);
                     if(resendBtn){
-                        resendBtn.disabled = false;
+                        resendBtn.disabled     = false;
                         resendBtn.style.opacity = '1';
-                        resendBtn.innerText = 'Resend Code';
+                        resendBtn.innerText    = 'Resend Code';
                     }
                 }
             }, 1000);
-
         } else {
             alert('❌ ' + data.message);
             if(resendBtn){
-                resendBtn.disabled = false;
+                resendBtn.disabled     = false;
                 resendBtn.style.opacity = '1';
             }
         }
-    } catch(err) {
+    } catch (err) {
         alert('Backend not running! Start server first.');
         if(resendBtn){
-            resendBtn.disabled = false;
+            resendBtn.disabled     = false;
             resendBtn.style.opacity = '1';
         }
     }
 }
 
-/**
- * 2d. PASTE FROM CLIPBOARD
- */
+// ════════════════════════════════════════════════════════════
+//  2d. PASTE FROM CLIPBOARD
+// ════════════════════════════════════════════════════════════
 async function pasteFromClipboard() {
     try {
-        const text = await navigator.clipboard.readText();
+        const text    = await navigator.clipboard.readText();
         const numbers = text.trim().replace(/\D/g, '').slice(0, 6);
 
-        if(numbers.length === 0){
+        if (numbers.length === 0) {
             alert('No OTP found in clipboard. Please enter OTP manually.');
             return;
         }
@@ -236,29 +233,29 @@ async function pasteFromClipboard() {
         const boxes = document.querySelectorAll('.otp-box');
         boxes.forEach(box => box.value = '');
         numbers.split('').forEach((char, i) => {
-            if(boxes[i]) boxes[i].value = char;
+            if (boxes[i]) boxes[i].value = char;
         });
 
         boxes[Math.min(numbers.length - 1, 5)].focus();
 
-    } catch (err) {
+    } catch(err) {
         alert("Please allow clipboard access in browser settings.");
     }
 }
 
-/**
- * 2e. AUTO FOCUS OTP BOXES
- */
+// ════════════════════════════════════════════════════════════
+//  2e. AUTO FOCUS OTP BOXES
+// ════════════════════════════════════════════════════════════
 const otpBoxes = document.querySelectorAll('.otp-box');
 function moveToNext(input, index) {
-    if (input.value.length === 1 && index < otpBoxes.length - 1) {
+    if(input.value.length === 1 && index < otpBoxes.length - 1){
         otpBoxes[index + 1].focus();
     }
 }
 
-/**
- * 3. STEP 2: PERSONAL VALIDATION
- */
+// ════════════════════════════════════════════════════════════
+//  3. STEP 2: PERSONAL VALIDATION
+// ════════════════════════════════════════════════════════════
 function handleStep2() {
     let isValid = true;
     document.querySelectorAll('.err').forEach(e => e.innerText = "");
@@ -268,32 +265,30 @@ function handleStep2() {
     const pan    = document.getElementById('panNum').value.toUpperCase();
     const aadhar = document.getElementById('aadharNum').value;
 
-    if(name.length < 3){
+    if (name.length < 3) {
         document.getElementById('nameErr').innerText = "Enter valid full name";
         isValid = false;
     }
-    if(!email.includes("@") || !email.includes(".")){
+    if (!email.includes("@") || !email.includes(".")) {
         document.getElementById('emailErr').innerText = "Invalid Email Address";
         isValid = false;
     }
     const panPattern = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
-    if(!pan.match(panPattern)){
+    if (!pan.match(panPattern)) {
         document.getElementById('panErr').innerText = "Invalid PAN Format";
         isValid = false;
     }
-    if(aadhar.length !== 12 || isNaN(aadhar)){
+    if (aadhar.length !== 12 || isNaN(aadhar)) {
         document.getElementById('aadharErr').innerText = "Enter 12-digit Aadhaar";
         isValid = false;
     }
 
-    if(isValid){
-        nextStep(3);
-    }
+    if(isValid) nextStep(3);
 }
 
-/**
- * 4. STEP 3: AUTOMATED KYC
- */
+// ════════════════════════════════════════════════════════════
+//  4. STEP 3: AUTOMATED KYC
+// ════════════════════════════════════════════════════════════
 async function startAutomatedKYC() {
     const video      = document.getElementById('video');
     const circle     = document.getElementById('scanCircle');
@@ -301,84 +296,60 @@ async function startAutomatedKYC() {
     const proceedBtn = document.getElementById('proceedBtn');
 
     try {
-        kycStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = kycStream;
-
-        status.innerText   = "Scanning Face...";
+        kycStream        = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject  = kycStream;
+        status.innerText = "Scanning Face...";
         status.style.color = "#555";
 
         setTimeout(() => {
-            if(video.srcObject){
+            if (video.srcObject) {
                 circle.classList.add('detected');
-                status.innerText   = "Face Verified Successfully!";
-                status.style.color = "#2ecc71";
-                proceedBtn.disabled      = false;
+                status.innerText       = "Face Verified Successfully!";
+                status.style.color     = "#2ecc71";
+                proceedBtn.disabled    = false;
                 proceedBtn.style.opacity = "1";
                 video.pause();
             }
         }, 3000);
-    } catch(err) {
+    } catch (err) {
         status.innerText   = "Camera Error: Please allow access.";
         status.style.color = "#ff4b2b";
     }
 }
 
 function stopCamera() {
-    if(kycStream){
+    if (kycStream) {
         kycStream.getTracks().forEach(track => track.stop());
         kycStream = null;
     }
 }
 
-/**
- * 5. STEP 4: SECURITY VALIDATION
- */
+// ════════════════════════════════════════════════════════════
+//  5. STEP 4: SECURITY VALIDATION
+// ════════════════════════════════════════════════════════════
 function validateSecurity() {
-    const user        = document.getElementById('username').value;
+    const user        = document.getElementById('username').value.trim();
     const pin         = document.getElementById('userPin').value;
     const confirm     = document.getElementById('confirmPin').value;
-    const captcha     = document.getElementById('captchaInput').value;
-    const realCaptcha = document.getElementById('captchaCode').innerText;
+    const captcha     = document.getElementById('captchaInput').value.trim();
+    const realCaptcha = document.getElementById('captchaCode').innerText.trim();
 
-    if(user.length < 4)        { alert("Username too short"); return; }
+    if(user.length < 4)        { alert("Username too short! Minimum 4 characters."); return; }
+    if(!/^\d{4}$/.test(pin))   { alert("PIN must be exactly 4 digits!"); return; }
     if(pin !== confirm)         { alert("PINs do not match!"); return; }
-    if(pin.length < 4)          { alert("PIN must be 4 digits"); return; }
-    if(captcha !== realCaptcha) { alert("Invalid Captcha!"); return; }
+    if(captcha !== realCaptcha) {
+        alert("Invalid Captcha! Please try again.");
+        generateCaptcha();
+        document.getElementById('captchaInput').value = '';
+        return;
+    }
 
     nextStep(5);
 }
 
-
-// =======================
-// RANDOM CAPTCHA GENERATOR
-// =======================
-function generateCaptcha(targetId){
-
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let captcha = "";
-
-    for(let i=0;i<5;i++){
-        captcha += chars.charAt(Math.floor(Math.random()*chars.length));
-    }
-
-    document.getElementById(targetId).innerText = captcha;
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-generateCaptcha();
-generateCaptchaAdmin();
-
-});
-
-
-
-
-
-
-/**
- * 6. STEP 5: PDF REVIEW
- */
+// ════════════════════════════════════════════════════════════
+//  6. STEP 5: PDF REVIEW
+// ════════════════════════════════════════════════════════════
 function generatePDFReview() {
     const name   = document.getElementById('accName').value;
     const email  = document.getElementById('accEmail').value;
@@ -387,10 +358,10 @@ function generatePDFReview() {
     const city   = document.getElementById('city').value;
     const user   = document.getElementById('username').value;
 
-    const pdfContent = `
+    document.getElementById('pdf-viewer').innerHTML = `
         <center><h3>HORIZON BANK DIGITAL RECEIPT</h3></center>
         <hr>
-        <p><strong>APPLICATION ID:</strong> HB-${Math.floor(Math.random()*1000000)}</p>
+        <p><strong>APPLICATION ID:</strong> HB-${Math.floor(Math.random() * 1000000)}</p>
         <p><strong>NAME:</strong> ${name}</p>
         <p><strong>EMAIL:</strong> ${email}</p>
         <p><strong>PAN:</strong> ${pan}</p>
@@ -400,15 +371,14 @@ function generatePDFReview() {
         <hr>
         <p style="color:#2ecc71; font-weight:bold;">✔ KYC VERIFICATION SUCCESSFUL</p>
     `;
-    document.getElementById('pdf-viewer').innerHTML = pdfContent;
 }
 
-/**
- * 7. FINAL SUBMISSION
- */
+// ════════════════════════════════════════════════════════════
+//  7. FINAL SUBMISSION
+// ════════════════════════════════════════════════════════════
 async function finalSubmit() {
     const isChecked = document.getElementById('termsCheck').checked;
-    if(!isChecked){
+    if (!isChecked) {
         alert("Please accept Terms & Conditions to proceed.");
         return;
     }
@@ -439,7 +409,7 @@ async function finalSubmit() {
         });
         const data = await res.json();
 
-        if(data.success){
+        if (data.success) {
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
             alert(`✅ Welcome to Horizon Bank!\nAccount Number: ${data.user.accountNumber}\nPlease login to continue.`);
@@ -447,7 +417,7 @@ async function finalSubmit() {
         } else {
             alert('❌ Registration failed: ' + data.message);
         }
-    } catch(err) {
+    } catch (err) {
         alert('Backend not running! Start server first.');
     }
 }

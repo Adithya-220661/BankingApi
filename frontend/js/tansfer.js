@@ -260,6 +260,13 @@ window.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  // Show admin link if admin
+  const user      = JSON.parse(localStorage.getItem('user') || '{}');
+  const adminLink = document.getElementById('adminLink');
+  if(adminLink && user.role === 'admin'){
+    adminLink.style.display = 'flex';
+  }
+
   restoreMode();
   loadBalance();
   loadRecentRecipients();

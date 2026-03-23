@@ -1,7 +1,8 @@
 (function () {
   const STORAGE_KEY = "hb_cookie_consent_v1";
   const COOKIE_NAME = "hb_cookie_consent";
-  const DEMO_SHOW_EVERY_LOAD = true;
+  // Keep the banner hidden after the user chooses preferences (unless manually reset via URL).
+  const DEMO_SHOW_EVERY_LOAD = false;
 
   function safeJsonParse(value) {
     try { return JSON.parse(value); } catch { return null; }
@@ -75,6 +76,14 @@
     if (flags.reset) {
       try { localStorage.removeItem(STORAGE_KEY); } catch {}
       document.cookie = `${COOKIE_NAME}=; Max-Age=0; Path=/; SameSite=Lax`;
+
+      // Make reset a one-time action: remove the flag from the URL so refreshing
+      // won't keep showing the banner after the user accepts.
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("cookieReset");
+        window.history.replaceState({}, "", url.toString());
+      } catch {}
     }
 
     const existing = getStoredConsent();

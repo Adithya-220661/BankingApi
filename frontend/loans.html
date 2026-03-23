@@ -335,24 +335,78 @@
 
         /* FAQ css */
 
-        details { 
-            background:white; 
-            margin-bottom: 4px; 
-            border-radius: 12px; 
-            padding: 5px 10px; 
-            cursor: pointer; 
+
+
+        .faq-section{
+        width:85%;
+        margin:60px auto;
+        background: transparent;
+
         }
-        summary { 
-            font-weight: bold; 
-            font-size: 1.1rem; 
-            padding: 10px 0; 
-            list-style: none; 
-            display: flex; 
-            justify-content: space-between; 
+
+        .faq-heading{
+        text-align:left;
+        font-size:30px;
+        color:#003366;
+        margin-bottom:30px;
+        font-weight:800;
         }
-        summary::after { 
-            content: '+'; 
-            color:tomato; }
+
+        .faq-box{
+        background: transparent;
+        border-radius:0px 0px 60px px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.1);
+        overflow:hidden;
+        }
+
+        .faq-item{
+        border-bottom:1px solid #003366;
+        }
+
+        .faq-question{
+        width:100%;
+        background:whitesmoke;
+        border:none;
+        padding:20px 25px;
+        font-size:18px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        cursor:pointer;
+        font-weight:500;
+        transition:0.3s;
+        }
+
+        .faq-question:hover{
+        background:#00c3ff;
+        }
+
+        .icon{
+        font-size:20px;
+        color:black;
+        transition:0.3s;
+        }
+
+        .faq-answer{
+        max-height:0;
+        overflow:hidden;
+        padding:0 25px;
+        color:#555;
+        line-height:1.6;
+        transition:max-height 0.4s ease;
+        background:whitesmoke;
+        }
+
+        .faq-answer p{
+        margin:15px 0;
+        color:#000;
+        }
+
+        .faq-item.active .faq-answer{
+        padding:15px 25px;
+        }
+
+                
 
         /* Dark Mode Toggle */
 
@@ -514,32 +568,64 @@
         </div>
     </section>
 
-    <section id="faq" class="section">
-        <h2 class="section-title">Expert Support</h2>
-        <div class="grid" style="grid-template-columns: 2fr 1fr;">
-            <div>
-                <details>
-                    <summary>How is the interest rate calculated?</summary>
-                    <p>We use a daily reducing balance method, ensuring you pay interest only on the outstanding principal.</p>
-                </details>
-                <details>
-                    <summary>Can I increase my loan limit mid-tenure?</summary>
-                    <p>Yes, through our 'Top-Up' facility available for users with a credit score above 750.</p>
-                </details>
-                 <details>
-                    <summary>How is the interest rate calculated?</summary>
-                    <p>We use a daily reducing balance method, ensuring you pay interest only on the outstanding principal.</p>
-                </details>
-                <details>
-                    <summary>Can I increase my loan limit mid-tenure?</summary>
-                    <p>Yes, through our 'Top-Up' facility available for users with a credit score above 750.</p>
-                </details>
+    
+    <section class="faq-section">
+        <h2 class="faq-heading">Frequently Asked Questions (FAQs)👇</h2>
+        <div class="faq-box">
+            <div class="faq-item">
+            <button class="faq-question">
+               How is the interest rate calculated?
+                <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+               We use a daily reducing balance method, ensuring you pay interest only on the outstanding principal.
             </div>
-            <div class="card" style="background: var(--accent); color: white;">
-                <h3>Need Help?</h3>
-                <p>Our loan experts are available 24/7.</p>
-                <h2 style="color:var(--gold)">1800-NEXUS-LOAN</h2>
+        </div>
+
+        <div class="faq-item">
+        <button class="faq-question">
+          Can I increase my loan limit mid-tenure? 
+            <span class="icon">+</span>
+        </button>
+
+        <div class="faq-answer">
+            Yes, through our 'Top-Up' facility available for users with a credit score above 750.
+        </div>
+        </div>
+
+
+        <div class="faq-item">
+            <button class="faq-question">
+               How is the interest rate calculated?
+                <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+                Any customer with a valid bank account and registered mobile number can activate internet banking.
             </div>
+        </div>
+
+
+        <div class="faq-item">
+            <button class="faq-question">
+                What are the features and benefits?
+                <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+                Balance enquiry, fund transfer, bill payment, card management and many more banking services.
+            </div>
+        </div>
+
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How do I get access to Internet Banking?
+            <span class="icon">+</span>
+            </button>
+
+            <div class="faq-answer">
+                You can create or open account through the bank website or visit the nearest branch.
+            </div>
+        </div>
         </div>
     </section>
 

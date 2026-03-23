@@ -16,7 +16,7 @@ function initSidebarToggle() {
 }
 
 // ── DARK MODE ─────────────────────────────────────────────────
-let balanceChart, statusChart, trendsChart;
+let trendsChart, regChart;
 
 function toggleModeAdmin() {
   document.body.classList.toggle('dark-mode');
@@ -50,78 +50,6 @@ function logout() {
 }
 
 // ── CHARTS ────────────────────────────────────────────────────
-function createBalanceChart(users) {
-  const isDark  = document.body.classList.contains('dark-mode');
-  const colors  = getChartColors(isDark);
-  const ctx     = document.getElementById('balanceChart').getContext('2d');
-
-  if(balanceChart) balanceChart.destroy();
-  balanceChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: users.map(u => u.fullName),
-      datasets: [{
-        data: users.map(u => u.balance),
-        backgroundColor: [
-          '#3b82f6','#10b981','#f59e0b',
-          '#ef4444','#8b5cf6','#06b6d4',
-          '#ec4899','#84cc16'
-        ],
-        borderColor:  colors.background,
-        borderWidth:  3
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: {
-          labels: { color: colors.text, font: { size: 12 } }
-        }
-      }
-    }
-  });
-}
-
-function createStatusChart(activeCount, lockedCount) {
-  const isDark = document.body.classList.contains('dark-mode');
-  const colors = getChartColors(isDark);
-  const ctx    = document.getElementById('statusChart').getContext('2d');
-
-  if(statusChart) statusChart.destroy();
-  statusChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Active', 'Locked'],
-      datasets: [{
-        label: 'Users',
-        data:  [activeCount, lockedCount],
-        backgroundColor: ['#10b981', '#ef4444'],
-        borderColor:     colors.border,
-        borderWidth:     1
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: { labels: { color: colors.text } }
-      },
-      scales: {
-        x: {
-          ticks: { color: colors.text },
-          grid:  { color: colors.border }
-        },
-        y: {
-          ticks: { color: colors.text },
-          grid:  { color: colors.border }
-        }
-      }
-    }
-  });
-}
-
 function createTrendsChart() {
   const isDark = document.body.classList.contains('dark-mode');
   const colors = getChartColors(isDark);
@@ -140,10 +68,10 @@ function createTrendsChart() {
         data:  volume,
         borderColor:     '#3b82f6',
         backgroundColor: 'rgba(59,130,246,0.1)',
-        borderWidth:  3,
+        borderWidth:  2,
         fill:         true,
-        tension:      0.4,
-        pointRadius:  5,
+        tension:      0.35,
+        pointRadius:  3,
         pointBackgroundColor: '#3b82f6',
         pointBorderColor:     colors.background,
         pointBorderWidth:     2
@@ -151,9 +79,9 @@ function createTrendsChart() {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: colors.text } }
+        legend: { display: false }
       },
       scales: {
         y: {
@@ -172,11 +100,80 @@ function createTrendsChart() {
   });
 }
 
+function getLastMonths(count) {
+  const months = [];
+  const now = new Date();
+  for(let i = count - 1; i >= 0; i--){
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const label = d.toLocaleString('en-IN', { month: 'short' });
+    months.push({ key, label, year: d.getFullYear(), month: d.getMonth() });
+  }
+  return months;
+}
+
+function createRegistrationsChart(users) {
+  const isDark = document.body.classList.contains('dark-mode');
+  const colors = getChartColors(isDark);
+  const ctx    = document.getElementById('regChart').getContext('2d');
+
+  const months = getLastMonths(6);
+  const countsByKey = new Map(months.map(m => [m.key, 0]));
+
+  (Array.isArray(users) ? users : []).forEach(u => {
+    if(!u || !u.createdAt) return;
+    const dt = new Date(u.createdAt);
+    if(Number.isNaN(dt.getTime())) return;
+    const key = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}`;
+    if(countsByKey.has(key)){
+      countsByKey.set(key, countsByKey.get(key) + 1);
+    }
+  });
+
+  const labels = months.map(m => m.label);
+  const data = months.map(m => countsByKey.get(m.key) || 0);
+
+  if(regChart) regChart.destroy();
+  regChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Registrations',
+        data,
+        backgroundColor: 'rgba(16,185,129,0.6)',
+        borderColor: '#10b981',
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          ticks: { color: colors.text },
+          grid:  { color: colors.border }
+        },
+        y: {
+          ticks: { color: colors.text, precision: 0 },
+          grid:  { color: colors.border },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
 function updateChartsTheme(isDarkMode) {
   const colors = getChartColors(isDarkMode);
-  [balanceChart, statusChart, trendsChart].forEach(chart => {
+  [trendsChart, regChart].forEach(chart => {
     if(chart){
-      chart.options.plugins.legend.labels.color = colors.text;
+      const legend = chart.options && chart.options.plugins && chart.options.plugins.legend;
+      if(legend && legend.labels) legend.labels.color = colors.text;
       if(chart.options.scales){
         Object.values(chart.options.scales).forEach(scale => {
           if(scale.ticks) scale.ticks.color = colors.text;
@@ -247,10 +244,13 @@ function populateAdminData(stats, users) {
     tbody.appendChild(tr);
   });
 
-  // Charts
-  createBalanceChart(users);
-  createStatusChart(stats.activeUsers, stats.lockedUsers);
-  createTrendsChart();
+  // Charts (keep the UI compact and professional)
+  if (typeof window.Chart === 'function') {
+    createTrendsChart();
+    createRegistrationsChart(users);
+  } else {
+    showChartsUnavailableNote();
+  }
 }
 
 // ── VIEW USER ─────────────────────────────────────────────────
@@ -415,12 +415,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const modeToggle = document.getElementById('modeToggleAdmin');
   if (modeToggle) modeToggle.addEventListener('click', toggleModeAdmin);
 
-  try {
-    populateAdminData(dummyUsers);
-  } catch (e) {
-    console.error(e);
-    showChartsUnavailableNote();
-  }
+  loadAdminData();
 });
 
 function showChartsUnavailableNote() {

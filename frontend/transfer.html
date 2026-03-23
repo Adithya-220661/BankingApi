@@ -39,77 +39,85 @@
       <button id="modeToggle">🌙 Dark Mode</button>
     </header>
 
-    <!-- Current Balance -->
-    <div class="balance-info">
-      <span>💰 Your Current Balance</span>
-      <strong id="currentBalance">Loading...</strong>
-    </div>
-
-    <!-- Transfer Form -->
-    <div class="transfer-wrapper">
-      <h2>💳 Transfer Money</h2>
-
-      <form id="transferForm">
-
-        <!-- Account Number -->
-        <div class="form-group">
-          <label>👤 Receiver Account Number *</label>
-          <input type="text" id="receiverAccount"
-                 placeholder="Enter account number"
-                 maxlength="16" required>
-          <span class="form-help">
-            10 to 16 characters (letters and numbers allowed)
-          </span>
+    <div class="transfer-container">
+      <!-- Transfer Form -->
+      <section class="transfer-card" aria-label="Send money form">
+        <div class="transfer-header">
+          <h2>💳 Transfer Money</h2>
+          <p class="transfer-subtitle">Fast, secure and simple money transfers</p>
+          <div class="transfer-balance-row" aria-live="polite">
+            <span>💰 Current Balance</span>
+            <strong id="currentBalance">Loading...</strong>
+          </div>
         </div>
 
-        <!-- Receiver Name -->
-        <div class="form-group">
-          <label>📋 Receiver Name</label>
-          <input type="text" id="receiverName"
-                 placeholder="Full name of recipient">
-          <span class="form-help">Optional</span>
-        </div>
+        <form id="transferForm" class="transfer-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="receiverAccount">👤 Receiver Account Number *</label>
+              <input type="text" id="receiverAccount"
+                     placeholder="Enter account number"
+                     maxlength="16" required>
+              <span class="form-help">10 to 16 characters (letters and numbers allowed)</span>
+            </div>
 
-        <!-- Amount -->
-        <div class="form-group">
-          <label>💰 Amount *</label>
-          <input type="number" id="amount"
-                 placeholder="Enter amount"
-                 min="1" step="1" required>
-          <span class="form-help">Maximum: ₹5,00,000</span>
-        </div>
+            <div class="form-group">
+              <label for="receiverName">📋 Receiver Name</label>
+              <input type="text" id="receiverName"
+                     placeholder="Full name of recipient">
+              <span class="form-help">Optional</span>
+            </div>
+          </div>
 
-        <!-- Transfer Type -->
-        <div class="form-group">
-          <label>📊 Transfer Type</label>
-          <select id="transferType">
-            <option value="instant">Instant (NEFT)</option>
-            <option value="normal">Normal (RTGS)</option>
-            <option value="bulk">Bulk Transfer</option>
-          </select>
-        </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="amount">💰 Amount *</label>
+              <input type="number" id="amount"
+                     placeholder="Enter amount"
+                     min="1" step="1" required>
+              <span class="form-help">Maximum: ₹5,00,000</span>
+            </div>
 
-        <!-- Remark -->
-        <div class="form-group">
-          <label>📝 Remark / Purpose</label>
-          <textarea id="remark"
-                    placeholder="Enter purpose or message (optional)"
-                    rows="3" maxlength="100"></textarea>
-          <span class="form-help">Max 100 characters</span>
-        </div>
+            <div class="form-group">
+              <label for="transferType">📊 Transfer Type</label>
+              <select id="transferType">
+                <option value="instant">Instant (NEFT)</option>
+                <option value="normal">Normal (RTGS)</option>
+                <option value="bulk">Bulk Transfer</option>
+              </select>
+              <span class="form-help">Choose speed based on your need</span>
+            </div>
+          </div>
 
-        <!-- PIN -->
-        <div class="form-group">
-          <label>🔐 Your PIN *</label>
-          <input type="password" id="confirmPin"
-                 placeholder="Enter your 4-digit PIN"
-                 maxlength="4" required>
-          <span class="form-help">
-            Enter your login PIN to authorize this transfer
-          </span>
-        </div>
+          <div class="form-group">
+            <label for="remark">📝 Remark / Purpose</label>
+            <textarea id="remark"
+                      placeholder="Enter purpose or message (optional)"
+                      rows="3" maxlength="100"></textarea>
+            <span class="form-help">Max 100 characters</span>
+          </div>
 
-        <!-- Transfer Summary -->
+          <div class="form-group">
+            <label for="confirmPin">🔐 Your PIN *</label>
+            <input type="password" id="confirmPin"
+                   placeholder="Enter your 4-digit PIN"
+                   maxlength="4" required>
+            <span class="form-help">Enter your login PIN to authorize this transfer</span>
+          </div>
+
+          <div class="transfer-actions">
+            <button type="submit" class="transfer-btn" id="transferBtn">
+              💸 Send Money Now
+            </button>
+            <a href="dashboard.html" class="transfer-btn-secondary">
+              ← Back to Dashboard
+            </a>
+          </div>
+        </form>
+      </section>
+
+      <!-- Summary + Recent Recipients -->
+      <aside class="transfer-quick-access" aria-label="Transfer summary and recent recipients">
         <div class="transfer-summary">
           <h3>📌 Transfer Summary</h3>
           <div class="summary-item">
@@ -126,35 +134,16 @@
           </div>
         </div>
 
-        <!-- Buttons -->
-        <button type="submit" class="transfer-btn" id="transferBtn">
-          💸 Send Money Now
-        </button>
-        <a href="dashboard.html" class="back-btn">
-          ← Go Back to Dashboard
-        </a>
-
-      </form>
-    </div>
-
-    <!-- Recent Recipients -->
-    <div class="recent-section">
-      <h3>⭐ Recent Recipients</h3>
-      <div id="recentRecipients">
-        <p style="color:#64748b; font-size:14px; text-align:center;">
-          No recent recipients yet
-        </p>
-      </div>
+        <h3 style="margin-top: 16px;">⭐ Recent Recipients</h3>
+        <div id="recentRecipients" class="recipient-list">
+          <p style="color:#64748b; font-size:14px; text-align:center;">
+            No recent recipients yet
+          </p>
+        </div>
+      </aside>
     </div>
   </div>
-  <script src="js/tansfer.js">
-    window.addEventListener('DOMContentLoaded', () => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const adminLink = document.getElementById('adminLink');
-    if(adminLink && user.role === 'admin'){
-        adminLink.style.display = 'flex';
-    }
-  });
-  </script>
+
+  <script src="js/tansfer.js"></script>
 </body>
 </html>

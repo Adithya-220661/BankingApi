@@ -536,6 +536,9 @@ body.dark-mode header.page-header button:hover {
   font-weight: 700;
   letter-spacing: -1px;
 }
+.account-card .balance-actions {
+  margin-top: 12px;
+}
 .stat-card {
   background: var(--surface);
   color: var(--text);
@@ -682,6 +685,199 @@ body.dark-mode .action-btn {
 body.dark-mode .action-btn:hover {
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34), 0 0 28px rgba(0, 195, 255, 0.22);
   background: linear-gradient(135deg, rgba(0, 195, 255, 0.95) 0%, #0b3a7a 55%, var(--primary) 110%);
+}
+
+
+.ekyc-banner {
+  margin-top: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ekyc-banner__text h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.ekyc-banner__text p {
+  margin: 6px 0 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+.ekyc-banner__btn {
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.ekyc-container {
+  width: 100%;
+  max-width: 820px;
+  margin: 24px auto;
+}
+.ekyc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+.ekyc-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.ekyc-subtitle {
+  margin: 6px 0 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.ekyc-camera {
+  margin-top: 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 10px 28px rgba(10, 31, 68, 0.08);
+}
+.ekyc-video-wrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  /* Default look matches dashboard dark (navy) */
+  background: linear-gradient(135deg, #071124 0%, #0b1f3a 62%, rgba(0, 195, 255, 0.14) 140%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ekyc-video-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 195, 255, 0.18), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.12), transparent 55%),
+    radial-gradient(circle at 50% 90%, rgba(230, 240, 255, 0.06), transparent 55%);
+  pointer-events: none;
+}
+.ekyc-video-wrap::after {
+  content: 'Camera preview will appear here';
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(7, 17, 36, 0.55);
+  border: 1px solid rgba(230, 240, 255, 0.12);
+  color: rgba(230, 240, 255, 0.92);
+  font-size: 0.85rem;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+body.dark-mode .ekyc-video-wrap {
+  background: linear-gradient(135deg, rgba(0, 195, 255, 0.12) 0%, rgba(7, 17, 36, 0.85) 65%, rgba(212, 175, 55, 0.08) 140%);
+}
+body.dark-mode .ekyc-video-wrap::after {
+  background: rgba(7, 17, 36, 0.58);
+  border-color: rgba(230, 240, 255, 0.12);
+  color: var(--text);
+}
+.ekyc-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+.ekyc-scan-circle {
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  border: 4px solid rgba(0, 195, 255, 0.95);
+  border-radius: 50%;
+  transition: all 0.5s ease;
+  box-shadow: 0 0 18px rgba(0, 195, 255, 0.28);
+  pointer-events: none;
+}
+.ekyc-scan-circle.detected {
+  border-color: #10b981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
+}
+.ekyc-status {
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.ekyc-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ekyc-action-btn {
+  padding: 12px 18px;
+}
+.ekyc-action-btn--ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  box-shadow: none;
+}
+.ekyc-action-btn--ghost::before {
+  display: none;
+}
+.ekyc-action-btn--ghost:hover {
+  background: rgba(0, 195, 255, 0.08);
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+.ekyc-action-btn--success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 55%, #047857 120%);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+}
+.ekyc-action-btn--success:hover {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 55%, #059669 120%);
+  box-shadow: 0 14px 34px rgba(16, 185, 129, 0.28);
+}
+.ekyc-action-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.ekyc-footnote {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 768px) {
+  .ekyc-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ekyc-banner__btn {
+    width: 100%;
+    text-align: center;
+  }
+  .ekyc-video-wrap {
+    height: 240px;
+  }
+  .ekyc-scan-circle {
+    width: 150px;
+    height: 150px;
+  }
 }
 
 
@@ -1147,10 +1343,39 @@ body.sidebar-open .main {
   font-size: 0.85rem;
   color: var(--muted);
 }
+.transfer-balance-row {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 195, 255, 0.06);
+  border: 1px solid rgba(0, 195, 255, 0.18);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+body.dark-mode .transfer-balance-row {
+  background: rgba(0, 195, 255, 0.08);
+  border-color: rgba(0, 195, 255, 0.14);
+}
 .transfer-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+.transfer-actions {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+.transfer-actions .transfer-btn {
+  flex: 1;
+}
+.transfer-actions .transfer-btn-secondary {
+  flex: 1;
+  margin-top: 0;
 }
 .form-group {
   display: flex;
@@ -1466,6 +1691,15 @@ body.dark-mode .quick-transfer-btn:hover {
   .action-btn {
     width: 100%;
     text-align: center;
+  }
+  .transfer-container {
+    grid-template-columns: 1fr;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .transfer-actions {
+    flex-direction: column;
   }
   .chart-container {
     flex-direction: column;

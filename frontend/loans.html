@@ -42,7 +42,7 @@
             top: 0; 
             left: 0; 
             width:100%; 
-            height:40px; 
+            height:5px; 
             z-index:200;
 
         }
@@ -52,27 +52,32 @@
             background: var(--gold); 
         }
 
-        .navbar {
-            background:#002970;
-            padding: 15px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items:center;
-            position: sticky; 
-            top:0px; 
-            z-index:200;
-            height:90px;
-        }
-        .logo-img { 
-            height: 45px; 
-            filter: brightness(0) invert(1); 
-        }
-        .nav-links a { 
-            color: white; 
-            text-decoration: none; 
-            margin: 0 15px; 
-            font-weight: 700; 
-        }
+        .navbar{
+background:#002970;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:1px 20px;
+align-items:center;
+}
+
+.nav-links a{
+margin:0 15px;
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+.login{
+background:#ffcc00;
+padding:8px 18px;
+border-radius:6px;
+color:black;
+}
+.logo-img{
+height:50px;
+opacity:0.85;   /* reduce brightness */
+}
         .nav-links a:hover { 
             color:#7fbbfa;
         }
@@ -300,7 +305,7 @@
 
          .section1 { 
             padding: 40px 8%;  
-            background: ;  
+              
         }
         .section1-title { 
             font-size:50px; 
@@ -434,17 +439,22 @@
 
     <div class="theme-toggle" onclick="toggleMode()"><i class="fas fa-moon"></i></div>
 
-    <nav class="navbar">
-        <div class="logo"><img src="css/newbanklogo3.png" class="logo-img"></div>
-        <div class="nav-links">
-            <a href="#top">Home</a>
-            <a href="#compare">Loans</a>
-            <a href="#com">Compare</a>
-            <a href="#emi">Calculator</a>
-            <a href="#faq">Support</a>
-            <button class="login-btn">Online Banking <i class="fas fa-lock"></i></button>
-        </div>
-    </nav>
+
+    <div class="navbar">
+    <div class="logo">
+    <img src="css/newbanklogo3.png" alt="Horizon Bank Logo" class="logo-img">
+</div>
+
+<div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#tloans">Loans</a>
+            <a href="#compare">Compare</a>
+            <a href="#">Calculator</a>
+            <a href="index.html">Login<i class="fas fa-lock"></i></a>
+</div>
+
+</div>
+    
 
     <header class="hero2">
         <div class="hero-content2">
@@ -462,7 +472,7 @@
         </div>
     </header>
 
-    <section class="loan-types section">
+    <section class="loan-types section" id="tloans">
         <h1 class="section-title"> Types of Loans</h1>
 
         <div class="loan-grid">

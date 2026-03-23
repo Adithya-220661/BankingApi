@@ -17,12 +17,13 @@ body {
 }
 
 .registration-container {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    padding: 40px;
+    padding: 20px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     width:500px;
+    
   
     transition: all 0.5s ease-in-out;
 }
@@ -32,7 +33,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 .step {
@@ -64,7 +65,7 @@ body {
 .form-step {
     display: none;
     animation: slideIn 0.6s forwards;
-    margin-top:30px;
+    margin-top:10px;
     
 }
 
@@ -101,8 +102,8 @@ body {
     font-weight: bold;
     border: 2px solid white;
     border-radius: 12px;
-    background:white
-    transition: all 0.3s ease;
+    background:white;
+    transition:all 0.3s ease;
 }
 
 .otp-box:focus {
@@ -175,16 +176,19 @@ body {
     padding: 10px 5px;
     color: white;
     outline: none;
+    font-weight:115px;
     transition: 0.3s;
 }
 
 /* Remove blue glow/box effect on click */
 .input-wrap input:focus {
     border-bottom: 2px solid white;
+    
 }
 
 .input-wrap input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.95);
+    font-size:14px;
 }
 
 /* Error Message Styling */
@@ -258,7 +262,7 @@ body {
 }
 /* Container Spacing & Padding */
 .kyc-wrapper {
-    margin: 20px auto; /* Margin above and below */
+    margin: 10px auto; /* Margin above and below */
     padding: 10px;    /* Reduced padding */
     max-width: 480px; /* Smaller box size */
 }
@@ -273,7 +277,7 @@ body {
 .video-canvas {
     position: relative;
     width: 100%;
-    height: 250px; /* Smaller height */
+    height: 200px; /* Smaller height */
     background: #eee; /* Light background instead of black */
     display: flex;
     justify-content: center;

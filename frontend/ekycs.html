@@ -1,0 +1,171 @@
+<html>
+    <head>
+<link rel="stylesheet" href="css/style1.css">
+    </head>
+    <body>
+        <div class="main">
+  
+  <header class="page-header">
+    <h1>eKYC Management</h1>
+  </header>
+
+  <div class="transfer-container">
+
+    <!-- LEFT: FORM -->
+    <div class="transfer-card">
+
+      <div class="transfer-header">
+        <h2>Update KYC Details</h2>
+        <p class="transfer-subtitle">Modify user verification details securely</p>
+      </div>
+
+      <form class="transfer-form">
+
+        <!-- Phone -->
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" placeholder="+91XXXXXXXXXX">
+          <small class="form-help">Enter new mobile number</small>
+        </div>
+
+        <!-- Aadhaar -->
+        <div class="form-group">
+          <label>Account Name</label>
+          <input type="text" placeholder="XXXX XXXX XXXX">
+          <small class="form-help">Enter valid name</small>
+        </div>
+
+        <!-- PAN -->
+        <div class="form-group">
+          <label>PAN Number</label>
+          <input type="text" placeholder="ABCDE1234F">
+          <small class="form-help">Enter valid PAN ID</small>
+        </div>
+
+      <div class="form-group">
+    <label for="stateSelect">Choose your state:</label>
+    <select name="state" id="stateSelect" onchange="updateDistricts()">
+        <option value="" disabled selected>Select State</option>
+        <option value="AP">Andhra Pradesh</option>
+        <option value="TS">Telangana</option>
+        <option value="TN">Tamil Nadu</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="districtSelect">Choose your district:</label>
+    <select name="district" id="districtSelect">
+        <option value="">Please select a state first</option>
+    </select>
+</div>
+
+        <div class=""form-group">
+       <label for="cars">Choose the type of account:</label>
+        <select name="cars" id="cars">
+        <option value="" disabled selected>-- Select the type of account --</option>
+        <option value="volvo">Savings</option>
+        <option value="saab">Current</option>
+        <option value="mercedes">Corporate</option>
+        </select>
+        </div>
+
+
+        <!-- Reason -->
+        <div class="form-group">
+          <label>Reason for Update</label>
+          <textarea placeholder="Enter reason..."></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button class="transfer-btn" type="submit">
+          Update KYC
+        </button>
+
+      </form>
+    </div>
+
+
+    <!-- RIGHT: SUMMARY / INFO -->
+    <div class="transfer-quick-access">
+
+      <h3>KYC Info</h3>
+
+      <div class="recipient-list">
+
+        <div class="recipient-item">
+          <div class="recipient-avatar">📱</div>
+          <div class="recipient-info">
+            <strong>Phone</strong>
+            <small>Used for OTP verification</small>
+          </div>
+        </div>
+
+        <div class="recipient-item">
+          <div class="recipient-avatar">🆔</div>
+          <div class="recipient-info">
+            <strong>Aadhaar</strong>
+            <small>Government identity proof</small>
+          </div>
+        </div>
+
+        <div class="recipient-item">
+          <div class="recipient-avatar">💳</div>
+          <div class="recipient-info">
+            <strong>PAN</strong>
+            <small>Tax identification</small>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function updateDistricts() {
+    const stateSelect = document.getElementById("stateSelect");
+    const districtSelect = document.getElementById("districtSelect");
+    
+    // Data mapping for districts
+    const districtData = {
+        "AP": [
+            "Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", 
+            "Krishna", "Kurnool", "Nellore", "Prakasam", "Srikakulam", 
+            "Visakhapatnam", "Vizianagaram", "West Godavari"
+        ],
+        "TS": [
+            "Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Nalgonda"
+        ],
+        "TN": [
+            "Chennai", "Coimbatore", "Madurai", "Salem", "Trichy"
+        ]
+    };
+
+    const selectedState = stateSelect.value;
+
+    // 1. Clear previous options
+    districtSelect.innerHTML = "";
+
+    // 2. Add a default "Select District" option
+    let defaultOption = document.createElement("option");
+    defaultOption.text = "Select District";
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    districtSelect.add(defaultOption);
+
+    // 3. If the selected state exists in our data, loop through and add districts
+    if (districtData[selectedState]) {
+        districtData[selectedState].forEach(function(district) {
+            let option = document.createElement("option");
+            option.value = district.toLowerCase();
+            option.text = district;
+            districtSelect.add(option);
+        });
+    }
+}
+</script>
+    </body>
+</html>

@@ -18,5 +18,5 @@ which include major updates to the pages.
 
 week4:
 A major updates were discussed to make the registration and more securable.A cooling period of 3 min was introduced to mark basic fraud 
-flag forthe respective users.It was introduced in login page.Some graphics and animations were added to make the api more attractive.
+flag forthe respective users.It was introduced in login page.Some graphics and animations were added to make the api more attractive.Ekyc page is added to edit the deatils of the users and planned to make some edits in dashboard ui.Discussed to initiate role based access to the users.
 

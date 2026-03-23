@@ -261,29 +261,110 @@ async function viewDetails(id) {
   }
 }
 
-// ── EXPORT CSV ────────────────────────────────────────────────
+// ── EXPORT PDF (via Print dialog) ─────────────────────────────
 function exportHistory() {
   if(allTransactions.length === 0){
     alert('No transactions to export.');
     return;
   }
 
-  let csv = 'Date,Type,Description,Amount,Balance After,Status\n';
-  allTransactions.forEach(txn => {
+  const dateStr = new Date().toISOString().split('T')[0];
+  const user = (() => {
+    try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; }
+  })();
+
+  const win = window.open('', '_blank');
+  if(!win){
+    alert('Pop-up blocked. Please allow pop-ups to export PDF.');
+    return;
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  const rowsHtml = allTransactions.map(txn => {
     const isCredit = txn.type === 'deposit' || txn.type === 'transfer_received';
     const sign     = isCredit ? '+' : '-';
     const date     = new Date(txn.createdAt).toLocaleString('en-IN');
-    csv += `"${date}","${getTypeLabel(txn.type)}","${txn.description || txn.type}","${sign}₹${txn.amount}","₹${txn.balanceAfter}","${txn.status}"\n`;
-  });
 
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const link = document.createElement('a');
-  link.href  = URL.createObjectURL(blob);
-  link.setAttribute('download', `transactions_${new Date().toISOString().split('T')[0]}.csv`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  alert('✅ Transactions exported successfully!');
+    const amountNumber = Number(txn.amount);
+    const balanceAfterNumber = Number(txn.balanceAfter);
+
+    const amountText = `${sign}₹${(Number.isFinite(amountNumber) ? amountNumber : 0).toLocaleString()}`;
+    const balanceAfterText = `₹${(Number.isFinite(balanceAfterNumber) ? balanceAfterNumber : 0).toLocaleString()}`;
+
+    return `
+      <tr>
+        <td>${escapeHtml(date)}</td>
+        <td>${escapeHtml(getTypeLabel(txn.type))}</td>
+        <td>${escapeHtml(txn.description || txn.type)}</td>
+        <td class="right">${escapeHtml(amountText)}</td>
+        <td class="right">${escapeHtml(balanceAfterText)}</td>
+        <td>${escapeHtml(txn.status)}</td>
+      </tr>
+    `;
+  }).join('');
+
+  const title = `transactions_${dateStr}`;
+  const generatedAt = new Date().toLocaleString('en-IN');
+  const accountNumber = user && user.accountNumber ? String(user.accountNumber) : '';
+  const customerName = user && user.fullName ? String(user.fullName) : 'Customer';
+
+  win.document.open();
+  win.document.write(`
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>${escapeHtml(title)}</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 24px; color: #0f172a; }
+          h1 { margin: 0 0 6px 0; font-size: 20px; }
+          .meta { margin-bottom: 16px; color: #475569; font-size: 12px; }
+          .meta div { margin: 2px 0; }
+          table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+          th, td { border: 1px solid #e2e8f0; padding: 8px; font-size: 12px; vertical-align: top; }
+          th { background: #f1f5f9; text-align: left; }
+          .right { text-align: right; white-space: nowrap; }
+          @media print { body { padding: 0; } }
+        </style>
+      </head>
+      <body>
+        <h1>Transaction History</h1>
+        <div class="meta">
+          <div><strong>Generated:</strong> ${escapeHtml(generatedAt)}</div>
+          <div><strong>Name:</strong> ${escapeHtml(customerName)}</div>
+          ${accountNumber ? `<div><strong>Account:</strong> ${escapeHtml(accountNumber)}</div>` : ''}
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Date & Time</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th class="right">Amount</th>
+              <th class="right">Balance After</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `);
+  win.document.close();
+
+  win.focus();
+  win.print();
 }
 
 // ── SHOW EMPTY MESSAGE ────────────────────────────────────────

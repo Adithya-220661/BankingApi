@@ -1,3 +1,4 @@
+// this is new file for cookie box setup
 (function () {
   const STORAGE_KEY = "hb_cookie_consent_v1";
   const COOKIE_NAME = "hb_cookie_consent";

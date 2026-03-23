@@ -199,15 +199,50 @@ function populateUserData(user, transactions) {
   document.getElementById('welcomeHeader').textContent = 
     `Welcome, ${user.fullName}`;
 
-  
+  const container = document.getElementById('statsContainer');
+  container.innerHTML = '';
+
+  const balanceNumber = Number(user && user.balance);
+  const safeBalance = Number.isFinite(balanceNumber) ? balanceNumber : 0;
+  const formattedBalance = `₹${safeBalance.toLocaleString()}`;
+
+  // Account Balance (hidden by default; reveal only after clicking "Check Balance")
+  const balanceCard = document.createElement('div');
+  balanceCard.className = 'account-card';
+  balanceCard.innerHTML = `
+    <h3>💰 Account Balance</h3>
+    <h1 id="accountBalanceValue" data-visible="false">₹••••••</h1>
+    <div class="balance-actions">
+      <button type="button" id="toggleBalanceBtn" class="action-btn-small" aria-pressed="false">Check Balance</button>
+    </div>
+  `;
+  container.appendChild(balanceCard);
+
+  const balanceValueEl = balanceCard.querySelector('#accountBalanceValue');
+  const toggleBalanceBtn = balanceCard.querySelector('#toggleBalanceBtn');
+
+  function setBalanceVisible(visible) {
+    if(!balanceValueEl || !toggleBalanceBtn) return;
+    balanceValueEl.setAttribute('data-visible', visible ? 'true' : 'false');
+    balanceValueEl.textContent = visible ? formattedBalance : '₹••••••';
+    toggleBalanceBtn.textContent = visible ? 'Hide Balance' : 'Check Balance';
+    toggleBalanceBtn.setAttribute('aria-pressed', visible ? 'true' : 'false');
+  }
+
+  // Ensure initial state is hidden after every login/page load.
+  setBalanceVisible(false);
+
+  if(toggleBalanceBtn) {
+    toggleBalanceBtn.addEventListener('click', () => {
+      const isVisible = balanceValueEl && balanceValueEl.getAttribute('data-visible') === 'true';
+      setBalanceVisible(!isVisible);
+    });
+  }
+
   const stats = [
-    { label: 'Account Balance',  value: `₹${user.balance.toLocaleString()}`, icon: '💰' },
     { label: 'Account Number',   value: user.accountNumber,                   icon: '🏦' },
     { label: 'Status',           value: user.isActive ? 'Active' : 'Locked',  icon: '✅' },
   ];
-
-  const container = document.getElementById('statsContainer');
-  container.innerHTML = '';
 
   stats.forEach(s => {
     const card = document.createElement('div');

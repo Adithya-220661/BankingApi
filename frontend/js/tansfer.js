@@ -54,10 +54,48 @@ async function loadBalance() {
   }
 }
 
+const RTGS_MIN_AMOUNT = 200000; // ₹2,00,000
+const NEFT_FEE = 10; // ₹10
+
+function enforceTransferTypeRules(amount) {
+  const transferType = document.getElementById('transferType');
+  if(!transferType) return;
+
+  const neftOption = transferType.querySelector('option[value="instant"]');
+  const bulkOption = transferType.querySelector('option[value="bulk"]');
+  const help = document.getElementById('transferTypeHelp');
+  const rtgsRequired = amount >= RTGS_MIN_AMOUNT;
+
+  if(neftOption){
+    neftOption.disabled = rtgsRequired;
+  }
+  if(bulkOption){
+    bulkOption.disabled = rtgsRequired;
+  }
+
+  if(rtgsRequired){
+    transferType.value = 'normal';
+    if(help){
+      help.textContent = '₹2,00,000 and above requires RTGS.';
+    }
+  } else {
+    if(help){
+      help.textContent = 'Choose speed based on your need';
+    }
+  }
+}
+
+function calculateTransferFee(amount) {
+  const transferType = document.getElementById('transferType')?.value;
+  if(!amount || amount <= 0) return 0;
+  return transferType === 'instant' ? NEFT_FEE : 0;
+}
+
 // ── UPDATE TRANSFER SUMMARY ───────────────────────────────────
 function updateSummary() {
   const amount = parseFloat(document.getElementById('amount').value) || 0;
-  const fee    = amount > 100000 ? 50 : 0;
+  enforceTransferTypeRules(amount);
+  const fee    = calculateTransferFee(amount);
   const total  = amount + fee;
 
   document.getElementById('summaryAmount').textContent =
@@ -182,8 +220,10 @@ async function handleTransfer(e) {
     return;
   }
 
+  enforceTransferTypeRules(amount);
+
   // ── Confirm popup ─────────────────────────────────────────
-  const fee   = amount > 100000 ? 50 : 0;
+  const fee   = calculateTransferFee(amount);
   const total = amount + fee;
 
   const confirmMsg =

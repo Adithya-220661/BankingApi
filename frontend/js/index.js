@@ -13,21 +13,9 @@ function changeFontSize(action) {
 }
 
 function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode-active");
-    if (document.body.classList.contains("dark-mode-active")) {
-        document.body.style.background = "#000000";
-        document.body.style.color      = "#ffffff";
-        document.querySelector(".bank-navbar").style.background = "#ffffff";
-    } else {
-        document.body.style.background = "";
-        document.body.style.color      = "";
-        document.querySelector(".bank-navbar").style.background = "#ffffff";
-    }
+    document.body.classList.toggle("dark-mode");
 }
 
-// ═══════════════════════════════════════════════════
-//  MODAL OPEN / CLOSE
-// ═══════════════════════════════════════════════════
 function openLogin() {
     document.getElementById("loginModal").style.display = "flex";
 }
@@ -423,3 +411,77 @@ window.addEventListener("load", function () {
         if (splash) splash.style.display = "none";
     }, 4000);
 });
+
+let allNotifications = [
+    "📢 New Home Loan starting at 8.5% interest",
+    "💳 Apply for Credit Card & get ₹500 cashback",
+    "🏦 Open Savings Account in 5 minutes",
+    "🎉 Festive offer: Zero processing fee on loans",
+    "📊 Invest in Mutual Funds easily",
+    "🔐 Stay safe: Never share your OTP with anyone",
+    "📱 Download our Mobile Banking App today",
+    "💡 Tip: Enable 2FA for better security",
+    "🌟 Premium Banking services now available",
+    "🚀 Instant Personal Loans up to ₹5 Lakhs"
+];
+
+let usedNotifications = [];
+let count = 0;
+
+/* LOAD */
+function loadNotifications() {
+    const list = document.getElementById("notifList");
+    const badge = document.getElementById("notifCount");
+
+    list.innerHTML = "";
+
+    usedNotifications.forEach(msg => {
+        let li = document.createElement("li");
+        li.textContent = msg;
+        list.appendChild(li);
+    });
+
+    badge.textContent = count;
+}
+
+/* TOGGLE */
+function toggleNotifications() {
+    let box = document.getElementById("notificationBox");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+/* UNIQUE MESSAGE */
+function getNewNotification() {
+
+    if (allNotifications.length === 0) {
+        allNotifications = [...usedNotifications];
+        usedNotifications = [];
+    }
+
+    let index = Math.floor(Math.random() * allNotifications.length);
+    return allNotifications.splice(index, 1)[0];
+}
+
+/* ADD ONE */
+function addNotification() {
+    let newMsg = getNewNotification();
+
+    usedNotifications.unshift(newMsg);
+    count++;
+
+    loadNotifications();
+
+    // 🔔 animation
+    let bell = document.getElementById("bellIcon");
+    bell.classList.add("ring");
+
+    setTimeout(() => {
+        bell.classList.remove("ring");
+    }, 600);
+}
+
+/* AUTO */
+setInterval(addNotification, 15000);
+
+/* INITIAL */
+window.onload = loadNotifications;

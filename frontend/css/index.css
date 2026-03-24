@@ -15,7 +15,7 @@ body {
 }
 .news-ticker {
     width: 100%;
-    background: #fad954;
+    background:gold;
     color:rgb(63, 60, 60);
     overflow: hidden;
     height: 33px;
@@ -71,10 +71,11 @@ body {
 }
 .bank-nav-links {
     display:flex;
-    align-items:right;
+    align-items:center;
     list-style:none;
     gap:5px;
-    margin-left:0px;
+    justify-items: center;
+
 }
 .nav-item {
     position: relative;
@@ -82,6 +83,7 @@ body {
     color: #ffffff;
     padding: 5px 10px;
     transition: 0.3s;
+    justify-items:left;
 }
 .nav-item:hover {
     color: #00c3ff;
@@ -122,11 +124,11 @@ body {
 }
 
 .circle-menu {
-    width: 35px;
-    height: 35px;
+    width:40px;
+    height:40px;
     background:gold;
     color:#0A1F44;
-    border-radius: 10%;
+    border-radius:50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,37 +136,102 @@ body {
     transition: 0.3s;
 }
 
-.circle-menu:hover { transform: rotate(90deg); }
+.circle-menu:hover { transform: rotate(0deg); }
 
 .acc-drawer {
     position: fixed;
     right: -300px;
-    top:200px;
-    width: 150px;
-    background:linear-gradient(blue,skyblue,lightblue,navy,darkblue);
+    top:130px;
+    width: 250px;
+    background:lightskyblue;
     padding: 20px;
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
     transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 999;
-    border-radius: 60px 0 60px 0px;
+    border-radius: 60px 0px 0px 60px;
+    justify-content: center;
+    align-items: center;
+    color:#020617;
+    font-size:20px;
 }
 
-.acc-drawer.active { right:-10px; }
+.acc-drawer.active { right:-15px; }
 
 .acc-drawer button {
     width: 100%;
     padding: 12px;
     margin-bottom: 10px;
     border: none;
-    background:white;
+    background:whitesmoke;
     border-radius: 28px;
     cursor: pointer;
     text-align: left;
     display: flex;
     align-items: center;
     gap: 10px;
+    font-weight: 400;
 }
 
+/* Bell */
+.bell-container {
+    position: relative;
+    cursor: pointer;
+    font-size:30px;
+    color:gold;
+    max-height: fit-content;
+
+}
+
+/* RED BADGE */
+.notification-count {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: red;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* RING ANIMATION */
+.ring {
+    animation: ringBell 0.6s ease;
+}
+
+@keyframes ringBell {
+    0% { transform: rotate(0); }
+    25% { transform: rotate(15deg); }
+    50% { transform: rotate(-15deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0); }
+}
+
+/* Notification Box */
+.notification-box {
+    color: black;
+    position: absolute;
+    right: 5%;
+    top: 80px;
+    width: 260px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    padding: 15px;
+    display: none;
+}
+
+/* List */
+.notification-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.notification-box li {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
 
 .login-btn{
 
@@ -172,13 +239,12 @@ background:gold;
 
 border:#0b1f3a;
 font-weight: 800;
-padding:8px 20px;
+padding:8px 10px;
 font-style: bold;
 border-radius:6px;
-
-font-weight:bold;
-
+height: 40px;
 cursor:pointer;
+
 
 }
 
@@ -444,6 +510,7 @@ margin-trim:left;
     align-items: center;
     padding-left: 60px;
 }
+
 
 .hero-video {
     position: absolute;
@@ -997,6 +1064,7 @@ summary::after {
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 30px; 
+
     
 }
 .card {
@@ -1015,7 +1083,7 @@ summary::after {
 }
 .card:hover { 
     transform: translateX(10px); 
-    border-color:yellow; 
+    border-color:#0b1f3a; 
 }
 
 /* Section 7 ............footer box css */
@@ -1277,4 +1345,174 @@ summary::after {
         width: auto;
         max-height: calc(100vh - 32px);
     }
+}
+
+ .theme-toggle {
+            position:fixed; 
+            bottom: 20px; 
+            right: 30px; 
+            background:gold; 
+            color:black;
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+/* dark Mode */
+
+/* ================= DARK MODE ================= */
+
+.dark-mode {
+    background:black;
+    color:rgb(6, 243, 112);
+}
+
+/* Navbar */
+.dark-mode .bank-navbar {
+    background:black;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.6);
+}
+
+/* News ticker */
+.dark-mode .news-ticker {
+    background:gray;
+    color:rgb(12, 246, 117);
+}
+
+/* Drawer */
+.dark-mode .acc-drawer {
+    background: black;
+}
+
+/* Login box */
+.dark-mode .login-box {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* Inputs */
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+    background: #020617;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+}
+
+/* Buttons */
+.dark-mode button {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+/* Hero section */
+.dark-mode .hero-overlay {
+    background: rgba(0,0,0,0.6);
+}
+
+/* Section backgrounds */
+.dark-mode .digital-showcase {
+    background:black;
+}
+
+.dark-mode .products-section {
+    background:black;
+    color: white;
+}
+
+.dark-mode .section3 {
+    background:black;
+    color: white;
+}
+
+/* Cards */
+.dark-mode .product-card {
+    background:black;
+    color: #e2e8f0;
+}
+
+.dark-mode .card {
+    background: white;
+    color:rgb(12, 229, 110)
+}
+
+/* Services */
+.dark-mode .netbanking-services {
+    background:black;
+}
+
+.dark-mode .service-card {
+    background:white;
+    color:rgb(6, 243, 112)
+}
+
+.dark-mode .service-desc {
+    color: #e2e8f0;
+}
+
+/* FAQ */
+.dark-mode details {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+/* Footer */
+.dark-mode .main-footer {
+    background:black;
+    color:rgb(12, 229, 110);
+}
+
+/* Cookie popup */
+.dark-mode .cookie-consent,
+.dark-mode .cookie-settings__panel {
+    background: #020617;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+}
+
+/* Links */
+.dark-mode a {
+    color: rgb(12, 229, 110);
+}
+
+/* Headings */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4 {
+    color:rgb(12, 229, 110);
+}
+
+/* Smooth transition */
+* {
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.dark-mode login-btn{
+
+background:rgb(6, 243, 112);
+
+border:none;
+font-weight: 800;
+padding:8px 10px;
+font-style: bold;
+border-radius:6px;
+height: 40px;
+cursor:pointer;
+
+
+}
+.dark-mode circle-menu {
+    width:40px;
+    height:40px;
+    background:rgb(6, 243, 112);
+    color:white;
+    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
 }

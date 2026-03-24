@@ -33,23 +33,45 @@
         </div>
         <div class="nav-actions">
         
-        <button class="login-btn" onclick="openLogin()">Login🔒</i></button>
+        <button class="login-btn" onclick="openLogin()">Login 🔒</i></button>
         <div class="menu-icon" onclick="toggleAccessibilityMenu()">
             <div class="circle-menu">
                 <i class="fas fa-universal-access"></i>
             </div>
         </div>
+        <div class="nav-icons">
+
+    <!-- Bell -->
+    <div class="bell-container" onclick="toggleNotifications()">
+       <i class="fa-solid fa-bell"></i>
+        <span id="notifCount" class="notification-count">0</span>
+    </div>
+
+</div>
+
+<!-- Notification Box -->
+<div id="notificationBox" class="notification-box">
+    <p><b>Notifications</b></p>
+    <ul id="notifList"></ul>
+</div>
         </div>
+        
     </nav>
+
+  
 
     <div id="accMenu" class="acc-drawer">
         <h3>Accessibilities</h3>
-            <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Dark Mode</button>
+            <button onclick="window.location.href='whatsapp.html'">
+    <i class="fa-brands fa-whatsapp"></i> WhatsApp Netbanking
+</button>
+           
             <button onclick="changeFontSize('plus')"><i class="fas fa-plus"></i> Increase Text</button>
             <button onclick="changeFontSize('minus')"><i class="fas fa-minus"></i> Decrease Text</button>
-            <button><i class="fas fa-envelope" href=""></i> Email Support</button>
+                    <button onclick="window.location.href='email.html'">
+    <i class="fa-solid fa-envelope"></i> Email Support
+</button>
     </div>
-
 
 
     <section class="hero">
@@ -69,6 +91,8 @@
         </div>
     </section>
 
+    
+  <div class="theme-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></div>
 
     <section class="digital-showcase">
         <div class="showcase-header">

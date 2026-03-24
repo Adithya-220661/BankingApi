@@ -90,13 +90,16 @@ height:100%;
 background:rgba(0,0,0,0.6);
 justify-content:center;
 align-items:center;
+z-index:999;
 }
 
 .modal-content{
 background:white;
 padding:30px;
 border-radius:10px;
-width:400px;
+width:420px;
+max-height:90vh;
+overflow-y:auto;
 animation:popup 0.4s ease;
 }
 
@@ -111,6 +114,7 @@ padding:10px;
 margin:10px 0;
 border-radius:6px;
 border:1px solid #ccc;
+box-sizing:border-box;
 }
 
 button{
@@ -123,10 +127,56 @@ cursor:pointer;
 margin-top:5px;
 }
 
+button:disabled{
+background:#aaa;
+cursor:not-allowed;
+}
+
 .close{
 float:right;
 cursor:pointer;
 font-size:20px;
+}
+
+/* SUCCESS BANNER */
+.success-banner{
+display:none;
+background:#e6f4ea;
+border:1px solid #34a853;
+border-radius:8px;
+padding:15px 20px;
+margin-bottom:15px;
+color:#1e7e34;
+font-size:14px;
+}
+
+/* ERROR BANNER */
+.error-banner{
+display:none;
+background:#fce8e6;
+border:1px solid #ea4335;
+border-radius:8px;
+padding:15px 20px;
+margin-bottom:15px;
+color:#c5221f;
+font-size:14px;
+}
+
+/* SPINNER */
+.spinner{
+display:inline-block;
+width:14px;
+height:14px;
+border:2px solid #ffffff55;
+border-top-color:#fff;
+border-radius:50%;
+animation:spin 0.7s linear infinite;
+margin-right:8px;
+vertical-align:middle;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
 }
 
 </style>
@@ -137,170 +187,271 @@ font-size:20px;
 
 <!-- NAVBAR -->
 <div class="navbar">
-<div class="logo">
-<img src="css/newbanklogo3.png">
-</div>
-
-<div class="nav-links">
-<a href="index.html">Home</a>
-<a href="#">About</a>
-<a href="#">Support</a>
-<a href="#" class="login">Login</a>
-</div>
+  <div class="logo">
+    <img src="css/newbanklogo3.png">
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="#">About</a>
+    <a href="#">Support</a>
+    <a href="#" class="login">Login</a>
+  </div>
 </div>
 
 <!-- HERO -->
 <section class="hero">
-<h1>Raise a Complaint</h1>
-<p>Select your issue type and submit your request</p>
+  <h1>Raise a Complaint</h1>
+  <p>Select your issue type and submit your request</p>
 </section>
 
 <!-- CARDS -->
 <div class="container">
-<div class="grid">
+  <div class="grid">
 
-<div class="card" onclick="openForm('Transaction Issue')">
-<h3>💸 Transaction Issue</h3>
-<p>Failed or delayed transactions</p>
-</div>
+    <div class="card" onclick="openForm('Transaction Issue')">
+      <h3>💸 Transaction Issue</h3>
+      <p>Failed or delayed transactions</p>
+    </div>
 
-<div class="card" onclick="openForm('Login Problem')">
-<h3>🔐 Login Problem</h3>
-<p>Unable to access account</p>
-</div>
+    <div class="card" onclick="openForm('Login Problem')">
+      <h3>🔐 Login Problem</h3>
+      <p>Unable to access account</p>
+    </div>
 
-<div class="card" onclick="openForm('Fraud Report')">
-<h3>⚠️ Fraud Complaint</h3>
-<p>Report suspicious activity</p>
-</div>
+    <div class="card" onclick="openForm('Fraud Report')">
+      <h3>⚠️ Fraud Complaint</h3>
+      <p>Report suspicious activity</p>
+    </div>
 
-<div class="card" onclick="openForm('Card Issue')">
-<h3>💳 Card Issue</h3>
-<p>Lost, blocked or damaged card</p>
-</div>
+    <div class="card" onclick="openForm('Card Issue')">
+      <h3>💳 Card Issue</h3>
+      <p>Lost, blocked or damaged card</p>
+    </div>
 
-<div class="card" onclick="openForm('KYC Issue')">
-<h3>📹 KYC Problem</h3>
-<p>Verification related issues</p>
-</div>
+    <div class="card" onclick="openForm('KYC Issue')">
+      <h3>📹 KYC Problem</h3>
+      <p>Verification related issues</p>
+    </div>
 
-<div class="card" onclick="openForm('Other')">
-<h3>📩 Other Complaint</h3>
-<p>General queries or complaints</p>
-</div>
+    <div class="card" onclick="openForm('Other')">
+      <h3>📩 Other Complaint</h3>
+      <p>General queries or complaints</p>
+    </div>
 
-</div>
+  </div>
 </div>
 
 <!-- MODAL -->
 <div class="modal" id="complaintModal">
-<div class="modal-content">
+  <div class="modal-content">
 
-<span class="close" onclick="closeForm()">✖</span>
-<h2 id="formTitle">Complaint</h2>
+    <span class="close" onclick="closeForm()">✖</span>
+    <h2 id="formTitle">Complaint</h2>
 
-<form onsubmit="submitForm(event)">
+    <!-- SUCCESS / ERROR BANNERS -->
+    <div class="success-banner" id="successBanner"></div>
+    <div class="error-banner"   id="errorBanner"></div>
 
-<input type="text" placeholder="Full Name" required>
-<input type="text" placeholder="Account Number" required>
-<input type="email" placeholder="Email" required>
-<input type="tel" placeholder="Mobile Number" required>
-<textarea placeholder="Describe your issue" required></textarea>
-<p style="font-size:14px;color:gray;">Upload proof (PDF/Image)</p>
-<input type="file" required>
+    <form id="complaintForm" onsubmit="submitForm(event)">
 
-<button type="submit">Submit Complaint</button>
-<button type="button" onclick="printForm()">Print</button>
-<button type="button" onclick="downloadForm()">Download</button>
+      <input type="text"  id="fullName"      placeholder="Full Name"       required>
+      <input type="text"  id="accountNumber" placeholder="Account Number"  required>
+      <input type="email" id="email"         placeholder="Email"           required>
+      <input type="tel"   id="mobile"        placeholder="Mobile Number"   required maxlength="10">
+      <textarea           id="description"   placeholder="Describe your issue" rows="4" required></textarea>
 
-</form>
+      <p style="font-size:13px;color:gray;margin:5px 0;">Upload proof (PDF/Image) — optional</p>
+      <input type="file" id="proofFile" accept=".pdf,image/*">
 
-</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+        <button type="submit" id="submitBtn">Submit Complaint</button>
+        <button type="button" onclick="printForm()">🖨️ Print</button>
+        <button type="button" onclick="downloadForm()">⬇️ Download</button>
+      </div>
+
+    </form>
+
+  </div>
 </div>
 
 <script>
 
-/* OPEN MODAL */
-function openForm(type){
-document.getElementById("complaintModal").style.display = "flex";
-document.getElementById("formTitle").innerText = type;
+const API_BASE = 'http://localhost:5000/api';
+
+// ── Current complaint type ────────────────────────────────────
+let currentType = '';
+
+// ── OPEN MODAL ────────────────────────────────────────────────
+function openForm(type) {
+  currentType = type;
+  document.getElementById('complaintModal').style.display = 'flex';
+  document.getElementById('formTitle').innerText = type;
+  hideBanners();
+  document.getElementById('complaintForm').reset();
 }
 
-/* CLOSE MODAL */
-function closeForm(){
-document.getElementById("complaintModal").style.display = "none";
+// ── CLOSE MODAL ───────────────────────────────────────────────
+function closeForm() {
+  document.getElementById('complaintModal').style.display = 'none';
+  hideBanners();
 }
 
-/* SUBMIT */
-function submitForm(event){
-
-event.preventDefault();
-
-alert("Complaint Submitted Successfully ✅");
-
-/* CLEAR FORM */
-event.target.reset();
-
-/* CLOSE MODAL */
-closeForm();
-
+// ── HIDE BANNERS ──────────────────────────────────────────────
+function hideBanners() {
+  document.getElementById('successBanner').style.display = 'none';
+  document.getElementById('errorBanner').style.display   = 'none';
 }
 
-/* PRINT */
-function printForm(){
-
-let content = generateContent();
-
-let win = window.open('', '', 'width=800,height=600');
-win.document.write('<html><head><title>Complaint</title></head><body>');
-win.document.write(content);
-win.document.write('</body></html>');
-win.document.close();
-win.print();
-
+// ── SHOW SUCCESS ──────────────────────────────────────────────
+function showSuccess(msg) {
+  const el = document.getElementById('successBanner');
+  el.innerHTML = msg;
+  el.style.display = 'block';
+  document.getElementById('errorBanner').style.display = 'none';
 }
 
-/* DOWNLOAD */
-function downloadForm(){
-
-let content = generateContent();
-
-let blob = new Blob([content], {type: "text/html"});
-let link = document.createElement("a");
-
-link.href = URL.createObjectURL(blob);
-link.download = "Complaint.html";
-link.click();
-
+// ── SHOW ERROR ────────────────────────────────────────────────
+function showError(msg) {
+  const el = document.getElementById('errorBanner');
+  el.innerHTML = msg;
+  el.style.display = 'block';
+  document.getElementById('successBanner').style.display = 'none';
 }
 
-/* GENERATE CONTENT */
-function generateContent(){
+// ════════════════════════════════════════════════════════════
+//  SUBMIT COMPLAINT → sends to backend → email to admin
+// ════════════════════════════════════════════════════════════
+async function submitForm(event) {
+  event.preventDefault();
 
-let name = document.querySelector('input[placeholder="Full Name"]').value;
-let acc = document.querySelector('input[placeholder="Account Number"]').value;
-let email = document.querySelector('input[placeholder="Email"]').value;
-let mobile = document.querySelector('input[placeholder="Mobile Number"]').value;
-let issue = document.querySelector('textarea').value;
+  const btn = document.getElementById('submitBtn');
 
-let id = "HB" + Math.floor(Math.random()*100000);
-let date = new Date().toLocaleString();
+  const fullName      = document.getElementById('fullName').value.trim();
+  const accountNumber = document.getElementById('accountNumber').value.trim();
+  const email         = document.getElementById('email').value.trim();
+  const mobile        = document.getElementById('mobile').value.trim();
+  const description   = document.getElementById('description').value.trim();
 
-return `
-<h2>Horizon Bank Complaint Receipt</h2>
-<hr>
-<p><b>Complaint ID:</b> ${id}</p>
-<p><b>Date:</b> ${date}</p>
-<p><b>Name:</b> ${name}</p>
-<p><b>Account No:</b> ${acc}</p>
-<p><b>Email:</b> ${email}</p>
-<p><b>Mobile:</b> ${mobile}</p>
-<p><b>Issue:</b> ${issue}</p>
-<hr>
-<p>Thank you for contacting Horizon Bank</p>
-`;
+  // ── Basic validations ─────────────────────────────────────
+  if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
+    showError('❌ Please enter a valid 10-digit mobile number.');
+    return;
+  }
 
+  // ── Show loading ──────────────────────────────────────────
+  btn.disabled   = true;
+  btn.innerHTML  = '<span class="spinner"></span>Submitting...';
+  hideBanners();
+
+  try {
+    const response = await fetch(`${API_BASE}/complaints/submit`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        complaintType: currentType,
+        fullName,
+        accountNumber,
+        email,
+        mobile,
+        description,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      showSuccess(`
+        ✅ <strong>Complaint submitted successfully!</strong><br>
+        📋 Complaint ID: <strong>${data.complaintId}</strong><br>
+        📧 A confirmation email has been sent to <strong>${email}</strong><br>
+        🕐 Our team will respond within 24–48 hours.
+      `);
+
+      document.getElementById('complaintForm').reset();
+
+    } else {
+      showError(`❌ ${data.message || 'Something went wrong. Please try again.'}`);
+    }
+
+  } catch (err) {
+    console.error('Complaint submit error:', err);
+    showError('❌ Could not connect to server. Please try again later.');
+  } finally {
+    btn.disabled  = false;
+    btn.innerHTML = 'Submit Complaint';
+  }
 }
+
+// ════════════════════════════════════════════════════════════
+//  PRINT
+// ════════════════════════════════════════════════════════════
+function printForm() {
+  const content = generateContent();
+  if (!content) return;
+
+  const win = window.open('', '', 'width=800,height=600');
+  win.document.write('<html><head><title>Complaint</title></head><body>');
+  win.document.write(content);
+  win.document.write('</body></html>');
+  win.document.close();
+  win.print();
+}
+
+// ════════════════════════════════════════════════════════════
+//  DOWNLOAD
+// ════════════════════════════════════════════════════════════
+function downloadForm() {
+  const content = generateContent();
+  if (!content) return;
+
+  const blob = new Blob([content], { type: 'text/html' });
+  const link = document.createElement('a');
+  link.href     = URL.createObjectURL(blob);
+  link.download = 'Complaint.html';
+  link.click();
+}
+
+// ════════════════════════════════════════════════════════════
+//  GENERATE PRINT/DOWNLOAD CONTENT
+// ════════════════════════════════════════════════════════════
+function generateContent() {
+  const fullName      = document.getElementById('fullName').value.trim();
+  const accountNumber = document.getElementById('accountNumber').value.trim();
+  const email         = document.getElementById('email').value.trim();
+  const mobile        = document.getElementById('mobile').value.trim();
+  const description   = document.getElementById('description').value.trim();
+
+  if (!fullName || !accountNumber) {
+    alert('Please fill in the form before printing/downloading.');
+    return null;
+  }
+
+  const id   = 'HB' + Math.floor(Math.random() * 100000);
+  const date = new Date().toLocaleString();
+
+  return `
+    <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;">
+      <h2 style="color:#002970;">🏦 Horizon Bank — Complaint Receipt</h2>
+      <hr>
+      <p><b>Complaint ID:</b> ${id}</p>
+      <p><b>Date:</b> ${date}</p>
+      <p><b>Type:</b> ${currentType}</p>
+      <p><b>Name:</b> ${fullName}</p>
+      <p><b>Account No:</b> ${accountNumber}</p>
+      <p><b>Email:</b> ${email}</p>
+      <p><b>Mobile:</b> ${mobile}</p>
+      <p><b>Issue:</b> ${description}</p>
+      <hr>
+      <p style="color:#555;">Thank you for contacting Horizon Bank. Our team will get back to you within 24–48 hours.</p>
+    </div>
+  `;
+}
+
+// ── Close modal on outside click ─────────────────────────────
+window.onclick = function(e) {
+  const modal = document.getElementById('complaintModal');
+  if (e.target === modal) closeForm();
+};
 
 </script>
 

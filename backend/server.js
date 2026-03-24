@@ -9,6 +9,7 @@ const authRoutes        = require('./routes/authRoutes');
 const accountRoutes     = require('./routes/accountRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const adminRoutes       = require('./routes/adminRoutes');
+const complaintRoutes   = require('./routes/complaintRoutes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/api/auth',         authRoutes);
 app.use('/api/account',      accountRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/admin',        adminRoutes);
+app.use('/api/complaints',   complaintRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: '🏦 Horizon Bank API is running' });

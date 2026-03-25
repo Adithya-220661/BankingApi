@@ -179,6 +179,22 @@ vertical-align:middle;
 to{transform:rotate(360deg);}
 }
 
+/* FILE PREVIEW */
+.file-preview{
+display:none;
+margin-top:8px;
+padding:10px;
+background:#f0f4ff;
+border:1px solid #c0ccee;
+border-radius:6px;
+font-size:13px;
+color:#002970;
+}
+
+.file-preview span{
+font-weight:bold;
+}
+
 </style>
 
 </head>
@@ -260,8 +276,14 @@ to{transform:rotate(360deg);}
       <input type="tel"   id="mobile"        placeholder="Mobile Number"   required maxlength="10">
       <textarea           id="description"   placeholder="Describe your issue" rows="4" required></textarea>
 
-      <p style="font-size:13px;color:gray;margin:5px 0;">Upload proof (PDF/Image) — optional</p>
-      <input type="file" id="proofFile" accept=".pdf,image/*">
+      <p style="font-size:13px;color:gray;margin:5px 0;">Upload proof (PDF/Image/WebP) — optional, max 2MB</p>
+      <input type="file" id="proofFile" accept=".pdf,image/*,.webp" onchange="handleFileSelect(this)">
+
+      <!-- FILE PREVIEW -->
+      <div class="file-preview" id="filePreview">
+        📎 Selected: <span id="fileName"></span> &nbsp;|&nbsp; <span id="fileSize"></span>
+        <span id="fileError" style="color:red;display:none;"> ❌ File too large! Max 2MB allowed.</span>
+      </div>
 
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
         <button type="submit" id="submitBtn">Submit Complaint</button>
@@ -278,14 +300,61 @@ to{transform:rotate(360deg);}
 
 const API_BASE = 'http://localhost:5000/api';
 
-// ── Current complaint type ────────────────────────────────────
-let currentType = '';
+// ── Current complaint type & uploaded file ────────────────────
+let currentType  = '';
+let uploadedFile = null; // { name, type, data (base64) }
+
+// ════════════════════════════════════════════════════════════
+//  FILE SELECT — converts file to base64
+// ════════════════════════════════════════════════════════════
+function handleFileSelect(input) {
+  const file    = input.files[0];
+  const preview = document.getElementById('filePreview');
+  const nameEl  = document.getElementById('fileName');
+  const sizeEl  = document.getElementById('fileSize');
+  const errEl   = document.getElementById('fileError');
+
+  uploadedFile        = null;
+  errEl.style.display = 'none';
+
+  if (!file) {
+    preview.style.display = 'none';
+    return;
+  }
+
+  const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+  nameEl.textContent    = file.name;
+  sizeEl.textContent    = sizeMB + ' MB';
+  preview.style.display = 'block';
+
+  // ── Max 2MB check ─────────────────────────────────────────
+  if (file.size > 2 * 1024 * 1024) {
+    errEl.style.display = 'inline';
+    input.value         = '';
+    uploadedFile        = null;
+    return;
+  }
+
+  // ── Convert to base64 ─────────────────────────────────────
+  const reader  = new FileReader();
+  reader.onload = function (e) {
+    uploadedFile = {
+      name: file.name,
+      type: file.type,
+      data: e.target.result, // "data:image/webp;base64,..."
+    };
+    console.log(`✅ File ready: ${file.name} (${sizeMB} MB)`);
+  };
+  reader.readAsDataURL(file);
+}
 
 // ── OPEN MODAL ────────────────────────────────────────────────
 function openForm(type) {
-  currentType = type;
+  currentType  = type;
+  uploadedFile = null;
   document.getElementById('complaintModal').style.display = 'flex';
-  document.getElementById('formTitle').innerText = type;
+  document.getElementById('formTitle').innerText          = type;
+  document.getElementById('filePreview').style.display   = 'none';
   hideBanners();
   document.getElementById('complaintForm').reset();
 }
@@ -293,6 +362,7 @@ function openForm(type) {
 // ── CLOSE MODAL ───────────────────────────────────────────────
 function closeForm() {
   document.getElementById('complaintModal').style.display = 'none';
+  uploadedFile = null;
   hideBanners();
 }
 
@@ -304,43 +374,40 @@ function hideBanners() {
 
 // ── SHOW SUCCESS ──────────────────────────────────────────────
 function showSuccess(msg) {
-  const el = document.getElementById('successBanner');
-  el.innerHTML = msg;
+  const el         = document.getElementById('successBanner');
+  el.innerHTML     = msg;
   el.style.display = 'block';
   document.getElementById('errorBanner').style.display = 'none';
 }
 
 // ── SHOW ERROR ────────────────────────────────────────────────
 function showError(msg) {
-  const el = document.getElementById('errorBanner');
-  el.innerHTML = msg;
+  const el         = document.getElementById('errorBanner');
+  el.innerHTML     = msg;
   el.style.display = 'block';
   document.getElementById('successBanner').style.display = 'none';
 }
 
 // ════════════════════════════════════════════════════════════
-//  SUBMIT COMPLAINT → sends to backend → email to admin
+//  SUBMIT COMPLAINT
 // ════════════════════════════════════════════════════════════
 async function submitForm(event) {
   event.preventDefault();
 
-  const btn = document.getElementById('submitBtn');
-
+  const btn           = document.getElementById('submitBtn');
   const fullName      = document.getElementById('fullName').value.trim();
   const accountNumber = document.getElementById('accountNumber').value.trim();
   const email         = document.getElementById('email').value.trim();
   const mobile        = document.getElementById('mobile').value.trim();
   const description   = document.getElementById('description').value.trim();
 
-  // ── Basic validations ─────────────────────────────────────
   if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
     showError('❌ Please enter a valid 10-digit mobile number.');
     return;
   }
 
-  // ── Show loading ──────────────────────────────────────────
-  btn.disabled   = true;
-  btn.innerHTML  = '<span class="spinner"></span>Submitting...';
+  btn.disabled  = true;
+  btn.innerHTML = '<span class="spinner"></span>Submitting...';
   hideBanners();
 
   try {
@@ -354,6 +421,7 @@ async function submitForm(event) {
         email,
         mobile,
         description,
+        attachment: uploadedFile || null, // ✅ base64 file
       }),
     });
 
@@ -366,8 +434,9 @@ async function submitForm(event) {
         📧 A confirmation email has been sent to <strong>${email}</strong><br>
         🕐 Our team will respond within 24–48 hours.
       `);
-
       document.getElementById('complaintForm').reset();
+      document.getElementById('filePreview').style.display = 'none';
+      uploadedFile = null;
 
     } else {
       showError(`❌ ${data.message || 'Something went wrong. Please try again.'}`);
@@ -388,7 +457,6 @@ async function submitForm(event) {
 function printForm() {
   const content = generateContent();
   if (!content) return;
-
   const win = window.open('', '', 'width=800,height=600');
   win.document.write('<html><head><title>Complaint</title></head><body>');
   win.document.write(content);
@@ -403,16 +471,15 @@ function printForm() {
 function downloadForm() {
   const content = generateContent();
   if (!content) return;
-
-  const blob = new Blob([content], { type: 'text/html' });
-  const link = document.createElement('a');
+  const blob    = new Blob([content], { type: 'text/html' });
+  const link    = document.createElement('a');
   link.href     = URL.createObjectURL(blob);
   link.download = 'Complaint.html';
   link.click();
 }
 
 // ════════════════════════════════════════════════════════════
-//  GENERATE PRINT/DOWNLOAD CONTENT
+//  GENERATE PRINT / DOWNLOAD CONTENT
 // ════════════════════════════════════════════════════════════
 function generateContent() {
   const fullName      = document.getElementById('fullName').value.trim();
@@ -429,6 +496,19 @@ function generateContent() {
   const id   = 'HB' + Math.floor(Math.random() * 100000);
   const date = new Date().toLocaleString();
 
+  // ── Show image inline in print/download if uploaded ───────
+  let attachmentHtml = '';
+  if (uploadedFile) {
+    if (uploadedFile.type.startsWith('image/')) {
+      attachmentHtml = `
+        <p><b>Attachment:</b> ${uploadedFile.name}</p>
+        <img src="${uploadedFile.data}" style="max-width:100%;border-radius:6px;margin-top:8px;" />
+      `;
+    } else {
+      attachmentHtml = `<p><b>Attachment:</b> ${uploadedFile.name} (PDF — view separately)</p>`;
+    }
+  }
+
   return `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;">
       <h2 style="color:#002970;">🏦 Horizon Bank — Complaint Receipt</h2>
@@ -441,6 +521,7 @@ function generateContent() {
       <p><b>Email:</b> ${email}</p>
       <p><b>Mobile:</b> ${mobile}</p>
       <p><b>Issue:</b> ${description}</p>
+      ${attachmentHtml}
       <hr>
       <p style="color:#555;">Thank you for contacting Horizon Bank. Our team will get back to you within 24–48 hours.</p>
     </div>
@@ -448,7 +529,7 @@ function generateContent() {
 }
 
 // ── Close modal on outside click ─────────────────────────────
-window.onclick = function(e) {
+window.onclick = function (e) {
   const modal = document.getElementById('complaintModal');
   if (e.target === modal) closeForm();
 };

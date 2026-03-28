@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Portal Login – Horizon Bank</title>
+<style>
+    /* ══ EXACT SAME CSS VARIABLES AS admin.html ══ */
+    :root {
+      --primary: #1e3a8a;
+      --accent:  #3b82f6;
+      --success: #10b981;
+      --danger:  #ef4444;
+      --warning: #f59e0b;
+      --bg:      #f1f5f9;
+      --card:    #ffffff;
+      --text:    #1e293b;
+      --sub:     #64748b;
+      --border:  #e2e8f0;
+    }
+    body.dark-mode {
+      --bg:    #0f172a;
+      --card:  #1e293b;
+      --text:  #e2e8f0;
+      --sub:   #94a3b8;
+      --border:#334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', sans-serif;
+      transition: background 0.3s;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── DARK MODE TOGGLE (same as admin.html) ── */
+    .dark-toggle {
+      position: fixed; top: 16px; right: 16px; z-index: 200;
+    }
+
+    /* ── BTN (exact same as admin.html) ── */
+    .btn { padding: 9px 18px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-dark { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+
+    /* ── WRAPPER ── */
+    .login-wrapper { width: 100%; max-width: 480px; padding: 24px 16px; }
+
+    /* ── LOGIN CARD (same as admin.html .chart-card) ── */
+    .login-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      animation: slideUp 0.35s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── BANK HEADER ── */
+    .bank-header { text-align: center; margin-bottom: 24px; }
+    .bank-header .logo-wrap {
+      width: 56px; height: 56px;
+      background: var(--primary);
+      border-radius: 12px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(30,58,138,0.2);
+    }
+    .bank-header h1 { font-size: 20px; font-weight: 700; color: var(--text); }
+    .bank-header p  { font-size: 13px; color: var(--sub); margin-top: 4px; }
+
+    /* ── SECTION LABEL (same as admin.html th style) ── */
+    .section-label {
+      font-size: 11px; color: var(--sub);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      font-weight: 600; margin-bottom: 10px;
+    }
+
+    /* ── ROLE GRID ── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .role-btn {
+      padding: 10px 4px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      cursor: pointer;
+      text-align: center;
+      transition: 0.2s;
+      font-size: 10px;
+      color: var(--sub);
+      font-weight: 600;
+    }
+    .role-btn .role-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+    .role-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .role-btn.selected {
+      border-color: var(--accent);
+      background: var(--card);
+      color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+
+    /* ── PERMISSION PREVIEW (same as admin.html .table-card) ── */
+    .perm-preview {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+    }
+    .perm-preview h4 {
+      font-size: 11px; color: var(--sub);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      font-weight: 600; margin-bottom: 8px;
+    }
+    .perm-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* ── BADGES (exact same as admin.html) ── */
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .badge-can    { background: #d1fae5; color: #065f46; }
+    .badge-cannot { background: #fee2e2; color: #991b1b; }
+
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+    /* ── FORM (same as admin.html .search-bar inputs) ── */
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 11px; font-weight: 600;
+      color: var(--sub); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: 13px; background: var(--card); color: var(--text);
+      outline: none; transition: 0.2s;
+    }
+    .form-group input:focus { border-color: var(--accent); }
+
+    /* ── CAPTCHA (uses --primary same as sidebar) ── */
+    .captcha-row { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 16px; }
+    .captcha-box {
+      flex: 0 0 130px; height: 42px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; user-select: none;
+      position: relative; overflow: hidden;
+    }
+    .captcha-box::before {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.06) 4px, rgba(255,255,255,0.06) 8px);
+    }
+    .captcha-text {
+      font-size: 17px; font-weight: 800; color: #fff;
+      letter-spacing: 5px; font-family: 'Courier New', monospace;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      position: relative; z-index: 1;
+    }
+    .captcha-right { flex: 1; }
+    .captcha-refresh {
+      font-size: 11px; color: var(--sub);
+      cursor: pointer; text-decoration: underline;
+      display: block; margin-bottom: 6px;
+    }
+    .captcha-right input {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: 13px; background: var(--card); color: var(--text);
+      outline: none; transition: 0.2s;
+    }
+    .captcha-right input:focus { border-color: var(--accent); }
+
+    /* ── SUBMIT BTN (same as admin.html .btn-primary full width) ── */
+    .submit-btn {
+      width: 100%; padding: 11px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: 0.2s;
+    }
+    .submit-btn:hover   { background: #2563eb; }
+    .submit-btn:disabled { background: var(--sub); cursor: not-allowed; }
+
+    /* ── ALERT MESSAGES (same as admin.html alert-banner style) ── */
+    .msg {
+      border-radius: 8px; padding: 10px 14px;
+      font-size: 13px; font-weight: 600;
+      margin-bottom: 14px; display: none; border: 1px solid;
+    }
+    .msg.show { display: block; }
+    .msg-error   { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+    .msg-success { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+
+    /* ── LOCKOUT BOX (same as admin.html .stat-card.yellow) ── */
+    .lock-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 12px;
+      padding: 20px; text-align: center;
+      display: none; margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    .lock-box.show { display: block; }
+    .lock-box .icon { font-size: 30px; margin-bottom: 8px; }
+    .lock-box p     { font-size: 13px; color: var(--sub); margin-bottom: 8px; }
+    .lock-timer     { font-size: 28px; font-weight: 700; color: var(--warning); }
+
+    /* ── ATTEMPTS WARNING ── */
+    .attempts-warn {
+      font-size: 12px; color: var(--danger);
+      font-weight: 600; text-align: center;
+      margin-top: 8px; display: none;
+    }
+    .attempts-warn.show { display: block; }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: block; text-align: center;
+      margin-top: 16px; font-size: 13px;
+      color: var(--sub); text-decoration: none; transition: 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 24px 16px; }
+      .role-grid  { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Dark Mode Toggle -->
+<div class="dark-toggle">
+  <button class="btn btn-dark btn-sm" id="modeToggle" onclick="toggleMode()">🌙 Dark</button>
+</div>
+
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <!-- Bank Header -->
+    <div class="bank-header">
+      <div class="logo-wrap">🏦</div>
+      <h1>Horizon Bank</h1>
+      <p>Staff Administration Portal</p>
+    </div>
+
+    <!-- Role Selector (UNCHANGED) -->
+    <div class="section-label">Select Your Role</div>
+    <div class="role-grid">
+      <div class="role-btn selected" data-role="superadmin" onclick="selectRole('superadmin', this)">
+        <span class="role-icon">👑</span>Super Admin
+      </div>
+      <div class="role-btn" data-role="manager" onclick="selectRole('manager', this)">
+        <span class="role-icon">🏢</span>Manager
+      </div>
+      <div class="role-btn" data-role="cashier" onclick="selectRole('cashier', this)">
+        <span class="role-icon">💵</span>Cashier
+      </div>
+      <div class="role-btn" data-role="clerk" onclick="selectRole('clerk', this)">
+        <span class="role-icon">📋</span>Clerk
+      </div>
+      <div class="role-btn" data-role="loan_officer" onclick="selectRole('loan_officer', this)">
+        <span class="role-icon">📑</span>Loan Officer
+      </div>
+    </div>
+
+    <div class="perm-preview" id="permPreview">
+      <h4>Access Permissions for this Role</h4>
+      <div class="perm-tags" id="permTags"></div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="msg msg-error" id="errorMsg"></div>
+    <div class="msg msg-success" id="successMsg"></div>
+
+    <!-- ⭐⭐⭐ UPDATED FORM START ⭐⭐⭐ -->
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label>Staff ID</label>
+        <input type="text" id="adminId" placeholder="Enter your Staff ID">
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="adminPassword" placeholder="Enter your password">
+      </div>
+
+      <div class="form-group">
+        <label>Bank ID</label>
+        <input type="text" id="bankId" placeholder="Enter Bank ID / Branch Code">
+      </div>
+
+      <div class="captcha-row">
+        <div class="captcha-box" onclick="generateCaptcha()">
+          <span class="captcha-text" id="captchaText">-----</span>
+        </div>
+        <div class="captcha-right">
+          <span class="captcha-refresh" onclick="generateCaptcha()">Refresh</span>
+          <input type="text" id="captchaInput" placeholder="Enter captcha">
+        </div>
+      </div>
+
+      <button class="submit-btn" id="loginBtn" type="submit">
+        🔐 Login to Admin Portal
+      </button>
+
+    </form>
+    <!-- ⭐⭐⭐ UPDATED FORM END ⭐⭐⭐ -->
+
+    <a href="index.html" class="back-link">← Back to Customer Login</a>
+
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:5000/api';
+
+const ROLE_PERMISSIONS_DISPLAY = {
+  superadmin:   { can: ['Full System Access','Manage Staff','Audit Logs','All Operations','Export Reports'], cannot: [] },
+  manager:      { can: ['View Users','Lock/Unlock Accounts','View Transactions','Export Reports','Loan Management'], cannot: ['Deposit/Withdraw Funds','Create Staff','Audit Logs'] },
+  cashier:      { can: ['View Transactions','Process Deposits','Withdrawals','Transfers'], cannot: ['View Users List','Lock Accounts','Export Reports'] },
+  clerk:        { can: ['View Customer Details','Export Reports'], cannot: ['Lock Accounts','View Transactions','Deposits/Withdrawals'] },
+  loan_officer: { can: ['View Statistics','Loan Management'], cannot: ['Customer Management','Transactions','Lock Accounts'] },
+};
+
+let currentRole   = 'superadmin';
+let captchaAnswer = '';
+let lockInterval  = null;
+
+// function updatePermissions(role) {
+//   const permBox = document.getElementById('permTags');
+//   permBox.innerHTML = '';
+
+//   const perms = ROLE_PERMISSIONS_DISPLAY[role];
+
+//   if (!perms) return;
+
+//   perms.can.forEach(p => {
+//     const span = document.createElement('span');
+//     span.className = 'badge badge-can';
+//     span.textContent = '✔ ' + p;
+//     permBox.appendChild(span);
+//   });
+
+//   perms.cannot.forEach(p => {
+//     const span = document.createElement('span');
+//     span.className = 'badge badge-cannot';
+//     span.textContent = '✖ ' + p;
+//     permBox.appendChild(span);
+//   });
+// }
+
+function updatePermissions(role) {
+  console.log("Updating permissions for:", role); // 🔍 debug
+
+  const permBox = document.getElementById('permTags');
+
+  if (!permBox) {
+    console.log("permTags not found ❌");
+    return;
+  }
+
+  permBox.innerHTML = '';
+
+  const perms = ROLE_PERMISSIONS_DISPLAY[role];
+
+  if (!perms) {
+    console.log("No permissions found for:", role); // 🔍
+    return;
+  }
+
+  // ✅ Allowed
+  perms.can.forEach(p => {
+    const span = document.createElement('span');
+    span.className = 'badge badge-can';
+    span.textContent = '✔ ' + p;
+    permBox.appendChild(span);
+  });
+
+  // ❌ Not allowed
+  perms.cannot.forEach(p => {
+    const span = document.createElement('span');
+    span.className = 'badge badge-cannot';
+    span.textContent = '✖ ' + p;
+    permBox.appendChild(span);
+  });
+} 
+
+
+
+function toggleMode(){
+  document.body.classList.toggle('dark-mode');
+}
+
+// function selectRole(role, el){
+//   document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('selected'));
+//   el.classList.add('selected');
+// }
+function selectRole(role, el){
+  console.log("Clicked role:", role); // 🔍 debug
+
+  document.querySelectorAll('.role-btn')
+    .forEach(b => b.classList.remove('selected'));
+
+  el.classList.add('selected');
+
+  currentRole = role;
+
+  updatePermissions(role); // 🔥 MUST CALL
+}
+
+function generateCaptcha(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  captchaAnswer = Array.from({length:5},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+  document.getElementById('captchaText').textContent=captchaAnswer;
+}
+
+function showError(msg){
+  const el=document.getElementById('errorMsg');
+  el.textContent=msg;
+  el.classList.add('show');
+}
+
+function showSuccess(msg){
+  const el=document.getElementById('successMsg');
+  el.textContent=msg;
+  el.classList.add('show');
+}
+
+function clearMessages(){
+  ['errorMsg','successMsg'].forEach(id=>{
+    document.getElementById(id).classList.remove('show');
+  });
+}
+
+/* ⭐⭐⭐ MAIN LOGIN FIX ⭐⭐⭐ */
+document.getElementById('loginForm').addEventListener('submit',async function(e){
+
+  e.preventDefault();
+  console.log("Login Started");
+
+  const adminId=document.getElementById('adminId').value.trim();
+  const password=document.getElementById('adminPassword').value;
+  const bankId=document.getElementById('bankId').value.trim();
+  const captcha=document.getElementById('captchaInput').value.trim().toUpperCase();
+
+  clearMessages();
+
+  if(!adminId || !password || !bankId){
+    showError("Please fill all fields");
+    return;
+  }
+
+  if(captcha!==captchaAnswer){
+    showError("Wrong captcha");
+    generateCaptcha();
+    return;
+  }
+
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true;
+  btn.textContent="Verifying...";
+
+  try{
+
+    const res=await fetch(`${API}/admin-auth/login`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({adminId,password,bankId})
+    });
+
+    const data=await res.json();
+    console.log("API:",data);
+
+if(data.success===true){
+
+      localStorage.setItem('adminToken', data.token);
+      localStorage.setItem('adminRole', 'admin');
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify({...data.user, role: 'admin'}));
+      
+      showSuccess('Login successful! Redirecting...');
+      setTimeout(() => {
+        window.location.href = 'admin.html';
+      }, 1000);
+
+    }else{
+      showError(data.message || "Invalid credentials");
+      generateCaptcha();
+    }
+
+  }catch(err){
+    showError("Server not reachable");
+  }
+
+  btn.disabled=false;
+  btn.textContent="🔐 Login to Admin Portal";
+
+});
+
+/* ⭐ SAFE AUTO REDIRECT */
+window.addEventListener('DOMContentLoaded',()=>{
+  generateCaptcha();
+  updatePermissions('superadmin');
+
+  const token=localStorage.getItem('token');
+  const user=localStorage.getItem('user');
+
+  if(token && user){
+    console.log("Already logged in");
+    window.location.href="dashboard.html";
+  }
+});
+</script>
+
+</body>
+</html>

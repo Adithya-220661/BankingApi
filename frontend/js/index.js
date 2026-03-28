@@ -39,12 +39,6 @@ function closeLogin() {
 
 function showCustomer() {
     document.getElementById("customerLogin").style.display = "block";
-    document.getElementById("adminLogin").style.display    = "none";
-}
-
-function showAdmin() {
-    document.getElementById("customerLogin").style.display = "none";
-    document.getElementById("adminLogin").style.display    = "block";
 }
 
 // ═══════════════════════════════════════════════════
@@ -66,14 +60,12 @@ function showLockoutMessage(remainingSec) {
     const forgotPin = document.querySelector('#customerLogin .forgetpin');
     const lockMsg   = document.getElementById('lockoutMessage');
 
-    // Disable login button
     if (loginBtn) {
         loginBtn.disabled      = true;
         loginBtn.style.opacity = '0.5';
         loginBtn.style.cursor  = 'not-allowed';
     }
 
-    // Highlight Forgot PIN
     if (forgotPin) {
         forgotPin.style.color      = 'red';
         forgotPin.style.fontWeight = 'bold';
@@ -81,10 +73,8 @@ function showLockoutMessage(remainingSec) {
         forgotPin.textContent      = '🔑 Forgot Pin? Click here to recover access';
     }
 
-    // Clear all fields
     clearLoginFields();
 
-    // ✅ Use EXACT remaining seconds from backend
     let seconds = remainingSec;
 
     function updateDisplay() {
@@ -138,12 +128,9 @@ function unlockLoginForm() {
         lockMsg.style.display = 'none';
         lockMsg.innerHTML     = '';
     }
-
-    // Regenerate captcha
     generateCaptcha('captchaText');
 }
 
-// ✅ Show red warning for wrong attempt
 function showAttemptWarning(message) {
     const lockMsg = document.getElementById('lockoutMessage');
     if (lockMsg) {
@@ -155,7 +142,6 @@ function showAttemptWarning(message) {
     }
 }
 
-// ✅ Show yellow warning for captcha
 function showCaptchaWarning(message) {
     const lockMsg = document.getElementById('lockoutMessage');
     if (lockMsg) {
@@ -167,7 +153,6 @@ function showCaptchaWarning(message) {
     }
 }
 
-// ✅ Clear all login fields
 function clearLoginFields() {
     const u = document.getElementById('username');
     const p = document.getElementById('password');
@@ -179,7 +164,6 @@ function clearLoginFields() {
     if (u) u.focus();
 }
 
-// ✅ Hide warning message
 function hideWarning() {
     const lockMsg = document.getElementById('lockoutMessage');
     if (lockMsg) {
@@ -194,11 +178,7 @@ function hideWarning() {
 document.addEventListener("DOMContentLoaded", function () {
 
     const customerForm = document.getElementById("customerLogin");
-    const adminForm    = document.getElementById("adminLogin");
 
-    // ═══════════════════════════════════════════════
-    //  CUSTOMER LOGIN SUBMIT
-    // ═══════════════════════════════════════════════
     if (customerForm) {
         customerForm.addEventListener("submit", async function (e) {
             e.preventDefault();
@@ -208,12 +188,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const captchaInput = document.getElementById('captchaInput').value.trim();
             const captchaText  = document.getElementById('captchaText').innerText.trim();
 
-            // ── Step 1: validate empty fields ──────────────────
             if (!username) { showAttemptWarning('⚠️ Please enter your username.'); return; }
             if (!pin)      { showAttemptWarning('⚠️ Please enter your PIN.');      return; }
             if (pin.length < 4) { showAttemptWarning('⚠️ PIN must be 4 digits.'); return; }
 
-            // ── Step 2: validate captcha ────────────────────────
             if (captchaInput !== captchaText) {
                 showCaptchaWarning('⚠️ Invalid Captcha! Please enter the correct captcha.');
                 document.getElementById('captchaInput').value = '';
@@ -221,7 +199,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // ── Step 3: call backend ────────────────────────────
             try {
                 const response = await fetch('http://localhost:5000/api/auth/login', {
                     method:  'POST',
@@ -230,33 +207,35 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 const data = await response.json();
 
-                console.log('Login response:', data); // debug
+                console.log('Login response:', data);
 
                 if (data.success) {
-                    // ✅ Login successful
                     clearLockoutTimer();
                     unlockLoginForm();
                     hideWarning();
+
+                    // ✅ FIXED — block staff from customer portal
+                    if (data.user.role !== 'user') {
+                        alert('⛔ Staff members must use the Bank Staff Portal.\n\nClick "Bank Staff Portal" link in the footer.');
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        return;
+                    }
+
+                    // ✅ Save token and redirect customer to dashboard
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
                     alert(`✅ Welcome back, ${data.user.fullName}!`);
-                    if (data.user.role === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'dashboard.html';
-                    }
+                    window.location.href = 'dashboard.html';
 
                 } else if (data.locked === true) {
-                    // ✅ Account locked — show countdown timer
                     showLockoutMessage(data.remainingSec);
 
                 } else if (data.attemptsLeft !== undefined) {
-                    // ✅ Wrong credentials — show remaining attempts
                     showAttemptWarning(data.message);
                     clearLoginFields();
 
                 } else {
-                    // ✅ User not found or other error
                     clearLoginFields();
                     hideWarning();
                     const goRegister = window.confirm(
@@ -271,61 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ═══════════════════════════════════════════════
-    //  ADMIN LOGIN SUBMIT
-    // ═══════════════════════════════════════════════
-    if (adminForm) {
-        adminForm.addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            const adminId  = document.getElementById('adminId')
-                             ? document.getElementById('adminId').value.trim()
-                             : document.querySelector('#adminLogin input[type="text"]').value.trim();
-            const password = document.querySelector('#adminLogin input[type="password"]').value.trim();
-            const bankId   = document.querySelector('#adminLogin input[placeholder="Enter branch code"]').value.trim();
-
-            // Captcha check for admin
-            const adminCaptchaInput = document.querySelectorAll('.captcha-box input[type="text"]')[1];
-            const adminCaptchaText  = document.getElementById('captchaText2');
-
-            if (adminCaptchaInput && adminCaptchaText) {
-                if (adminCaptchaInput.value.trim() !== adminCaptchaText.innerText.trim()) {
-                    alert('❌ Invalid Captcha! Please try again.');
-                    generateCaptcha('captchaText2');
-                    adminCaptchaInput.value = '';
-                    return;
-                }
-            }
-
-            if (!adminId)  { alert('⚠️ Please enter Admin ID.');       return; }
-            if (!password) { alert('⚠️ Please enter Admin Password.'); return; }
-            if (!bankId)   { alert('⚠️ Please enter Branch Code.');    return; }
-
-            try {
-                const response = await fetch('http://localhost:5000/api/auth/admin-login', {
-                    method:  'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ adminId, password, bankId })
-                });
-                const data = await response.json();
-
-                if (data.success) {
-                    localStorage.setItem('token', data.token);
-                    const adminUser = { ...data.user, role: 'admin' };
-                    localStorage.setItem('user', JSON.stringify(adminUser));
-                    alert(`✅ Welcome, ${data.user.fullName}! Admin access granted.`);
-                    window.location.href = 'admin.html';
-                } else {
-                    alert('❌ ' + data.message);
-                }
-            } catch (err) {
-                alert('❌ Backend not running! Start server first.');
-            }
-        });
-    }
-
     generateCaptcha("captchaText");
-    generateCaptcha("captchaText2");
 });
 
 // ═══════════════════════════════════════════════════
@@ -346,11 +271,8 @@ function generateCaptcha(targetId) {
 // ═══════════════════════════════════════════════════
 window.onload = function () {
     const customerLogin = document.getElementById("customerLogin");
-    const adminLogin    = document.getElementById("adminLogin");
     if (customerLogin) customerLogin.reset();
-    if (adminLogin)    adminLogin.reset();
     generateCaptcha("captchaText");
-    generateCaptcha("captchaText2");
 };
 
 // ═══════════════════════════════════════════════════
@@ -367,33 +289,6 @@ function togglePassword() {
         eye.innerText = "🙈";
     }
 }
-
-// ═══════════════════════════════════════════════════
-//  FAQ SECTION
-// ═══════════════════════════════════════════════════
-const faqItems = document.querySelectorAll(".faq-item");
-faqItems.forEach(item => {
-    const question = item.querySelector(".faq-question");
-    question.addEventListener("click", () => {
-        faqItems.forEach(el => {
-            if (el !== item) {
-                el.classList.remove("active");
-                el.querySelector(".faq-answer").style.maxHeight = null;
-                el.querySelector(".icon").textContent           = "+";
-            }
-        });
-        item.classList.toggle("active");
-        const answer = item.querySelector(".faq-answer");
-        const icon   = item.querySelector(".icon");
-        if (item.classList.contains("active")) {
-            answer.style.maxHeight = answer.scrollHeight + "px";
-            icon.textContent       = "−";
-        } else {
-            answer.style.maxHeight = null;
-            icon.textContent       = "+";
-        }
-    });
-});
 
 // ═══════════════════════════════════════════════════
 //  PRODUCT CARD SCROLL ANIMATION

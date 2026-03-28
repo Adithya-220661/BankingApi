@@ -1,4 +1,5 @@
 const User          = require('../models/User');
+const AdminUser     = require('../models/AdminUser');   // ✅ NEW: import AdminUser
 const OtpSession    = require('../models/OtpSession');
 const generateToken = require('../utils/generateToken');
 const axios         = require('axios');
@@ -17,7 +18,6 @@ const sendSMS = async (phone, otp) => {
       process.env.TWILIO_ACCOUNT_SID,
       process.env.TWILIO_AUTH_TOKEN
     );
-    // ✅ Twilio Verify — no phone number needed!
     await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SID)
       .verifications.create({
@@ -48,6 +48,7 @@ const verifyTwilioOTP = async (phone, otp) => {
     return false;
   }
 };
+
 // ════════════════════════════════════════════════════════════
 //  SEND OTP
 // ════════════════════════════════════════════════════════════
@@ -55,7 +56,6 @@ const sendOtp = async (req, res) => {
   try {
     const { phone } = req.body;
 
-    // ── Validate phone ────────────────────────────────────────
     if (!phone || phone.length !== 10) {
       return res.status(400).json({
         success: false,
@@ -63,7 +63,6 @@ const sendOtp = async (req, res) => {
       });
     }
 
-    // ── Check if already registered ───────────────────────────
     const existing = await User.findOne({ phone });
     if (existing) {
       return res.status(409).json({
@@ -72,7 +71,6 @@ const sendOtp = async (req, res) => {
       });
     }
 
-    // ── Send OTP via Twilio Verify ────────────────────────────
     const client = require('twilio')(
       process.env.TWILIO_ACCOUNT_SID,
       process.env.TWILIO_AUTH_TOKEN
@@ -108,7 +106,6 @@ const verifyOtp = async (req, res) => {
   try {
     const { phone, otp } = req.body;
 
-    // ── Validate inputs ───────────────────────────────────────
     if (!phone || !otp) {
       return res.status(400).json({
         success: false,
@@ -123,7 +120,6 @@ const verifyOtp = async (req, res) => {
       });
     }
 
-    // ── Verify through Twilio Verify ──────────────────────────
     const isValid = await verifyTwilioOTP(phone, otp);
 
     if (!isValid) {
@@ -147,8 +143,6 @@ const verifyOtp = async (req, res) => {
     });
   }
 };
-  
-    
 
 // ════════════════════════════════════════════════════════════
 //  REGISTER
@@ -224,7 +218,6 @@ const register = async (req, res) => {
 const handleFailedAttempt = async (username, user, res) => {
 
   if (user) {
-    // ── User exists → store in DATABASE ──────────────────────
     await User.findOneAndUpdate(
       { _id: user._id },
       { $inc: { loginAttempts: 1 } },
@@ -232,21 +225,15 @@ const handleFailedAttempt = async (username, user, res) => {
     );
     const updated = await User.findById(user._id).select('+loginAttempts +lockUntil');
     console.log(`❌ Login failed for ${username}`);
-    console.log(`📊 loginAttempts: ${updated.loginAttempts}`);
-    console.log(`📊 attemptsLeft: ${MAX_ATTEMPTS - updated.loginAttempts}`);
 
     const attemptsLeft = MAX_ATTEMPTS - updated.loginAttempts;
 
     if (updated.loginAttempts >= MAX_ATTEMPTS) {
-      // Lock the account
       await User.findOneAndUpdate(
         { _id: user._id },
         { lockUntil: new Date(Date.now() + LOCK_DURATION) }
       );
-
-      // ✅ Calculate exact remaining seconds from lockUntil
-      const remainingSec = Math.ceil(LOCK_DURATION  / 1000);
-
+      const remainingSec = Math.ceil(LOCK_DURATION / 1000);
       return res.status(403).json({
         success:      false,
         locked:       true,
@@ -255,7 +242,6 @@ const handleFailedAttempt = async (username, user, res) => {
       });
     }
 
-   
     const warningMsg = attemptsLeft === 1
       ? '⚠️ Only 1 attempt remaining before account is locked for 3 minutes!'
       : `❌ Invalid username or PIN. ${attemptsLeft} attempts remaining.`;
@@ -267,7 +253,6 @@ const handleFailedAttempt = async (username, user, res) => {
     });
 
   } else {
-    // ── User not found → store in MEMORY ─────────────────────
     if (!loginAttempts[username]) {
       loginAttempts[username] = { count: 0, lockUntil: null };
     }
@@ -278,10 +263,7 @@ const handleFailedAttempt = async (username, user, res) => {
 
     if (record.count >= MAX_ATTEMPTS) {
       record.lockUntil = Date.now() + LOCK_DURATION;
-
-      // ✅ Calculate exact remaining seconds
       const remainingSec = Math.ceil((record.lockUntil - Date.now()) / 1000);
-
       return res.status(403).json({
         success:      false,
         locked:       true,
@@ -312,22 +294,17 @@ const userLogin = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Username and PIN are required.' });
     }
 
-    // ── Check in-memory lockout first (wrong username attempts) ──
     if (loginAttempts[username]) {
       const record = loginAttempts[username];
-
       if (record.lockUntil && record.lockUntil > Date.now()) {
-        // ✅ Calculate REMAINING seconds — not from start!
         const remainingSec = Math.ceil((record.lockUntil - Date.now()) / 1000);
         return res.status(403).json({
           success:      false,
           locked:       true,
           message:      '🔒 Account temporarily locked. Please try again later.',
-          remainingSec, // ← exact remaining time
+          remainingSec,
         });
       }
-
-      // Reset if expired
       if (record.lockUntil && record.lockUntil <= Date.now()) {
         delete loginAttempts[username];
       }
@@ -335,30 +312,24 @@ const userLogin = async (req, res) => {
 
     const user = await User.findOne({ username }).select('+pin +loginAttempts +lockUntil');
 
-    // ── Check DB lockout (wrong PIN attempts) ─────────────────
     if (user) {
-
       if (user.lockUntil && user.lockUntil > Date.now()) {
-        // ✅ Calculate REMAINING seconds from lockUntil — not from start!
         const remainingSec = Math.ceil((user.lockUntil - Date.now()) / 1000);
         return res.status(403).json({
           success:      false,
           locked:       true,
           message:      '🔒 Account temporarily locked due to too many failed attempts.',
-          remainingSec, // ← exact remaining time
+          remainingSec,
         });
       }
-
-      // Reset DB lockout if expired
       if (user.lockUntil && user.lockUntil <= Date.now()) {
-       await User.findOneAndUpdate(
-        { _id: user._id },
-        { loginAttempts: 0, lockUntil: null }
+        await User.findOneAndUpdate(
+          { _id: user._id },
+          { loginAttempts: 0, lockUntil: null }
         );
         user.loginAttempts = 0;
         user.lockUntil     = null;
       }
-
       if (!user.isActive) {
         return res.status(403).json({
           success: false,
@@ -366,32 +337,16 @@ const userLogin = async (req, res) => {
         });
       }
     }
-    // ── Check DB lockout BEFORE PIN ──────────────────────────
-      if (user && user.lockUntil && user.lockUntil > Date.now()) {
-        const remainingSec = Math.ceil((user.lockUntil - Date.now()) / 1000);
-        return res.status(403).json({
-          success:      false,
-          locked:       true,
-          message:      '🔒 Account temporarily locked. Please wait.',
-          remainingSec,
-        });
-      }
 
-    // ── Wrong username OR wrong PIN → reduce attempts ─────────
     if (!user || !(await user.comparePin(pin))) {
       return handleFailedAttempt(username, user, res);
     }
 
-    // ── Login successful → reset ALL attempts ─────────────────
     await User.findOneAndUpdate(
-        { _id: user._id },
-        { loginAttempts: 0, lockUntil: null }
+      { _id: user._id },
+      { loginAttempts: 0, lockUntil: null }
     );
-
-    // Also clear memory attempts if any
-    if (loginAttempts[username]) {
-      delete loginAttempts[username];
-    }
+    if (loginAttempts[username]) delete loginAttempts[username];
 
     const token = generateToken(user._id);
 
@@ -419,44 +374,176 @@ const userLogin = async (req, res) => {
 
 // ════════════════════════════════════════════════════════════
 //  ADMIN LOGIN
+//  ✅ NOW CHECKS AdminUser collection (MongoDB: adminusers)
+//  ✅ Supports: superadmin, manager, cashier, clerk, loan_officer
+//  ✅ Stores: adminToken + adminUser in localStorage via response
 // ════════════════════════════════════════════════════════════
 const adminLogin = async (req, res) => {
   try {
     const { adminId, password, bankId } = req.body;
+
+    // ── Validate inputs ───────────────────────────────────────
     if (!adminId || !password || !bankId) {
-      return res.status(400).json({ success: false, message: 'Admin ID, Password, and Bank ID are required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Admin ID, Password, and Bank ID are required.'
+      });
     }
 
+    // ── Validate Bank ID ──────────────────────────────────────
     if (bankId !== process.env.ADMIN_SECRET_KEY) {
-      return res.status(403).json({ success: false, message: 'Invalid Bank ID.' });
+      return res.status(403).json({
+        success: false,
+        message: 'Invalid Bank ID.'
+      });
     }
 
-    const admin = await User.findOne({ username: adminId, role: 'admin' }).select('+pin');
-    if (!admin) {
-      return res.status(401).json({ success: false, message: 'Invalid Admin credentials.' });
+    // ════════════════════════════════════════════════════════
+    //  STEP 1: Check AdminUser collection FIRST
+    //          (superadmin, manager, cashier, clerk, loan_officer)
+    //          These are stored in: MongoDB → adminusers collection
+    // ════════════════════════════════════════════════════════
+    const adminStaff = await AdminUser.findOne({ adminId })
+      .select('+password +loginAttempts +lockUntil');
+
+    if (adminStaff) {
+
+      // ── Check if account is active ────────────────────────
+      if (!adminStaff.isActive) {
+        return res.status(403).json({
+          success: false,
+          message: 'Your account has been deactivated. Contact Super Admin.'
+        });
+      }
+
+      // ── Check lockout ─────────────────────────────────────
+      if (adminStaff.isLocked()) {
+        const remainingSec = Math.ceil((adminStaff.lockUntil - Date.now()) / 1000);
+        return res.status(403).json({
+          success:      false,
+          locked:       true,
+          message:      '🔒 Account locked due to too many failed attempts.',
+          remainingSec,
+        });
+      }
+
+      // ── Check password ────────────────────────────────────
+      const isMatch = await adminStaff.comparePassword(password);
+
+      if (!isMatch) {
+        // Increment failed attempts
+        adminStaff.loginAttempts = (adminStaff.loginAttempts || 0) + 1;
+        const attemptsLeft = 5 - adminStaff.loginAttempts;
+
+        if (adminStaff.loginAttempts >= 5) {
+          adminStaff.lockUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 min
+          await adminStaff.save();
+          return res.status(403).json({
+            success:      false,
+            locked:       true,
+            message:      '🔒 Account locked for 15 minutes.',
+            remainingSec: 15 * 60,
+          });
+        }
+
+        await adminStaff.save();
+        return res.status(401).json({
+          success:      false,
+          message:      `❌ Invalid credentials. ${attemptsLeft} attempt${attemptsLeft !== 1 ? 's' : ''} remaining.`,
+          attemptsLeft,
+        });
+      }
+
+      // ── Login successful ──────────────────────────────────
+      adminStaff.loginAttempts = 0;
+      adminStaff.lockUntil     = null;
+      adminStaff.lastLogin     = new Date();
+      await adminStaff.save();
+
+      const token = generateToken(adminStaff._id, 'admin');
+
+      console.log(`✅ Admin Staff Login: ${adminStaff.fullName} [${adminStaff.role}]`);
+
+      return res.status(200).json({
+        success: true,
+        message: `Welcome, ${adminStaff.fullName}!`,
+        token,
+        // ✅ Returned as 'admin' key → stored as adminUser in localStorage
+        admin: {
+          id:         adminStaff._id,
+          fullName:   adminStaff.fullName,
+          adminId:    adminStaff.adminId,
+          email:      adminStaff.email,
+          role:       adminStaff.role,      // manager / cashier / clerk / loan_officer / superadmin
+          branchCode: adminStaff.branchCode,
+        },
+        // ✅ Also returned as 'user' key for backward compatibility
+        user: {
+          id:       adminStaff._id,
+          fullName: adminStaff.fullName,
+          username: adminStaff.adminId,
+          role:     adminStaff.role,
+        },
+        redirect: 'admin.html',
+      });
     }
 
-    const isPinMatch = await admin.comparePin(password);
+    // ════════════════════════════════════════════════════════
+    //  STEP 2: Fallback — check User collection
+    //          (legacy admin with role: 'admin' in users collection)
+    //          Kept for backward compatibility only
+    // ════════════════════════════════════════════════════════
+    const legacyAdmin = await User.findOne({
+      username: adminId,
+      role:     'admin'
+    }).select('+pin');
+
+    if (!legacyAdmin) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid Admin credentials.'
+      });
+    }
+
+    const isPinMatch = await legacyAdmin.comparePin(password);
     if (!isPinMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid Admin credentials.' });
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid Admin credentials.'
+      });
     }
 
-    const token = generateToken(admin._id);
+    const token = generateToken(legacyAdmin._id, 'admin');
 
-    res.status(200).json({
+    console.log(`✅ Legacy Admin Login: ${legacyAdmin.fullName}`);
+
+    return res.status(200).json({
       success: true,
       message: 'Admin login successful.',
       token,
+      admin: {
+        id:         legacyAdmin._id,
+        fullName:   legacyAdmin.fullName,
+        adminId:    legacyAdmin.username,
+        email:      legacyAdmin.email,
+        role:       'superadmin',   // treat legacy admin as superadmin
+        branchCode: legacyAdmin.branchCode || 'HQ',
+      },
       user: {
-        id:       admin._id,
-        fullName: admin.fullName,
-        username: admin.username,
-        role:     admin.role,
+        id:       legacyAdmin._id,
+        fullName: legacyAdmin.fullName,
+        username: legacyAdmin.username,
+        role:     'superadmin',
       },
       redirect: 'admin.html',
     });
+
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Server error.', error: err.message });
+    res.status(500).json({
+      success: false,
+      message: 'Server error.',
+      error:   err.message
+    });
   }
 };
 
@@ -545,7 +632,6 @@ const resetPin = async (req, res) => {
   try {
     const { phone, otp, newPin } = req.body;
 
-    // ── Validate inputs ───────────────────────────────────────
     if (!phone || !otp || !newPin) {
       return res.status(400).json({
         success: false,
@@ -560,7 +646,6 @@ const resetPin = async (req, res) => {
       });
     }
 
-    // ── Verify OTP through Twilio Verify ──────────────────────
     const isValid = await verifyTwilioOTP(phone, otp);
     if (!isValid) {
       return res.status(400).json({
@@ -569,7 +654,6 @@ const resetPin = async (req, res) => {
       });
     }
 
-    // ── Find user and update PIN ───────────────────────────────
     const user = await User.findOne({ phone }).select('+pin +loginAttempts +lockUntil');
     if (!user) {
       return res.status(404).json({
@@ -578,13 +662,11 @@ const resetPin = async (req, res) => {
       });
     }
 
-    // ✅ Reset PIN and clear ALL lockout
     user.pin           = newPin;
     user.loginAttempts = 0;
     user.lockUntil     = null;
     await user.save();
 
-    // Also clear memory lockout
     if (loginAttempts[user.username]) {
       delete loginAttempts[user.username];
     }
@@ -604,4 +686,8 @@ const resetPin = async (req, res) => {
   }
 };
 
-module.exports = { sendOtp, verifyOtp, register, userLogin, adminLogin, getMe, forgotPin, resetPin };
+module.exports = {
+  sendOtp, verifyOtp, register,
+  userLogin, adminLogin,
+  getMe, forgotPin, resetPin
+};

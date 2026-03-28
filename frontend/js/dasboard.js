@@ -135,7 +135,15 @@ function logout() {
 
 // ── FETCH REAL DATA FROM BACKEND ─────────────────────────────
 async function loadDashboard() {
-  const token = localStorage.getItem('token');
+  // Check admin or customer token
+  const adminToken = localStorage.getItem('adminToken');
+  const customerToken = localStorage.getItem('token');
+  const token = adminToken || customerToken;
+  const isAdmin = !!adminToken || localStorage.getItem('adminRole') === 'admin';
+  // const token = localStorage.getItem('token');
+  // const user  = JSON.parse(localStorage.getItem('user') || '{}');
+
+  // const isAdmin = user.role && user.role !== 'user';
 
   // If no token — redirect to login
   if(!token){
@@ -145,8 +153,16 @@ async function loadDashboard() {
   }
 
   try {
-    // Fetch user profile and balance
-    const profileRes = await fetch('http://localhost:5000/api/auth/me', {
+    // Use admin endpoint for admin tokens
+    const profileUrl = isAdmin 
+      ? 'http://localhost:5000/api/admin-auth/me'
+      : 'http://localhost:5000/api/auth/me';
+
+    // const profileUrl = 'http://localhost:5000/api/auth/me';
+
+    console.log('Loading profile from:', profileUrl, 'Admin:', isAdmin);
+
+    const profileRes = await fetch(profileUrl, {
       method:  'GET',
       headers: {
         'Content-Type':  'application/json',
@@ -154,6 +170,8 @@ async function loadDashboard() {
       }
     });
     const profileData = await profileRes.json();
+
+    console.log('Profile response:', profileData);
 
     if(!profileData.success){
       alert('Session expired. Please login again.');
